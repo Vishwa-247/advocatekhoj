@@ -1,24 +1,42 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
+import { ComprehensiveAdvocateSignup } from "./comprehensive-advocate-signup";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Checkbox } from "@/components/ui/checkbox"
-import { Separator } from "@/components/ui/separator"
-import { Eye, EyeOff, Users, Scale } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Separator } from "@/components/ui/separator";
+import { Eye, EyeOff, Users, Scale } from "lucide-react";
+import ReCaptcha from "@/components/ui/recaptcha";
 
 interface SignupFormProps {
-  userType: "client" | "advocate"
+  userType: "client" | "advocate";
 }
 
 export function SignupForm({ userType }: SignupFormProps) {
-  const [showPassword, setShowPassword] = useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
+  // If advocate, use the comprehensive signup form
+  if (userType === "advocate") {
+    return <ComprehensiveAdvocateSignup userType={userType} />;
+  }
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
     // Login Information
     email: "",
@@ -44,18 +62,18 @@ export function SignupForm({ userType }: SignupFormProps) {
     // Terms
     acceptTerms: false,
     acceptPrivacy: false,
-  })
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Handle signup logic here - will connect to existing backend
-    console.log("Signup attempt:", { userType, ...formData })
-  }
+    console.log("Signup attempt:", { userType, ...formData });
+  };
 
   const handleOAuthSignup = (provider: "google" | "facebook") => {
     // Handle OAuth signup - will connect to existing backend
-    console.log(`${provider} OAuth signup for ${userType}`)
-  }
+    console.log(`${provider} OAuth signup for ${userType}`);
+  };
 
   const recoveryQuestions = [
     "What was your first pet's name?",
@@ -63,18 +81,24 @@ export function SignupForm({ userType }: SignupFormProps) {
     "What was the name of your first school?",
     "What is your favorite book?",
     "What city were you born in?",
-  ]
+  ];
 
-  const salutations = ["Mr.", "Ms.", "Mrs.", "Dr.", "Prof."]
+  const salutations = ["Mr.", "Ms.", "Mrs.", "Dr.", "Prof."];
 
   return (
     <Card className="w-full max-w-2xl">
       <CardHeader className="text-center">
         <div className="flex justify-center mb-4">
-          {userType === "client" ? <Users className="h-6 w-6" /> : <Scale className="h-6 w-6" />}
+          {userType === "client" ? (
+            <Users className="h-6 w-6" />
+          ) : (
+            <Scale className="h-6 w-6" />
+          )}
         </div>
         <CardTitle className="text-2xl font-bold">
-          {userType === "client" ? "Client Registration" : "Advocate Registration"}
+          {userType === "client"
+            ? "Client Registration"
+            : "Advocate Registration"}
         </CardTitle>
         <CardDescription>
           {userType === "client"
@@ -86,7 +110,11 @@ export function SignupForm({ userType }: SignupFormProps) {
         {userType === "client" && (
           <>
             <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline" onClick={() => handleOAuthSignup("google")} className="w-full">
+              <Button
+                variant="outline"
+                onClick={() => handleOAuthSignup("google")}
+                className="w-full"
+              >
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                   <path
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -107,8 +135,16 @@ export function SignupForm({ userType }: SignupFormProps) {
                 </svg>
                 Continue with Google
               </Button>
-              <Button variant="outline" onClick={() => handleOAuthSignup("facebook")} className="w-full">
-                <svg className="mr-2 h-4 w-4" fill="#1877F2" viewBox="0 0 24 24">
+              <Button
+                variant="outline"
+                onClick={() => handleOAuthSignup("facebook")}
+                className="w-full"
+              >
+                <svg
+                  className="mr-2 h-4 w-4"
+                  fill="#1877F2"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
                 Continue with Facebook
@@ -120,7 +156,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                 <Separator className="w-full" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">Or register with email</span>
+                <span className="bg-background px-2 text-muted-foreground">
+                  Or register with email
+                </span>
               </div>
             </div>
           </>
@@ -138,7 +176,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                 type="email"
                 placeholder="This will be your username"
                 value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, email: e.target.value })
+                }
                 required
               />
             </div>
@@ -152,7 +192,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                     type={showPassword ? "text" : "password"}
                     placeholder="Enter password"
                     value={formData.password}
-                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
                     minLength={7}
                     required
                   />
@@ -163,7 +205,11 @@ export function SignupForm({ userType }: SignupFormProps) {
                     className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                     onClick={() => setShowPassword(!showPassword)}
                   >
-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </div>
@@ -176,7 +222,12 @@ export function SignupForm({ userType }: SignupFormProps) {
                     type={showConfirmPassword ? "text" : "password"}
                     placeholder="Confirm password"
                     value={formData.confirmPassword}
-                    onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        confirmPassword: e.target.value,
+                      })
+                    }
                     required
                   />
                   <Button
@@ -186,7 +237,11 @@ export function SignupForm({ userType }: SignupFormProps) {
                     className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                     onClick={() => setShowConfirmPassword(!showConfirmPassword)}
                   >
-                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    {showConfirmPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
                   </Button>
                 </div>
               </div>
@@ -194,10 +249,14 @@ export function SignupForm({ userType }: SignupFormProps) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="recoveryQuestion">Password Recovery Question *</Label>
+                <Label htmlFor="recoveryQuestion">
+                  Password Recovery Question *
+                </Label>
                 <Select
                   value={formData.recoveryQuestion}
-                  onValueChange={(value) => setFormData({ ...formData, recoveryQuestion: value })}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, recoveryQuestion: value })
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select a question" />
@@ -213,12 +272,16 @@ export function SignupForm({ userType }: SignupFormProps) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="recoveryAnswer">Password Recovery Answer *</Label>
+                <Label htmlFor="recoveryAnswer">
+                  Password Recovery Answer *
+                </Label>
                 <Input
                   id="recoveryAnswer"
                   placeholder="Enter your answer"
                   value={formData.recoveryAnswer}
-                  onChange={(e) => setFormData({ ...formData, recoveryAnswer: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, recoveryAnswer: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -234,7 +297,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                 <Label htmlFor="salutation">Salutation</Label>
                 <Select
                   value={formData.salutation}
-                  onValueChange={(value) => setFormData({ ...formData, salutation: value })}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, salutation: value })
+                  }
                 >
                   <SelectTrigger>
                     <SelectValue placeholder="Select" />
@@ -254,7 +319,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                 <Input
                   id="firstName"
                   value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, firstName: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -264,7 +331,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                 <Input
                   id="middleName"
                   value={formData.middleName}
-                  onChange={(e) => setFormData({ ...formData, middleName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, middleName: e.target.value })
+                  }
                 />
               </div>
 
@@ -273,7 +342,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                 <Input
                   id="lastName"
                   value={formData.lastName}
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, lastName: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -285,7 +356,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                 <Input
                   id="address1"
                   value={formData.address1}
-                  onChange={(e) => setFormData({ ...formData, address1: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address1: e.target.value })
+                  }
                 />
               </div>
 
@@ -294,7 +367,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                 <Input
                   id="address2"
                   value={formData.address2}
-                  onChange={(e) => setFormData({ ...formData, address2: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address2: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -305,7 +380,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                 <Input
                   id="city"
                   value={formData.city}
-                  onChange={(e) => setFormData({ ...formData, city: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, city: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -315,7 +392,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                 <Input
                   id="state"
                   value={formData.state}
-                  onChange={(e) => setFormData({ ...formData, state: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, state: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -325,7 +404,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                 <Input
                   id="country"
                   value={formData.country}
-                  onChange={(e) => setFormData({ ...formData, country: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, country: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -335,7 +416,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                 <Input
                   id="pincode"
                   value={formData.pincode}
-                  onChange={(e) => setFormData({ ...formData, pincode: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, pincode: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -348,7 +431,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                   id="primaryPhone"
                   placeholder="Area/STD code - Number"
                   value={formData.primaryPhone}
-                  onChange={(e) => setFormData({ ...formData, primaryPhone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, primaryPhone: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -359,7 +444,9 @@ export function SignupForm({ userType }: SignupFormProps) {
                   id="secondaryPhone"
                   placeholder="Area/STD code - Number"
                   value={formData.secondaryPhone}
-                  onChange={(e) => setFormData({ ...formData, secondaryPhone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, secondaryPhone: e.target.value })
+                  }
                 />
               </div>
             </div>
@@ -371,7 +458,9 @@ export function SignupForm({ userType }: SignupFormProps) {
               <Checkbox
                 id="terms"
                 checked={formData.acceptTerms}
-                onCheckedChange={(checked) => setFormData({ ...formData, acceptTerms: checked as boolean })}
+                onCheckedChange={(checked) =>
+                  setFormData({ ...formData, acceptTerms: checked as boolean })
+                }
                 required
               />
               <Label htmlFor="terms" className="text-sm">
@@ -387,7 +476,12 @@ export function SignupForm({ userType }: SignupFormProps) {
               <Checkbox
                 id="privacy"
                 checked={formData.acceptPrivacy}
-                onCheckedChange={(checked) => setFormData({ ...formData, acceptPrivacy: checked as boolean })}
+                onCheckedChange={(checked) =>
+                  setFormData({
+                    ...formData,
+                    acceptPrivacy: checked as boolean,
+                  })
+                }
                 required
               />
               <Label htmlFor="privacy" className="text-sm">
@@ -400,18 +494,23 @@ export function SignupForm({ userType }: SignupFormProps) {
             </div>
           </div>
 
+          {/* Google reCAPTCHA */}
+          <ReCaptcha />
+
           <Button type="submit" className="w-full" size="lg">
             Create {userType === "client" ? "Client" : "Advocate"} Account
           </Button>
         </form>
 
         <div className="text-center text-sm">
-          <span className="text-muted-foreground">Already have an account? </span>
+          <span className="text-muted-foreground">
+            Already have an account?{" "}
+          </span>
           <a href="#" className="text-primary hover:underline">
             Sign in here
           </a>
         </div>
       </CardContent>
     </Card>
-  )
+  );
 }

@@ -19,27 +19,36 @@ export default function NewsTicker() {
     const sampleNews: NewsItem[] = [
       {
         id: "1",
-        title: "Supreme Court Judgment on Digital Privacy Rights",
-        date: "2024-03-15",
+        title:
+          "Supreme Court upholds digital privacy rights in landmark judgment",
+        date: "2025-09-12",
         type: "judgment",
       },
       {
         id: "2",
-        title: "National Legal Conference on Constitutional Law - Delhi",
-        date: "2024-03-20",
+        title:
+          "National Law Conference on AI & Legal Ethics - Mumbai, Sept 25-26",
+        date: "2025-09-25",
         type: "event",
       },
       {
         id: "3",
-        title: "Landmark Ruling on Environmental Protection",
-        date: "2024-03-12",
+        title: "SC clarifies jurisdiction in cross-border commercial disputes",
+        date: "2025-09-11",
         type: "judgment",
       },
       {
         id: "4",
-        title: "Annual Bar Association Meet - Mumbai",
-        date: "2024-03-25",
+        title: "Workshop on Corporate Law Reforms - Delhi, Oct 5-7",
+        date: "2025-10-05",
         type: "event",
+      },
+      {
+        id: "5",
+        title:
+          "Constitutional bench ruling on environmental law implementation",
+        date: "2025-09-10",
+        type: "judgment",
       },
     ];
     setNews(sampleNews);

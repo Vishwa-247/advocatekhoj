@@ -1,150 +1,105 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Clock, User, ArrowRight } from "lucide-react"
-
-interface LegalTip {
-  id: string
-  title: string
-  excerpt: string
-  category: string
-  readTime: string
-  author: string
-  publishedDate: string
-}
+import Link from "next/link";
 
 export function LegalTips() {
-  // Mock data - replace with actual content
-  const tips: LegalTip[] = [
+  const legalTips = [
     {
       id: "1",
-      title: "When Do You Need a Lawyer? Essential Legal Situations",
-      excerpt:
-        "Understanding when to seek legal counsel can save you time, money, and stress. Learn about the key situations where professional legal advice is crucial for protecting your rights and interests.",
-      category: "General Legal Advice",
-      readTime: "5 min read",
-      author: "Legal Team",
-      publishedDate: "2024-01-15",
+      title: "Do you really need an advocate?",
+      content:
+        "Sometimes it's easy to know if you need an advocate. If you've been charged with a crime, been served with a lawsuit, or need a divorce - an advocate is exactly what you need. Advocates, however, aren't just for criminals or those in litigation. A skilled advocate's advice can help you understand the complex rules associated with business negotiations and partnerships, estate planning, adoption, will and trust drafting, tax strategies and much more. Advocates improve their clients' quality of life by protecting them from situations that might bring later plenty of emotional and financial hardship. We have enrolled a set of qualified advocates to help those in trouble and those who want to avoid trouble in the future. You can begin your search for legal help by presenting your case to AdvocateKhoj, wherein qualified advocates can review your situation and help you to resolve it. Finding an advocate at AdvocateKhoj is fast, free and confidential!",
     },
     {
       id: "2",
-      title: "Understanding Your Rights During Police Investigation",
-      excerpt:
-        "Know your fundamental rights when dealing with law enforcement. This guide covers what you should and shouldn't do during police questioning, searches, and arrests.",
-      category: "Criminal Law",
-      readTime: "7 min read",
-      author: "Criminal Law Expert",
-      publishedDate: "2024-01-10",
+      title: "What to consider before you look for an advocate?",
     },
     {
       id: "3",
-      title: "Property Purchase: Legal Checklist for Buyers",
-      excerpt:
-        "Essential legal steps to follow when buying property in India. From title verification to registration, ensure your property purchase is legally sound.",
-      category: "Property Law",
-      readTime: "10 min read",
-      author: "Property Law Specialist",
-      publishedDate: "2024-01-08",
+      title:
+        "Ask yourself and others, if it is possible and prudent to solve your own problem?",
     },
     {
       id: "4",
-      title: "Employment Rights: What Every Worker Should Know",
-      excerpt:
-        "Comprehensive guide to employee rights in India including working hours, wages, termination procedures, and workplace harassment protection.",
-      category: "Employment Law",
-      readTime: "8 min read",
-      author: "Employment Law Expert",
-      publishedDate: "2024-01-05",
+      title: "Determine the immediacy of your situation.",
     },
     {
       id: "5",
-      title: "Family Law: Understanding Divorce Procedures in India",
-      excerpt:
-        "Navigate the complexities of divorce proceedings including mutual consent divorce, contested divorce, alimony, and child custody arrangements.",
-      category: "Family Law",
-      readTime: "12 min read",
-      author: "Family Law Specialist",
-      publishedDate: "2024-01-03",
+      title: "Find an advocate that best suits your needs.",
     },
     {
       id: "6",
-      title: "Consumer Rights: How to File Complaints Effectively",
-      excerpt:
-        "Learn about your consumer rights and the step-by-step process to file complaints against defective products or poor services through consumer courts.",
-      category: "Consumer Law",
-      readTime: "6 min read",
-      author: "Consumer Rights Expert",
-      publishedDate: "2024-01-01",
+      title:
+        "Do a careful background check on the advocate before hiring him/her.",
     },
-  ]
-
-  const categories = [
-    "All",
-    "General Legal Advice",
-    "Criminal Law",
-    "Property Law",
-    "Employment Law",
-    "Family Law",
-    "Consumer Law",
-  ]
+    {
+      id: "7",
+      title: "Consider more than one advocate.",
+    },
+    {
+      id: "8",
+      title:
+        "Ask yourself these 11 questions before agreeing to hire any advocate.",
+    },
+    {
+      id: "9",
+      title: "Things to remember while discussing fees.",
+    },
+    {
+      id: "10",
+      title: "Establish ground rules.",
+    },
+    {
+      id: "11",
+      title: "Develop a strategic plan.",
+    },
+    {
+      id: "12",
+      title: "Always evaluate your advocate.",
+    },
+  ];
 
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h2 className="text-3xl font-bold mb-4">Legal Tips & Guidance</h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          Essential legal knowledge to help you understand your rights and navigate common legal situations. Written by
-          legal experts to provide clear, actionable guidance.
-        </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header Section */}
+      <div className="bg-gradient-to-r from-primary via-primary to-secondary text-white py-8">
+        <div className="container mx-auto px-4">
+          <h1 className="text-3xl font-bold mb-2">Law Library</h1>
+          <div className="flex items-center gap-2">
+            <Link href="/law-library" className="hover:underline">
+              Law Library
+            </Link>
+            <span>&gt;</span>
+            <span>Legal Tips</span>
+          </div>
+        </div>
       </div>
 
-      {/* Category Filter */}
-      <div className="flex flex-wrap gap-2 justify-center">
-        {categories.map((category) => (
-          <Badge
-            key={category}
-            variant="outline"
-            className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
-          >
-            {category}
-          </Badge>
-        ))}
-      </div>
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white rounded-lg shadow-sm border">
+            <div className="p-6 border-b">
+              <h2 className="text-xl font-bold text-gray-800">Legal Tips</h2>
+            </div>
 
-      {/* Tips Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {tips.map((tip) => (
-          <Card key={tip.id} className="hover:shadow-md transition-shadow cursor-pointer">
-            <CardHeader>
-              <div className="flex items-center justify-between mb-2">
-                <Badge variant="secondary">{tip.category}</Badge>
-                <span className="text-sm text-muted-foreground">{tip.readTime}</span>
+            <div className="p-8">
+              <div className="space-y-4">
+                {legalTips.map((tip, index) => (
+                  <div key={tip.id} className="flex gap-4 py-2">
+                    <span className="text-blue-600 font-medium w-8">
+                      {index + 1}.
+                    </span>
+                    <Link
+                      href={`/law-library/legal-tips/${tip.id}`}
+                      className="text-blue-600 hover:text-blue-800 hover:underline flex-1 text-sm"
+                    >
+                      {tip.title}
+                    </Link>
+                  </div>
+                ))}
               </div>
-              <CardTitle className="text-lg line-clamp-2">{tip.title}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-muted-foreground text-sm line-clamp-3 mb-4">{tip.excerpt}</p>
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <User className="h-4 w-4" />
-                  <span>{tip.author}</span>
-                  <Clock className="h-4 w-4 ml-2" />
-                  <span>{new Date(tip.publishedDate).toLocaleDateString()}</span>
-                </div>
-                <Button variant="ghost" size="sm">
-                  <ArrowRight className="h-4 w-4" />
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
-
-      <div className="text-center">
-        <Button variant="outline" size="lg">
-          Load More Articles
-        </Button>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }

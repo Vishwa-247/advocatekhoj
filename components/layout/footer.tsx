@@ -1,90 +1,127 @@
-import Link from "next/link"
-import Image from "next/image"
-import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin } from "lucide-react"
+import Link from "next/link";
+import { Facebook, Twitter, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-900 text-white">
+    <footer className="bg-primary text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          {/* Company Info */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <Image src="/logo.svg" alt="AdvocateKhoj" width={32} height={32} className="invert" />
-             
-            </div>
-            <p className="text-gray-300 text-sm">
-              India's leading legal services platform connecting clients with qualified advocates.
-            </p>
-            <div className="flex space-x-4">
-              <Facebook className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer" />
-              <Twitter className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer" />
-              <Linkedin className="w-5 h-5 text-gray-400 hover:text-white cursor-pointer" />
+          {/* Company */}
+          <div>
+            <h3 className="text-lg font-semibold mb-4 text-secondary">
+              Company
+            </h3>
+            <div className="space-y-2">
+              <Link
+                href="/about-us"
+                className="block text-white/80 hover:text-white text-sm transition-colors"
+              >
+                About Us
+              </Link>
+              <Link
+                href="/media-coverage"
+                className="block text-white/80 hover:text-white text-sm transition-colors"
+              >
+                Media Coverage
+              </Link>
+              <Link
+                href="/contact-us"
+                className="block text-white/80 hover:text-white text-sm transition-colors"
+              >
+                Contact Us
+              </Link>
             </div>
           </div>
 
-          {/* Quick Links */}
+          {/* Resources */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
+            <h3 className="text-lg font-semibold mb-4 text-secondary">
+              Resources
+            </h3>
             <div className="space-y-2">
-              <Link href="/law-library" className="block text-gray-300 hover:text-white text-sm">
-                Law Library
+              <Link
+                href="/blogs"
+                className="block text-white/80 hover:text-white text-sm transition-colors"
+              >
+                Blogs
               </Link>
-              <Link href="/law-colleges" className="block text-gray-300 hover:text-white text-sm">
-                Law Colleges
-              </Link>
-              <Link href="/sawal-jawab" className="block text-gray-300 hover:text-white text-sm">
-                Sawal Jawab
-              </Link>
-              <Link href="/about" className="block text-gray-300 hover:text-white text-sm">
-                About Us
+              <Link
+                href="/advertise"
+                className="block text-white/80 hover:text-white text-sm transition-colors"
+              >
+                Advertise
               </Link>
             </div>
           </div>
 
           {/* Legal */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Legal</h3>
+            <h3 className="text-lg font-semibold mb-4 text-secondary">Legal</h3>
             <div className="space-y-2">
-              <Link href="/privacy" className="block text-gray-300 hover:text-white text-sm">
+              <Link
+                href="/privacy-policy"
+                className="block text-white/80 hover:text-white text-sm transition-colors"
+              >
                 Privacy Policy
               </Link>
-              <Link href="/terms" className="block text-gray-300 hover:text-white text-sm">
-                Terms & Conditions
-              </Link>
-              <Link href="/user-agreement" className="block text-gray-300 hover:text-white text-sm">
+              <Link
+                href="/user-agreement"
+                className="block text-white/80 hover:text-white text-sm transition-colors"
+              >
                 User Agreement
-              </Link>
-              <Link href="/advertise" className="block text-gray-300 hover:text-white text-sm">
-                Advertise
               </Link>
             </div>
           </div>
 
-          {/* Contact */}
+          {/* Social */}
           <div>
-            <h3 className="text-lg font-semibold mb-4">Contact Us</h3>
+            <h3 className="text-lg font-semibold mb-4 text-secondary">
+              Social
+            </h3>
             <div className="space-y-3">
-              <div className="flex items-center space-x-2 text-sm text-gray-300">
-                <Mail className="w-4 h-4" />
-                <span>info@advocatekhoj.com</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm text-gray-300">
-                <Phone className="w-4 h-4" />
-                <span>+91 11 4567 8900</span>
-              </div>
-              <div className="flex items-center space-x-2 text-sm text-gray-300">
-                <MapPin className="w-4 h-4" />
-                <span>New Delhi, India</span>
-              </div>
+              <a
+                href="https://www.facebook.com/advocatekhoj"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-white/80 hover:text-white text-sm transition-colors"
+              >
+                <Facebook className="w-4 h-4" />
+                <span>Facebook</span>
+              </a>
+              <a
+                href="https://twitter.com/scjudgments"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-white/80 hover:text-white text-sm transition-colors"
+              >
+                <Twitter className="w-4 h-4" />
+                <span>X (Twitter)</span>
+              </a>
+              <a
+                href="https://www.linkedin.com/in/advocatekho"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center space-x-2 text-white/80 hover:text-white text-sm transition-colors"
+              >
+                <Linkedin className="w-4 h-4" />
+                <span>LinkedIn</span>
+              </a>
             </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center text-sm text-gray-400">
-          <p>&copy; 2025 AdvocateKhoj. All rights reserved. </p>
+        {/* Mandatory Disclaimer */}
+        <div className="border-t border-white/20 mt-8 pt-6">
+          <div className="text-center text-xs text-white/60 leading-relaxed">
+            <p className="mb-2">
+              Information provided on advocatekhoj.com is solely available at
+              your request for informational purposes only and should not be
+              interpreted as soliciting or advertisement
+            </p>
+            <p>&copy; 2025 AdvocateKhoj. All rights reserved.</p>
+          </div>
         </div>
       </div>
     </footer>
-  )
+  );
 }

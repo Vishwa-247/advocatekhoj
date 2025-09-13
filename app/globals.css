@@ -4,40 +4,40 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Updated color palette for professional law website */
+  /* AdvocateKhoj Logo-inspired color palette */
   --background: oklch(1 0 0); /* Pure white background */
-  --foreground: oklch(0.35 0.02 258); /* Professional dark gray text */
-  --card: oklch(0.98 0.01 180); /* Soft cyan background for cards */
-  --card-foreground: oklch(0.35 0.02 258);
+  --foreground: oklch(0.15 0.02 258); /* Deep navy text matching logo */
+  --card: oklch(0.98 0.01 250); /* Very light blue background for cards */
+  --card-foreground: oklch(0.15 0.02 258);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.35 0.02 258);
-  --primary: oklch(0.35 0.08 200); /* Professional cyan-800 for trust */
+  --popover-foreground: oklch(0.15 0.02 258);
+  --primary: oklch(0.25 0.12 250); /* Deep blue from logo */
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.65 0.15 160); /* Emerald accent for highlights */
+  --secondary: oklch(0.65 0.15 50); /* Orange accent from logo */
   --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.96 0.01 220); /* Light slate background */
+  --muted: oklch(0.96 0.01 250); /* Light blue-gray background */
   --muted-foreground: oklch(0.45 0.02 258);
-  --accent: oklch(0.65 0.15 160); /* Emerald accent */
+  --accent: oklch(0.65 0.15 50); /* Orange accent */
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.55 0.25 15); /* Professional red for errors */
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.85 0.01 220); /* Light gray borders */
+  --border: oklch(0.88 0.01 250); /* Light blue-gray borders */
   --input: oklch(1 0 0);
-  --ring: oklch(0.65 0.15 160 / 0.5); /* Emerald focus ring */
-  --chart-1: oklch(0.65 0.15 160);
-  --chart-2: oklch(0.6 0.18 150);
-  --chart-3: oklch(0.35 0.08 200);
-  --chart-4: oklch(0.55 0.25 15);
-  --chart-5: oklch(0.7 0.2 320);
+  --ring: oklch(0.25 0.12 250 / 0.5); /* Primary blue focus ring */
+  --chart-1: oklch(0.25 0.12 250); /* Primary blue */
+  --chart-2: oklch(0.65 0.15 50); /* Orange */
+  --chart-3: oklch(0.35 0.08 250); /* Medium blue */
+  --chart-4: oklch(0.55 0.25 15); /* Red */
+  --chart-5: oklch(0.75 0.1 30); /* Light orange */
   --radius: 0.5rem;
-  --sidebar: oklch(0.96 0.01 220);
-  --sidebar-foreground: oklch(0.35 0.02 258);
-  --sidebar-primary: oklch(0.35 0.08 200);
+  --sidebar: oklch(0.96 0.01 250);
+  --sidebar-foreground: oklch(0.15 0.02 258);
+  --sidebar-primary: oklch(0.25 0.12 250);
   --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.65 0.15 160);
+  --sidebar-accent: oklch(0.65 0.15 50);
   --sidebar-accent-foreground: oklch(1 0 0);
-  --sidebar-border: oklch(0.85 0.01 220);
-  --sidebar-ring: oklch(0.65 0.15 160 / 0.5);
+  --sidebar-border: oklch(0.88 0.01 250);
+  --sidebar-ring: oklch(0.25 0.12 250 / 0.5);
 }
 
 .dark {

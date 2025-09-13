@@ -1,170 +1,113 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Badge } from "@/components/ui/badge"
-import { Search, BookOpen } from "lucide-react"
+"use client";
 
-interface GlossaryTerm {
-  id: string
-  term: string
-  definition: string
-  category: string
-  relatedTerms: string[]
-  examples?: string[]
-}
+import Link from "next/link";
 
-export function Glossary() {
-  // Mock data - replace with actual glossary (2300+ entries as mentioned)
-  const terms: GlossaryTerm[] = [
-    {
-      id: "1",
-      term: "Affidavit",
-      definition:
-        "A written statement confirmed by oath or affirmation, for use as evidence in court. It is a voluntary declaration of facts that the person making it believes to be true.",
-      category: "Legal Documents",
-      relatedTerms: ["Oath", "Declaration", "Evidence", "Testimony"],
-      examples: ["Affidavit of income", "Affidavit of residence", "Affidavit of identity"],
-    },
-    {
-      id: "2",
-      term: "Bail",
-      definition:
-        "The temporary release of an accused person awaiting trial, sometimes on condition that a sum of money is lodged to guarantee their appearance in court.",
-      category: "Criminal Law",
-      relatedTerms: ["Custody", "Surety", "Bond", "Remand"],
-      examples: ["Regular bail", "Anticipatory bail", "Interim bail"],
-    },
-    {
-      id: "3",
-      term: "Caveat",
-      definition:
-        "A legal notice requesting a court or other tribunal to suspend a proceeding until the notifier has been given a chance to be heard.",
-      category: "Civil Procedure",
-      relatedTerms: ["Notice", "Injunction", "Stay", "Proceeding"],
-    },
-    {
-      id: "4",
-      term: "Decree",
-      definition:
-        "The formal expression of an adjudication which conclusively determines the rights of the parties with regard to all or any of the matters in controversy in the suit.",
-      category: "Civil Procedure",
-      relatedTerms: ["Judgment", "Order", "Adjudication", "Rights"],
-    },
-    {
-      id: "5",
-      term: "Ex-parte",
-      definition:
-        "A legal proceeding brought by one party only, without notice to or challenge by the other side. Done for, on behalf of, or on the application of one party alone.",
-      category: "Legal Procedure",
-      relatedTerms: ["Unilateral", "One-sided", "Without notice", "Default"],
-    },
-    {
-      id: "6",
-      term: "Force Majeure",
-      definition:
-        "Unforeseeable circumstances that prevent a party from fulfilling a contract. These extraordinary circumstances are beyond the reasonable control of the parties.",
-      category: "Contract Law",
-      relatedTerms: ["Act of God", "Impossibility", "Frustration", "Contract"],
-      examples: ["Natural disasters", "War", "Government actions", "Pandemic"],
-    },
-  ]
+// Sample glossary terms based on the screenshot
+const glossaryTerms = [
+  {
+    term: "a fortiori",
+    definition:
+      '(eh-for-she-or-ee) prep. (Latin) for "with even stronger reason," which applies to a situation in which if one thing is true then it can be inferred that a second thing is even more certainly true. If Abe is too young to serve as administrator, then his younger brother Carl certainly is too young.',
+  },
+  {
+    term: "a posteriori",
+    definition:
+      "(eh-post-ee-ri-or-ee) n. from Latin, an assumption that a true without further proof or need to prove it. It is assumed the sun will come up tomorrow. However, it has a negative side: an a priori assumption made without question on the basis that no analysis or study is necessary, can be mental laziness when the reality is not so certain.",
+  },
+  {
+    term: "a.k.a.",
+    definition:
+      'prep. abbreviation for "also known as" when someone uses different initials, a nickname, a maiden or married name. Example: Anil C. Dias, a.k.a. A. C. Dias, a.k.a. "Smithy the Snoop."',
+  },
+  {
+    term: "ab initio",
+    definition:
+      'prep. lawyer Latin for "from the start," as "it was legal ab initio."',
+  },
+  {
+    term: "abandon",
+    definition:
+      "v. to intentionally and permanently give up, surrender, leave, desert or relinquish all interest or ownership in property, a home or other premises, a right of way, and even a spouse, family, or children. The word is often used in situations to determine whether a tenant has left his/her apartment and the property inside and does not intend to return. Abandonment of children can mean loss of parental rights if the children are left without contact and support for a year or more.",
+  },
+  {
+    term: "abandoned property",
+    definition:
+      "n. property left behind (often by a tenant) intentionally and permanently when it appears that the former owner (or tenant) does not intend to come back, pick it up, or use it. One may have abandoned the property of contract rights by not doing what is required by the contract. However, an easement and other land rights are not abandoned property just because of nonuse.",
+  },
+  {
+    term: "abandonment",
+    definition:
+      "n. the act of intentionally and permanently giving up, surrendering, deserting or relinquishing property, premises, a right of way, a ship, contract rights, a spouse, family, or children. The word is often used in situations to determine whether a tenant has left his/her apartment and the property inside and does not intend to return. Abandonment of children can mean loss of parental rights if the children are left without contact and support for a year or more.",
+  },
+];
 
-  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
-  const categories = [
-    "All",
-    "Legal Documents",
-    "Criminal Law",
-    "Civil Procedure",
-    "Contract Law",
-    "Constitutional Law",
-    "Property Law",
-  ]
+export default function Glossary() {
+  const alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("");
 
   return (
-    <div className="space-y-6">
-      <div className="text-center">
-        <h2 className="text-3xl font-bold mb-4">Legal Glossary</h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          Comprehensive dictionary of legal terms, words, names, and acronyms. Over 2,300 entries with clear definitions
-          and examples to help you understand legal language.
-        </p>
+    <div className="min-h-screen bg-gray-50">
+      {/* Header Section */}
+      <div className="bg-gradient-to-r from-primary via-primary to-secondary text-white py-8">
+        <div className="container mx-auto px-4">
+          <h1 className="text-3xl font-bold mb-2">Law Library</h1>
+          <div className="flex items-center gap-2">
+            <Link href="/law-library" className="hover:underline">
+              Law Library
+            </Link>
+            <span>&gt;</span>
+            <span>Glossary</span>
+          </div>
+        </div>
       </div>
 
-      {/* Search */}
-      <div className="relative max-w-md mx-auto">
-        <Search className="absolute left-3 top-3 h-4 w-4 text-muted-foreground" />
-        <Input placeholder="Search legal terms..." className="pl-10" />
-      </div>
+      <div className="container mx-auto px-4 py-8">
+        <div className="max-w-6xl mx-auto">
+          <div className="bg-white rounded-lg shadow-sm border">
+            <div className="p-6 border-b">
+              <h2 className="text-xl font-bold text-gray-800">Glossary</h2>
+            </div>
 
-      {/* Alphabet Navigation */}
-      <div className="flex flex-wrap gap-2 justify-center">
-        {alphabet.map((letter) => (
-          <Button key={letter} variant="outline" size="sm" className="w-10 h-10 p-0 bg-transparent">
-            {letter}
-          </Button>
-        ))}
-      </div>
-
-      {/* Category Filter */}
-      <div className="flex flex-wrap gap-2 justify-center">
-        {categories.map((category) => (
-          <Badge
-            key={category}
-            variant="outline"
-            className="cursor-pointer hover:bg-primary hover:text-primary-foreground"
-          >
-            {category}
-          </Badge>
-        ))}
-      </div>
-
-      {/* Terms List */}
-      <div className="space-y-4">
-        {terms.map((term) => (
-          <Card key={term.id} className="hover:shadow-md transition-shadow">
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-xl">{term.term}</CardTitle>
-                <Badge variant="secondary">{term.category}</Badge>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <p className="text-muted-foreground">{term.definition}</p>
-
-                {term.examples && (
-                  <div>
-                    <h4 className="font-medium mb-2">Examples:</h4>
-                    <ul className="list-disc list-inside text-sm text-muted-foreground space-y-1">
-                      {term.examples.map((example, index) => (
-                        <li key={index}>{example}</li>
-                      ))}
-                    </ul>
-                  </div>
-                )}
-
-                <div>
-                  <h4 className="font-medium mb-2">Related Terms:</h4>
-                  <div className="flex flex-wrap gap-2">
-                    {term.relatedTerms.map((relatedTerm) => (
-                      <Badge key={relatedTerm} variant="outline" className="cursor-pointer hover:bg-muted">
-                        {relatedTerm}
-                      </Badge>
-                    ))}
-                  </div>
+            <div className="p-8">
+              {/* Alphabet Navigation */}
+              <div className="mb-8">
+                <div className="flex flex-wrap justify-center gap-2 mb-4">
+                  {alphabet.map((letter) => (
+                    <Link
+                      key={letter}
+                      href={`/law-library/glossary/${letter.toLowerCase()}`}
+                      className="text-blue-600 hover:underline px-2 py-1 text-sm font-medium"
+                    >
+                      {letter}
+                    </Link>
+                  ))}
                 </div>
               </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
 
-      <div className="text-center">
-        <Button variant="outline" size="lg">
-          <BookOpen className="h-4 w-4 mr-2" />
-          Browse All 2,300+ Terms
-        </Button>
+              {/* Terms List */}
+              <div className="space-y-6">
+                {glossaryTerms.map((item, index) => (
+                  <div key={index} className="border-b border-gray-200 pb-4">
+                    <h3 className="font-bold text-gray-800 mb-2">
+                      {item.term}
+                    </h3>
+                    <p className="text-gray-700 text-sm leading-relaxed">
+                      {item.definition}
+                    </p>
+                  </div>
+                ))}
+              </div>
+
+              {/* Load More / Pagination */}
+              <div className="mt-8 text-center">
+                <p className="text-gray-600 text-sm">
+                  Showing terms starting with "A" - Use the alphabet navigation
+                  above to browse other letters
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-  )
+  );
 }
