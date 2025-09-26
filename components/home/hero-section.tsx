@@ -7,11 +7,13 @@ export default function HeroSection() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
           <h1 className="text-4xl md:text-6xl font-bold text-gray-900 mb-6">
-            Your One-Stop <span className="text-primary">Legal</span> Solution
+            Find the Right Advocate -{" "}
+            <span className="text-primary">Half the battle won</span>
           </h1>
           <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Connect with qualified advocates, access comprehensive law library,
-            and get expert legal consultation all in one platform.
+            AdvocateKhoj helps you connect with qualified advocates by providing
+            access to their background, education, experience and previous case
+            work. Your peace of mind is compromised, not them!
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">

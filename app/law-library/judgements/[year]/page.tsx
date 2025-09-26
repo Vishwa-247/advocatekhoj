@@ -102,9 +102,9 @@ export default function YearJudgementsPage({
         </div>
 
         {/* Content Layout */}
-        <div className="flex gap-6">
+        <div className="flex flex-col lg:flex-row gap-6">
           {/* Left Sidebar - Year Navigation */}
-          <div className="w-64 flex-shrink-0 space-y-2">
+          <div className="w-full lg:w-64 flex-shrink-0 space-y-2 overflow-x-auto lg:overflow-visible mb-4 lg:mb-0">
             <div className="bg-green-600 text-white rounded">
               <div className="bg-green-700 p-2 text-center font-bold text-sm rounded-t">
                 📅 2020 - 2025
@@ -192,7 +192,7 @@ export default function YearJudgementsPage({
           </div>
 
           {/* Main Content */}
-          <div className="flex-1 bg-white p-6 rounded shadow-sm">
+          <div className="flex-1 bg-white p-4 sm:p-6 rounded shadow-sm">
             <div className="flex items-center justify-between mb-6">
               <h1 className="text-2xl font-bold">
                 Supreme Court Judgements - {params.year}
@@ -221,9 +221,9 @@ export default function YearJudgementsPage({
                   {yearJudgements.map((judgement, index) => (
                     <div
                       key={judgement.id}
-                      className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow"
+                      className="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow text-sm sm:text-base"
                     >
-                      <div className="flex items-start justify-between mb-2">
+                      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between mb-2 gap-1">
                         <span className="text-sm text-gray-500">
                           #{index + 1}
                         </span>
@@ -245,14 +245,14 @@ export default function YearJudgementsPage({
                         <strong>Judge(s):</strong> {judgement.judges}
                       </p>
 
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2 mt-2">
                         <Link
                           href={`/law-library/judgements/announcement/${judgement.id}`}
                           className="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700 transition-colors"
                         >
                           Read Full Text
                         </Link>
-                        <button className="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700 transition-colors">
+                        <button className="bg-gray-600 text-white px-3 py-1 rounded text-sm hover:bg-gray-700 transition-colors w-full sm:w-auto">
                           Download PDF
                         </button>
                       </div>
@@ -261,21 +261,19 @@ export default function YearJudgementsPage({
                 </div>
 
                 {/* Pagination */}
-                <div className="flex justify-center mt-8">
-                  <div className="flex gap-2">
-                    <button className="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition-colors">
-                      Previous
-                    </button>
-                    <button className="bg-blue-600 text-white px-3 py-1 rounded">
-                      1
-                    </button>
-                    <button className="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition-colors">
-                      2
-                    </button>
-                    <button className="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition-colors">
-                      Next
-                    </button>
-                  </div>
+                <div className="flex flex-wrap justify-center mt-8 gap-2">
+                  <button className="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition-colors w-full sm:w-auto">
+                    Previous
+                  </button>
+                  <button className="bg-blue-600 text-white px-3 py-1 rounded w-full sm:w-auto">
+                    1
+                  </button>
+                  <button className="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition-colors w-full sm:w-auto">
+                    2
+                  </button>
+                  <button className="bg-gray-200 text-gray-700 px-3 py-1 rounded hover:bg-gray-300 transition-colors w-full sm:w-auto">
+                    Next
+                  </button>
                 </div>
 
                 {/* Navigation */}
@@ -292,7 +290,7 @@ export default function YearJudgementsPage({
           </div>
 
           {/* Right Sidebar */}
-          <div className="w-64 flex-shrink-0 space-y-4">
+          <div className="w-full lg:w-64 flex-shrink-0 space-y-4 mt-6 lg:mt-0">
             {/* Search */}
             <div className="bg-white p-4 rounded border">
               <h3 className="font-bold text-sm mb-2">Search Judgements</h3>

@@ -1,18 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Menu, X } from "lucide-react";
 
-export default function Header() {
+const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
-        <div className="flex items-center">
+        <div className="flex items-center flex-shrink-0">
           <Link
             href="/"
             className="flex items-center hover:opacity-80 transition-opacity"
@@ -22,43 +24,33 @@ export default function Header() {
               alt="AdvocateKhoj Logo"
               width={60}
               height={60}
-              className="h-12 w-auto"
+              className="h-10 w-auto sm:h-12"
             />
           </Link>
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden md:flex items-center space-x-6">
-          <Link
-            href="/client/dashboard"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
-            Post a Case
-          </Link>
-          <Link
-            href="/advocate/dashboard"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
-            Join as Advocate
-          </Link>
-          <Link
-            href="/law-library"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
-            Law Library
-          </Link>
-          <Link
-            href="/law-colleges"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
-            Law College
-          </Link>
-          <Link
-            href="/sawal-jawab"
-            className="text-sm font-medium hover:text-primary transition-colors"
-          >
-            Sawal Jawab
-          </Link>
+        <nav className="hidden md:flex items-center space-x-6 relative">
+          {[
+            { href: "/client/dashboard", label: "Post a Case" },
+            { href: "/advocate/dashboard", label: "Join as Advocate" },
+            { href: "/law-library", label: "Law Library" },
+            { href: "/law-colleges", label: "Law College" },
+            { href: "/sawal-jawab", label: "Sawal Jawab" },
+          ].map((tab) => (
+            <Link
+              key={tab.href}
+              href={tab.href}
+              className={`text-sm font-medium transition-colors pb-2 ${
+                pathname === tab.href
+                  ? "text-primary border-b-2 border-orange-500"
+                  : "hover:text-primary border-b-2 border-transparent"
+              }`}
+              style={{ transition: "border-color 0.2s" }}
+            >
+              {tab.label}
+            </Link>
+          ))}
         </nav>
 
         {/* Login/Signup Buttons */}
@@ -141,4 +133,6 @@ export default function Header() {
       )}
     </header>
   );
-}
+};
+
+export default Header;

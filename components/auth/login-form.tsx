@@ -1,69 +1,76 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
-import { Eye, EyeOff, Scale, Users, Shield } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { Eye, EyeOff, Scale, Users, Shield } from "lucide-react";
 
 interface LoginFormProps {
-  userType: "client" | "advocate" | "admin"
+  userType: "client" | "advocate" | "admin";
 }
 
 export function LoginForm({ userType }: LoginFormProps) {
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
+    username: "",
     password: "",
-  })
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Handle login logic here - will connect to existing backend
-    console.log("Login attempt:", { userType, ...formData })
-  }
+    console.log("Login attempt:", { userType, ...formData });
+  };
 
   const handleOAuthLogin = (provider: "google" | "facebook") => {
     // Handle OAuth login - will connect to existing backend
-    console.log(`${provider} OAuth login for ${userType}`)
-  }
+    console.log(`${provider} OAuth login for ${userType}`);
+  };
 
   const getIcon = () => {
     switch (userType) {
       case "client":
-        return <Users className="h-6 w-6" />
+        return <Users className="h-6 w-6" />;
       case "advocate":
-        return <Scale className="h-6 w-6" />
+        return <Scale className="h-6 w-6" />;
       case "admin":
-        return <Shield className="h-6 w-6" />
+        return <Shield className="h-6 w-6" />;
     }
-  }
+  };
 
   const getTitle = () => {
     switch (userType) {
       case "client":
-        return "Client Login"
+        return "Client Login";
       case "advocate":
-        return "Advocate Login"
+        return "Advocate Login";
       case "admin":
-        return "Admin Login"
+        return "Admin Login";
     }
-  }
+  };
 
   const getDescription = () => {
     switch (userType) {
       case "client":
-        return "Access your legal cases and connect with advocates"
+        return "Access your legal cases and connect with advocates";
       case "advocate":
-        return "Manage your practice and client cases"
+        return "Manage your practice and client cases";
       case "admin":
-        return "Administrative access to the platform"
+        return "Administrative access to the platform";
     }
-  }
+  };
 
   return (
     <Card className="w-full max-w-md">
@@ -75,13 +82,25 @@ export function LoginForm({ userType }: LoginFormProps) {
       <CardContent className="space-y-6">
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="email">Email Address</Label>
+            <Label htmlFor={userType === "advocate" ? "username" : "email"}>
+              {userType === "advocate" ? "Username" : "Email Address"}
+            </Label>
             <Input
-              id="email"
-              type="email"
-              placeholder="Enter your email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              id={userType === "advocate" ? "username" : "email"}
+              type={userType === "advocate" ? "text" : "email"}
+              placeholder={
+                userType === "advocate"
+                  ? "Enter your username"
+                  : "Enter your email"
+              }
+              value={
+                userType === "advocate" ? formData.username : formData.email
+              }
+              onChange={(e) =>
+                userType === "advocate"
+                  ? setFormData({ ...formData, username: e.target.value })
+                  : setFormData({ ...formData, email: e.target.value })
+              }
               required
             />
           </div>
@@ -94,7 +113,9 @@ export function LoginForm({ userType }: LoginFormProps) {
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter your password"
                 value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, password: e.target.value })
+                }
                 required
               />
               <Button
@@ -104,7 +125,11 @@ export function LoginForm({ userType }: LoginFormProps) {
                 className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
                 onClick={() => setShowPassword(!showPassword)}
               >
-                {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4" />
+                ) : (
+                  <Eye className="h-4 w-4" />
+                )}
               </Button>
             </div>
           </div>
@@ -121,12 +146,18 @@ export function LoginForm({ userType }: LoginFormProps) {
                 <Separator className="w-full" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-background px-2 text-muted-foreground">Or continue with</span>
+                <span className="bg-background px-2 text-muted-foreground">
+                  Or continue with
+                </span>
               </div>
             </div>
 
             <div className="grid grid-cols-2 gap-4">
-              <Button variant="outline" onClick={() => handleOAuthLogin("google")} className="w-full">
+              <Button
+                variant="outline"
+                onClick={() => handleOAuthLogin("google")}
+                className="w-full"
+              >
                 <svg className="mr-2 h-4 w-4" viewBox="0 0 24 24">
                   <path
                     d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -147,8 +178,16 @@ export function LoginForm({ userType }: LoginFormProps) {
                 </svg>
                 Google
               </Button>
-              <Button variant="outline" onClick={() => handleOAuthLogin("facebook")} className="w-full">
-                <svg className="mr-2 h-4 w-4" fill="#1877F2" viewBox="0 0 24 24">
+              <Button
+                variant="outline"
+                onClick={() => handleOAuthLogin("facebook")}
+                className="w-full"
+              >
+                <svg
+                  className="mr-2 h-4 w-4"
+                  fill="#1877F2"
+                  viewBox="0 0 24 24"
+                >
                   <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                 </svg>
                 Facebook
@@ -158,14 +197,31 @@ export function LoginForm({ userType }: LoginFormProps) {
         )}
 
         <div className="text-center text-sm">
-          <a href="#" className="text-primary hover:underline">
-            Forgot your password?
-          </a>
+          {userType === "advocate" ? (
+            <div className="space-y-1">
+              <div>
+                <a href="#" className="text-primary hover:underline">
+                  Forgot your username?
+                </a>
+              </div>
+              <div>
+                <a href="#" className="text-primary hover:underline">
+                  Forgot your password?
+                </a>
+              </div>
+            </div>
+          ) : (
+            <a href="#" className="text-primary hover:underline">
+              Forgot your password?
+            </a>
+          )}
         </div>
 
         {userType !== "admin" && (
           <div className="text-center text-sm">
-            <span className="text-muted-foreground">Don't have an account? </span>
+            <span className="text-muted-foreground">
+              Don't have an account?{" "}
+            </span>
             <a href="#" className="text-primary hover:underline">
               Sign up here
             </a>
@@ -173,5 +229,5 @@ export function LoginForm({ userType }: LoginFormProps) {
         )}
       </CardContent>
     </Card>
-  )
+  );
 }

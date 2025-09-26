@@ -1,18 +1,34 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { Camera, Plus, X, Save, Star, Phone, Award, BookOpen, Building } from "lucide-react"
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import {
+  Camera,
+  Plus,
+  X,
+  Save,
+  Star,
+  Phone,
+  Award,
+  BookOpen,
+  Building,
+} from "lucide-react";
 
 export function ProfileManagement() {
   const [formData, setFormData] = useState({
@@ -80,7 +96,7 @@ export function ProfileManagement() {
         since: "2010",
       },
     ],
-  })
+  });
 
   const [newItem, setNewItem] = useState({
     practiceArea: "",
@@ -90,12 +106,12 @@ export function ProfileManagement() {
     publication: { title: "", journal: "", year: "" },
     award: { title: "", organization: "", year: "" },
     affiliation: { organization: "", position: "", since: "" },
-  })
+  });
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    console.log("Profile updated:", formData)
-  }
+    e.preventDefault();
+    console.log("Profile updated:", formData);
+  };
 
   const addItem = (type: string) => {
     switch (type) {
@@ -104,31 +120,39 @@ export function ProfileManagement() {
           setFormData({
             ...formData,
             practiceAreas: [...formData.practiceAreas, newItem.practiceArea],
-          })
-          setNewItem({ ...newItem, practiceArea: "" })
+          });
+          setNewItem({ ...newItem, practiceArea: "" });
         }
-        break
+        break;
       case "language":
         if (newItem.language) {
           setFormData({
             ...formData,
             languages: [...formData.languages, newItem.language],
-          })
-          setNewItem({ ...newItem, language: "" })
+          });
+          setNewItem({ ...newItem, language: "" });
         }
-        break
+        break;
       case "education":
         if (newItem.education.degree && newItem.education.institution) {
           setFormData({
             ...formData,
             education: [...formData.education, newItem.education],
-          })
-          setNewItem({ ...newItem, education: { degree: "", institution: "", year: "", specialization: "" } })
+          });
+          setNewItem({
+            ...newItem,
+            education: {
+              degree: "",
+              institution: "",
+              year: "",
+              specialization: "",
+            },
+          });
         }
-        break
+        break;
       // Add similar cases for other types
     }
-  }
+  };
 
   const removeItem = (type: string, index: number) => {
     switch (type) {
@@ -136,17 +160,17 @@ export function ProfileManagement() {
         setFormData({
           ...formData,
           practiceAreas: formData.practiceAreas.filter((_, i) => i !== index),
-        })
-        break
+        });
+        break;
       case "language":
         setFormData({
           ...formData,
           languages: formData.languages.filter((_, i) => i !== index),
-        })
-        break
+        });
+        break;
       // Add similar cases for other types
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -178,7 +202,9 @@ export function ProfileManagement() {
                   <Camera className="h-4 w-4 mr-2" />
                   Change Photo
                 </Button>
-                <p className="text-sm text-muted-foreground">Professional headshot recommended</p>
+                <p className="text-sm text-muted-foreground">
+                  Professional headshot recommended
+                </p>
                 <div className="flex items-center gap-2">
                   <Star className="h-4 w-4 text-yellow-500" />
                   <span className="text-sm font-medium">4.8 (24 reviews)</span>
@@ -189,7 +215,12 @@ export function ProfileManagement() {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="title">Title</Label>
-                <Select value={formData.title} onValueChange={(value) => setFormData({ ...formData, title: value })}>
+                <Select
+                  value={formData.title}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, title: value })
+                  }
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -206,7 +237,9 @@ export function ProfileManagement() {
                 <Input
                   id="firstName"
                   value={formData.firstName}
-                  onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, firstName: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -216,7 +249,9 @@ export function ProfileManagement() {
                 <Input
                   id="lastName"
                   value={formData.lastName}
-                  onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, lastName: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -228,7 +263,9 @@ export function ProfileManagement() {
                 id="bio"
                 placeholder="Brief professional summary highlighting your expertise and experience"
                 value={formData.bio}
-                onChange={(e) => setFormData({ ...formData, bio: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, bio: e.target.value })
+                }
                 className="min-h-20"
               />
             </div>
@@ -251,7 +288,9 @@ export function ProfileManagement() {
                   id="email"
                   type="email"
                   value={formData.email}
-                  onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -261,7 +300,9 @@ export function ProfileManagement() {
                 <Input
                   id="phone"
                   value={formData.phone}
-                  onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, phone: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -273,7 +314,9 @@ export function ProfileManagement() {
                 <Input
                   id="location"
                   value={formData.location}
-                  onChange={(e) => setFormData({ ...formData, location: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, location: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -283,7 +326,12 @@ export function ProfileManagement() {
                 <Input
                   id="barCouncilNumber"
                   value={formData.barCouncilNumber}
-                  onChange={(e) => setFormData({ ...formData, barCouncilNumber: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      barCouncilNumber: e.target.value,
+                    })
+                  }
                   required
                 />
               </div>
@@ -302,9 +350,16 @@ export function ProfileManagement() {
           <CardContent className="space-y-4">
             <div className="flex flex-wrap gap-2">
               {formData.practiceAreas.map((area, index) => (
-                <Badge key={index} variant="secondary" className="flex items-center gap-1">
+                <Badge
+                  key={index}
+                  variant="secondary"
+                  className="flex items-center gap-1"
+                >
                   {area}
-                  <X className="h-3 w-3 cursor-pointer" onClick={() => removeItem("practiceArea", index)} />
+                  <X
+                    className="h-3 w-3 cursor-pointer"
+                    onClick={() => removeItem("practiceArea", index)}
+                  />
                 </Badge>
               ))}
             </div>
@@ -312,7 +367,9 @@ export function ProfileManagement() {
               <Input
                 placeholder="Add practice area"
                 value={newItem.practiceArea}
-                onChange={(e) => setNewItem({ ...newItem, practiceArea: e.target.value })}
+                onChange={(e) =>
+                  setNewItem({ ...newItem, practiceArea: e.target.value })
+                }
               />
               <Button type="button" onClick={() => addItem("practiceArea")}>
                 <Plus className="h-4 w-4" />
@@ -329,9 +386,16 @@ export function ProfileManagement() {
           <CardContent className="space-y-4">
             <div className="flex flex-wrap gap-2">
               {formData.languages.map((language, index) => (
-                <Badge key={index} variant="outline" className="flex items-center gap-1">
+                <Badge
+                  key={index}
+                  variant="outline"
+                  className="flex items-center gap-1"
+                >
                   {language}
-                  <X className="h-3 w-3 cursor-pointer" onClick={() => removeItem("language", index)} />
+                  <X
+                    className="h-3 w-3 cursor-pointer"
+                    onClick={() => removeItem("language", index)}
+                  />
                 </Badge>
               ))}
             </div>
@@ -339,7 +403,9 @@ export function ProfileManagement() {
               <Input
                 placeholder="Add language"
                 value={newItem.language}
-                onChange={(e) => setNewItem({ ...newItem, language: e.target.value })}
+                onChange={(e) =>
+                  setNewItem({ ...newItem, language: e.target.value })
+                }
               />
               <Button type="button" onClick={() => addItem("language")}>
                 <Plus className="h-4 w-4" />
@@ -385,7 +451,10 @@ export function ProfileManagement() {
                   onChange={(e) =>
                     setNewItem({
                       ...newItem,
-                      education: { ...newItem.education, degree: e.target.value },
+                      education: {
+                        ...newItem.education,
+                        degree: e.target.value,
+                      },
                     })
                   }
                 />
@@ -395,7 +464,10 @@ export function ProfileManagement() {
                   onChange={(e) =>
                     setNewItem({
                       ...newItem,
-                      education: { ...newItem.education, institution: e.target.value },
+                      education: {
+                        ...newItem.education,
+                        institution: e.target.value,
+                      },
                     })
                   }
                 />
@@ -415,7 +487,10 @@ export function ProfileManagement() {
                   onChange={(e) =>
                     setNewItem({
                       ...newItem,
-                      education: { ...newItem.education, specialization: e.target.value },
+                      education: {
+                        ...newItem.education,
+                        specialization: e.target.value,
+                      },
                     })
                   }
                 />
@@ -444,7 +519,9 @@ export function ProfileManagement() {
                   id="experience"
                   type="number"
                   value={formData.experience}
-                  onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, experience: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -456,7 +533,9 @@ export function ProfileManagement() {
                   <div>
                     <h4 className="font-semibold">{emp.position}</h4>
                     <p className="text-muted-foreground">{emp.firm}</p>
-                    <p className="text-sm text-muted-foreground">{emp.duration}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {emp.duration}
+                    </p>
                     <p className="text-sm mt-2">{emp.description}</p>
                   </div>
                   <Button variant="ghost" size="sm">
@@ -482,8 +561,12 @@ export function ProfileManagement() {
                 <div className="flex justify-between items-start">
                   <div>
                     <h4 className="font-semibold">{award.title}</h4>
-                    <p className="text-muted-foreground">{award.organization}</p>
-                    <p className="text-sm text-muted-foreground">{award.year}</p>
+                    <p className="text-muted-foreground">
+                      {award.organization}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      {award.year}
+                    </p>
                   </div>
                   <Button variant="ghost" size="sm">
                     <X className="h-4 w-4" />
@@ -495,5 +578,5 @@ export function ProfileManagement() {
         </Card>
       </form>
     </div>
-  )
+  );
 }

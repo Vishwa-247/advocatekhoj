@@ -1,3 +1,46 @@
+/* Law Library mobile-friendly styles */
+.law-library-section {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.law-library-card {
+  border-radius: 0.75rem;
+  box-shadow: 0 2px 8px rgba(10,42,91,0.06);
+  border: 1px solid var(--border);
+  background: #fff;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 768px) {
+  .law-library-section {
+    gap: 2rem;
+  }
+  .law-library-card {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.5rem;
+    padding: 1.5rem 2rem;
+  }
+}
+
+.law-library-card .law-library-icon {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.law-library-card .law-library-content {
+  flex: 1;
+}
 @import 'tailwindcss';
 @import 'tw-animate-css';
 
@@ -119,5 +162,23 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+  /* Improved field visibility */
+  input,
+  textarea,
+  select {
+    background-color: #E6F0FA;
+    border: 1.5px solid #0A2A5B;
+    color: #0A2A5B;
+    border-radius: 6px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    border-color: #1453A3;
+    box-shadow: 0 0 0 2px rgba(20, 83, 163, 0.15);
+    outline: none;
   }
 }

@@ -1,8 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
+import PageLayout from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -24,7 +23,6 @@ import {
 import {
   MapPin,
   Star,
-
   Calendar,
   FileText,
   Briefcase,
@@ -193,9 +191,7 @@ export default function LawCollegesPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-
+    <PageLayout>
       {/* Hero Section */}
       <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
@@ -208,9 +204,6 @@ export default function LawCollegesPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* Advertisement Banner */}
-        <AdBanner size="large" position="top" layout="double" />
-
         <div className="mt-8">
           <Tabs defaultValue="colleges" className="space-y-8">
             <TabsList className="grid w-full grid-cols-4 h-12">
@@ -289,11 +282,15 @@ export default function LawCollegesPage() {
                       <div className="flex flex-col lg:flex-row">
                         {/* College Logo/Image */}
                         <div className="lg:w-1/4 bg-gradient-to-br from-primary/5 to-secondary/5 p-8 flex items-center justify-center">
-                          <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-lg">
+                          <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center shadow-xl border-2 border-gray-100">
                             <img
                               src={college.logo || "/placeholder-logo.png"}
                               alt={college.name}
-                              className="w-16 h-16 object-contain"
+                              className="w-20 h-20 object-contain rounded-full"
+                              style={{
+                                background: "white",
+                                borderRadius: "50%",
+                              }}
                             />
                           </div>
                         </div>
@@ -342,8 +339,8 @@ export default function LawCollegesPage() {
                                   {college.courses.map((course) => (
                                     <Badge
                                       key={course}
-                                      variant="secondary"
-                                      className="bg-secondary/10 text-secondary border-secondary/20"
+                                      variant="default"
+                                      className="bg-orange-100 text-orange-700 border-orange-200"
                                     >
                                       {course}
                                     </Badge>
@@ -353,19 +350,17 @@ export default function LawCollegesPage() {
 
                               {/* Action Buttons */}
                               <div className="flex flex-wrap gap-3">
-                                <Button
-                                  size="sm"
-                                  className="bg-primary hover:bg-primary/90"
-                                  asChild
-                                >
-                                  <a
-                                    href={college.website}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
+                                {/* Show NIRF button only for top 40 law schools */}
+                                {college.nirfRanking &&
+                                college.nirfRanking <= 40 ? (
+                                  <Button
+                                    size="sm"
+                                    className="bg-blue-700 hover:bg-blue-800 text-white font-bold px-4 py-1 rounded"
+                                    disabled
                                   >
-                                    Visit Website
-                                  </a>
-                                </Button>
+                                    NIRF 2025 #{college.nirfRanking}
+                                  </Button>
+                                ) : null}
                                 <Button variant="outline" size="sm">
                                   View Details
                                 </Button>
@@ -461,12 +456,20 @@ export default function LawCollegesPage() {
                         >
                           Law Library
                         </a>
-                        <a
-                          href="/sawal-jawab"
-                          className="block p-2 text-sm text-primary hover:bg-primary/5 rounded transition-colors"
-                        >
-                          Sawal Jawab
-                        </a>
+                        <div className="flex items-center justify-between p-2 rounded hover:bg-primary/5 transition-colors">
+                          <a
+                            href="/sawal-jawab"
+                            className="text-sm text-primary flex-1"
+                          >
+                            Sawal Jawab
+                          </a>
+                          <button
+                            className="text-xs text-red-500 font-medium px-2 py-1 rounded hover:bg-red-50 border border-red-100 ml-2"
+                            title="Report Abuse"
+                          >
+                            Report Abuse
+                          </button>
+                        </div>
                         <a
                           href="/advocate/dashboard"
                           className="block p-2 text-sm text-primary hover:bg-primary/5 rounded transition-colors"
@@ -482,6 +485,33 @@ export default function LawCollegesPage() {
                       </div>
                     </CardContent>
                   </Card>
+
+                  {/* Trusted Source Banner */}
+                  <div className="mt-4">
+                    <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-primary/80 to-secondary/80 shadow border border-primary/30">
+                      <img
+                        src="/logo.svg"
+                        alt="AdvocateKhoj Logo"
+                        className="w-10 h-10 rounded-full bg-white border border-gray-200"
+                      />
+                      <div className="flex-1">
+                        <div className="font-semibold text-white text-base">
+                          Add AdvocateKhoj as a Trusted Source
+                        </div>
+                        <a
+                          href="https://www.google.com/preferences/source?q=AdvocateKhoj"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-xs text-white underline opacity-80 hover:opacity-100"
+                        >
+                          Learn more
+                        </a>
+                      </div>
+                      <span className="px-3 py-1 rounded bg-white text-primary font-bold text-xs shadow">
+                        Recommended
+                      </span>
+                    </div>
+                  </div>
                 </div>
               </div>
             </TabsContent>
@@ -647,8 +677,6 @@ export default function LawCollegesPage() {
           </Tabs>
         </div>
       </div>
-
-      <Footer />
-    </div>
+    </PageLayout>
   );
 }
