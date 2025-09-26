@@ -132,10 +132,12 @@ export default function SawalJawabPage() {
                               <User className="w-4 h-4" />
                               <span>{question.author}</span>
                             </div>
-                            <div className="flex items-center gap-1">
-                              <Clock className="w-4 h-4" />
-                              <span>{question.timeAgo}</span>
-                            </div>
+                            <button
+                              className="text-xs text-red-500 font-medium px-2 py-1 rounded hover:bg-red-50 border border-red-100 ml-2"
+                              title="Report Abuse"
+                            >
+                              Report Abuse
+                            </button>
                           </div>
                         </div>
                         <Badge variant="secondary">{question.category}</Badge>
