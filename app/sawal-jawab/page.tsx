@@ -14,11 +14,39 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-import { MessageCircle, ThumbsUp, Clock, User, Plus } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  MessageCircle,
+  ThumbsUp,
+  Clock,
+  User,
+  Plus,
+  AlertCircle,
+  Flag,
+} from "lucide-react";
 import AdBanner from "@/components/home/ad-banner";
+import { ReportAbuseDialog } from "@/components/moderation/report-abuse-dialog";
+import {
+  validateContent,
+  getProfanityErrorMessage,
+} from "@/lib/content-filter";
 
 export default function SawalJawabPage() {
   const [showQuestionForm, setShowQuestionForm] = useState(false);
+  const [reportDialogOpen, setReportDialogOpen] = useState(false);
+  const [reportingContentId, setReportingContentId] = useState<number | null>(
+    null
+  );
+  const [questionData, setQuestionData] = useState({
+    title: "",
+    description: "",
+    category: "",
+  });
+  const [contentValidation, setContentValidation] = useState<{
+    isValid: boolean;
+    errors: string[];
+    warnings: string[];
+  } | null>(null);
 
   const questions = [
     {
@@ -57,6 +85,37 @@ export default function SawalJawabPage() {
     },
   ];
 
+  const handleQuestionSubmit = () => {
+    // Validate content for profanity
+    const validation = validateContent(
+      {
+        title: questionData.title,
+        description: questionData.description,
+      },
+      true // strict mode
+    );
+
+    setContentValidation(validation);
+
+    if (!validation.isValid) {
+      // Block submission - content has offensive language
+      return;
+    }
+
+    // If valid, proceed with submission
+    console.log("Question submitted:", questionData);
+
+    // Reset form
+    setQuestionData({ title: "", description: "", category: "" });
+    setShowQuestionForm(false);
+    setContentValidation(null);
+  };
+
+  const handleReportAbuse = (questionId: number) => {
+    setReportingContentId(questionId);
+    setReportDialogOpen(true);
+  };
+
   return (
     <PageLayout>
       <div className="min-h-screen bg-gray-50">
@@ -93,17 +152,70 @@ export default function SawalJawabPage() {
                       </CardDescription>
                     </CardHeader>
                     <CardContent className="space-y-4">
-                      <Input placeholder="Question title" />
+                      {contentValidation && !contentValidation.isValid && (
+                        <Alert variant="destructive">
+                          <AlertCircle className="h-4 w-4" />
+                          <AlertDescription>
+                            <strong>Content Blocked:</strong>{" "}
+                            {contentValidation.errors.join(". ")}
+                            <br />
+                            <span className="text-sm mt-1 block">
+                              Please remove offensive language and try again.
+                            </span>
+                          </AlertDescription>
+                        </Alert>
+                      )}
+                      {contentValidation &&
+                        contentValidation.warnings.length > 0 && (
+                          <Alert>
+                            <AlertCircle className="h-4 w-4" />
+                            <AlertDescription>
+                              <strong>Warning:</strong>{" "}
+                              {contentValidation.warnings.join(". ")}
+                            </AlertDescription>
+                          </Alert>
+                        )}
+                      <Input
+                        placeholder="Question title"
+                        value={questionData.title}
+                        onChange={(e) =>
+                          setQuestionData({
+                            ...questionData,
+                            title: e.target.value,
+                          })
+                        }
+                      />
                       <Textarea
                         placeholder="Describe your legal question in detail..."
                         rows={4}
+                        value={questionData.description}
+                        onChange={(e) =>
+                          setQuestionData({
+                            ...questionData,
+                            description: e.target.value,
+                          })
+                        }
                       />
-                      <Input placeholder="Category (e.g., Property Law, Business Law)" />
+                      <Input
+                        placeholder="Category (e.g., Property Law, Business Law)"
+                        value={questionData.category}
+                        onChange={(e) =>
+                          setQuestionData({
+                            ...questionData,
+                            category: e.target.value,
+                          })
+                        }
+                      />
                       <div className="flex gap-2">
-                        <Button>Post Question</Button>
+                        <Button onClick={handleQuestionSubmit}>
+                          Post Question
+                        </Button>
                         <Button
                           variant="outline"
-                          onClick={() => setShowQuestionForm(false)}
+                          onClick={() => {
+                            setShowQuestionForm(false);
+                            setContentValidation(null);
+                          }}
                         >
                           Cancel
                         </Button>
@@ -133,9 +245,11 @@ export default function SawalJawabPage() {
                               <span>{question.author}</span>
                             </div>
                             <button
-                              className="text-xs text-red-500 font-medium px-2 py-1 rounded hover:bg-red-50 border border-red-100 ml-2"
+                              className="text-xs text-red-500 font-medium px-2 py-1 rounded hover:bg-red-50 border border-red-100 ml-2 flex items-center gap-1"
                               title="Report Abuse"
+                              onClick={() => handleReportAbuse(question.id)}
                             >
+                              <Flag className="w-3 h-3" />
                               Report Abuse
                             </button>
                           </div>
@@ -236,6 +350,19 @@ export default function SawalJawabPage() {
           </div>
         </div>
       </div>
+
+      {/* Report Abuse Dialog */}
+      <ReportAbuseDialog
+        open={reportDialogOpen}
+        onOpenChange={setReportDialogOpen}
+        contentType="question"
+        contentId={reportingContentId || 0}
+        onSubmit={async (report) => {
+          console.log("Report submitted:", report);
+          // In production, this would send email to moderators
+          // and mark content as flagged in database
+        }}
+      />
     </PageLayout>
   );
 }

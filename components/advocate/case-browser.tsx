@@ -1,35 +1,54 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Search, Filter, MapPin, Calendar, User, MessageCircle, Eye } from "lucide-react"
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Search,
+  Filter,
+  MapPin,
+  Calendar,
+  User,
+  MessageCircle,
+  Eye,
+  ArrowLeft,
+} from "lucide-react";
 
-interface ClientCase {
-  id: string
-  title: string
-  category: string
-  description: string
-  location: string
-  datePosted: string
-  urgency: "low" | "medium" | "high"
-  budget: string
-  clientName: string
-  isAnonymous: boolean
-  responses: number
-  languages: string[]
-  experienceRequired: string
+interface CaseBrowserProps {
+  onNavigate?: (section: string) => void;
 }
 
-export function CaseBrowser() {
-  const [searchQuery, setSearchQuery] = useState("")
-  const [selectedCategory, setSelectedCategory] = useState("all")
-  const [selectedLocation, setSelectedLocation] = useState("all")
-  const [selectedUrgency, setSelectedUrgency] = useState("all")
+interface ClientCase {
+  id: string;
+  title: string;
+  category: string;
+  description: string;
+  location: string;
+  datePosted: string;
+  urgency: "low" | "medium" | "high";
+  budget: string;
+  clientName: string;
+  isAnonymous: boolean;
+  responses: number;
+  languages: string[];
+  experienceRequired: string;
+}
+
+export function CaseBrowser({ onNavigate }: CaseBrowserProps = {}) {
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [selectedLocation, setSelectedLocation] = useState("all");
+  const [selectedUrgency, setSelectedUrgency] = useState("all");
 
   // Mock data - replace with actual data from backend
   const cases: ClientCase[] = [
@@ -81,51 +100,71 @@ export function CaseBrowser() {
       languages: ["English", "Hindi"],
       experienceRequired: "10+ years",
     },
-  ]
+  ];
 
   const getUrgencyColor = (urgency: string) => {
     switch (urgency) {
       case "high":
-        return "bg-red-100 text-red-800"
+        return "bg-red-100 text-red-800";
       case "medium":
-        return "bg-yellow-100 text-yellow-800"
+        return "bg-yellow-100 text-yellow-800";
       case "low":
-        return "bg-green-100 text-green-800"
+        return "bg-green-100 text-green-800";
       default:
-        return "bg-gray-100 text-gray-800"
+        return "bg-gray-100 text-gray-800";
     }
-  }
+  };
 
   const getUrgencyIcon = (urgency: string) => {
     switch (urgency) {
       case "high":
-        return "🔴"
+        return "🔴";
       case "medium":
-        return "🟡"
+        return "🟡";
       case "low":
-        return "🟢"
+        return "🟢";
       default:
-        return "⚪"
+        return "⚪";
     }
-  }
+  };
 
   const filteredCases = cases.filter((caseItem) => {
     const matchesSearch =
       caseItem.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      caseItem.description.toLowerCase().includes(searchQuery.toLowerCase())
-    const matchesCategory = selectedCategory === "all" || caseItem.category === selectedCategory
-    const matchesLocation = selectedLocation === "all" || caseItem.location.includes(selectedLocation)
-    const matchesUrgency = selectedUrgency === "all" || caseItem.urgency === selectedUrgency
+      caseItem.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesCategory =
+      selectedCategory === "all" || caseItem.category === selectedCategory;
+    const matchesLocation =
+      selectedLocation === "all" ||
+      caseItem.location.includes(selectedLocation);
+    const matchesUrgency =
+      selectedUrgency === "all" || caseItem.urgency === selectedUrgency;
 
-    return matchesSearch && matchesCategory && matchesLocation && matchesUrgency
-  })
+    return (
+      matchesSearch && matchesCategory && matchesLocation && matchesUrgency
+    );
+  });
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Available Cases</h2>
+        <div className="flex items-center gap-4">
+          {onNavigate && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onNavigate("overview")}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+          )}
+          <h2 className="text-2xl font-bold">Available Cases</h2>
+        </div>
         <div className="flex items-center gap-2">
-          <Badge variant="outline">{filteredCases.length} cases available</Badge>
+          <Badge variant="outline">
+            {filteredCases.length} cases available
+          </Badge>
         </div>
       </div>
 
@@ -144,7 +183,10 @@ export function CaseBrowser() {
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <Select
+                value={selectedCategory}
+                onValueChange={setSelectedCategory}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="All Categories" />
                 </SelectTrigger>
@@ -158,7 +200,10 @@ export function CaseBrowser() {
                 </SelectContent>
               </Select>
 
-              <Select value={selectedLocation} onValueChange={setSelectedLocation}>
+              <Select
+                value={selectedLocation}
+                onValueChange={setSelectedLocation}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="All Locations" />
                 </SelectTrigger>
@@ -172,7 +217,10 @@ export function CaseBrowser() {
                 </SelectContent>
               </Select>
 
-              <Select value={selectedUrgency} onValueChange={setSelectedUrgency}>
+              <Select
+                value={selectedUrgency}
+                onValueChange={setSelectedUrgency}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="All Urgency" />
                 </SelectTrigger>
@@ -200,7 +248,9 @@ export function CaseBrowser() {
             <CardHeader className="pb-3">
               <div className="flex justify-between items-start">
                 <div className="flex-1">
-                  <CardTitle className="text-lg font-semibold mb-2">{caseItem.title}</CardTitle>
+                  <CardTitle className="text-lg font-semibold mb-2">
+                    {caseItem.title}
+                  </CardTitle>
                   <div className="flex items-center gap-4 text-sm text-muted-foreground mb-2">
                     <div className="flex items-center gap-1">
                       <Calendar className="h-4 w-4" />
@@ -218,7 +268,8 @@ export function CaseBrowser() {
                   <div className="flex items-center gap-2 mb-3">
                     <Badge variant="outline">{caseItem.category}</Badge>
                     <Badge className={getUrgencyColor(caseItem.urgency)}>
-                      {getUrgencyIcon(caseItem.urgency)} {caseItem.urgency} priority
+                      {getUrgencyIcon(caseItem.urgency)} {caseItem.urgency}{" "}
+                      priority
                     </Badge>
                     <Badge variant="secondary">{caseItem.budget}</Badge>
                   </div>
@@ -226,18 +277,27 @@ export function CaseBrowser() {
               </div>
             </CardHeader>
             <CardContent className="pt-0">
-              <p className="text-muted-foreground mb-4 line-clamp-3">{caseItem.description}</p>
+              <p className="text-muted-foreground mb-4 line-clamp-3">
+                {caseItem.description}
+              </p>
 
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                   <div className="flex items-center gap-2">
                     <Avatar className="h-8 w-8">
-                      <AvatarFallback>{caseItem.isAnonymous ? "A" : caseItem.clientName.charAt(0)}</AvatarFallback>
+                      <AvatarFallback>
+                        {caseItem.isAnonymous
+                          ? "A"
+                          : caseItem.clientName.charAt(0)}
+                      </AvatarFallback>
                     </Avatar>
                     <div>
-                      <p className="text-sm font-medium">{caseItem.clientName}</p>
+                      <p className="text-sm font-medium">
+                        {caseItem.clientName}
+                      </p>
                       <p className="text-xs text-muted-foreground">
-                        Prefers: {caseItem.languages.join(", ")} • {caseItem.experienceRequired} exp.
+                        Prefers: {caseItem.languages.join(", ")} •{" "}
+                        {caseItem.experienceRequired} exp.
                       </p>
                     </div>
                   </div>
@@ -265,11 +325,12 @@ export function CaseBrowser() {
             <Search className="h-12 w-12 text-muted-foreground mb-4" />
             <h3 className="text-lg font-semibold mb-2">No cases found</h3>
             <p className="text-muted-foreground text-center">
-              Try adjusting your search criteria or check back later for new cases.
+              Try adjusting your search criteria or check back later for new
+              cases.
             </p>
           </CardContent>
         </Card>
       )}
     </div>
-  )
+  );
 }

@@ -28,83 +28,139 @@ import {
   Award,
   BookOpen,
   Building,
+  ArrowLeft,
 } from "lucide-react";
 
-export function ProfileManagement() {
+interface ProfileManagementProps {
+  onNavigate?: (section: string) => void;
+}
+
+export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
   const [formData, setFormData] = useState({
-    // Basic Information
-    title: "Adv.",
-    firstName: "Rajesh",
-    lastName: "Kumar",
-    email: "rajesh.kumar@example.com",
-    phone: "+91-9876543210",
-    location: "Mumbai, Maharashtra",
-    barCouncilNumber: "MH/1234/2010",
+    // Contact Information
+    title: "Mr.",
+    firstName: "Anoop",
+    middleName: "",
+    lastName: "Vincent",
+    address: "#204, Crescent Towers, Seethammadhara, Vizag - 13",
+    primaryPhone: "8916592497",
+    secondaryPhone: "",
+    emergencyPhone: "",
+    mobile: "9849159490",
+    fax: "",
+    email: "anoop_vincent@yahoo.com",
+    website: "",
+    bio: "",
+    phone: "",
+    location: "",
+    experience: "",
 
-    // Professional Information
-    practiceAreas: ["Corporate Law", "Civil Litigation", "Property Law"],
-    languages: ["English", "Hindi", "Marathi"],
-    experience: "12",
-    courtsPracticing: ["High Court of Bombay", "District Courts Mumbai"],
+    // Practice Areas
+    practiceAreas: [
+      "Administrative Law - Administration of Justice",
+      "Transportation - Admiralty and Maritime",
+      "Family - Adoption",
+      "Criminal - Adulteration of Drugs",
+      "Criminal - Adultery",
+    ],
 
-    // About
-    bio: "Experienced advocate specializing in corporate law and civil litigation with over 12 years of practice.",
+    // Languages
+    languages: ["Assamese", "Bengali", "English", "Gujarati", "Hindi"],
 
     // Education
     education: [
       {
-        degree: "LLB",
-        institution: "Government Law College, Mumbai",
-        year: "2010",
-        specialization: "Corporate Law",
+        institute: "",
+        degree: "",
+        graduationYear: "",
+        city: "",
+        state: "",
+        country: "",
+        shortDetail: "",
+        specialization: "",
       },
     ],
 
-    // Employment
-    employment: [
+    // Clients
+    clients: [
       {
-        position: "Senior Associate",
-        firm: "Kumar & Associates",
-        duration: "2015 - Present",
-        description: "Leading corporate law practice",
+        clientName: "IBM",
+        city: "Bangalore",
+        state: "Karnataka",
+        country: "India",
+        year: "2001",
+        shortDetail: "",
       },
     ],
 
     // Publications
     publications: [
       {
-        title: "Corporate Governance in Modern India",
-        journal: "Indian Law Review",
-        year: "2022",
+        title: "",
+        url: "",
+        year: "",
+        shortDetail: "",
       },
     ],
 
     // Awards
     awards: [
       {
-        title: "Best Corporate Lawyer",
-        organization: "Mumbai Bar Association",
-        year: "2021",
+        title: "",
+        organization: "",
+        year: "",
+        shortDetail: "",
       },
     ],
 
-    // Affiliations
-    affiliations: [
+    // Employment
+    employment: [
       {
-        organization: "Bar Council of Maharashtra",
-        position: "Member",
-        since: "2010",
+        company: "",
+        designation: "",
+        yearFrom: "",
+        yearTo: "",
+        city: "",
+        state: "",
+        country: "",
       },
     ],
+
+    // Memberships & Affiliations
+    memberships: [
+      {
+        instituteOrgCourt: "DELHI223523",
+        designation: "",
+        memberSince: "",
+        city: "",
+        state: "",
+        country: "",
+      },
+    ],
+
+    // BAR Council Details
+    stateBarCouncil: "",
+    barCouncilNumber: "",
+    yearOfEnrollment: "",
+    localBarAssociation: false,
+    localBarAssociationName: "",
   });
 
   const [newItem, setNewItem] = useState({
     practiceArea: "",
     language: "",
-    education: { degree: "", institution: "", year: "", specialization: "" },
-    employment: { position: "", firm: "", duration: "", description: "" },
+    education: {
+      institute: "",
+      degree: "",
+      graduationYear: "",
+      city: "",
+      state: "",
+      country: "",
+      shortDetail: "",
+      specialization: "",
+    },
     publication: { title: "", journal: "", year: "" },
-    award: { title: "", organization: "", year: "" },
+    award: { title: "", organization: "", year: "", shortDetail: "" },
     affiliation: { organization: "", position: "", since: "" },
   });
 
@@ -124,17 +180,8 @@ export function ProfileManagement() {
           setNewItem({ ...newItem, practiceArea: "" });
         }
         break;
-      case "language":
-        if (newItem.language) {
-          setFormData({
-            ...formData,
-            languages: [...formData.languages, newItem.language],
-          });
-          setNewItem({ ...newItem, language: "" });
-        }
-        break;
       case "education":
-        if (newItem.education.degree && newItem.education.institution) {
+        if (newItem.education.degree && newItem.education.institute) {
           setFormData({
             ...formData,
             education: [...formData.education, newItem.education],
@@ -142,9 +189,13 @@ export function ProfileManagement() {
           setNewItem({
             ...newItem,
             education: {
+              institute: "",
               degree: "",
-              institution: "",
-              year: "",
+              graduationYear: "",
+              city: "",
+              state: "",
+              country: "",
+              shortDetail: "",
               specialization: "",
             },
           });
@@ -175,7 +226,19 @@ export function ProfileManagement() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">Profile Management</h2>
+        <div className="flex items-center gap-4">
+          {onNavigate && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={() => onNavigate("overview")}
+            >
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              Back
+            </Button>
+          )}
+          <h2 className="text-2xl font-bold">Profile Management</h2>
+        </div>
         <Button form="profile-form" type="submit">
           <Save className="h-4 w-4 mr-2" />
           Save Profile
@@ -428,22 +491,19 @@ export function ProfileManagement() {
                 <div className="flex justify-between items-start">
                   <div>
                     <h4 className="font-semibold">{edu.degree}</h4>
-                    <p className="text-muted-foreground">{edu.institution}</p>
+                    <p className="text-muted-foreground">{edu.institute}</p>
                     <p className="text-sm text-muted-foreground">
-                      {edu.year} • {edu.specialization}
+                      {edu.graduationYear} • {edu.specialization}
                     </p>
                   </div>
-                  <Button variant="ghost" size="sm">
+                  <Button variant="ghost" size="sm" type="button">
                     <X className="h-4 w-4" />
                   </Button>
                 </div>
               </div>
             ))}
-
             <Separator />
-
             <div className="space-y-4">
-              <h4 className="font-medium">Add Education</h4>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <Input
                   placeholder="Degree"
@@ -459,47 +519,63 @@ export function ProfileManagement() {
                   }
                 />
                 <Input
-                  placeholder="Institution"
-                  value={newItem.education.institution}
+                  placeholder="Institute"
+                  value={newItem.education.institute}
                   onChange={(e) =>
                     setNewItem({
                       ...newItem,
                       education: {
                         ...newItem.education,
-                        institution: e.target.value,
+                        institute: e.target.value,
                       },
                     })
                   }
                 />
                 <Input
-                  placeholder="Year"
-                  value={newItem.education.year}
-                  onChange={(e) =>
-                    setNewItem({
-                      ...newItem,
-                      education: { ...newItem.education, year: e.target.value },
-                    })
-                  }
-                />
-                <Input
-                  placeholder="Specialization"
-                  value={newItem.education.specialization}
+                  placeholder="Graduation Year"
+                  value={newItem.education.graduationYear}
                   onChange={(e) =>
                     setNewItem({
                       ...newItem,
                       education: {
                         ...newItem.education,
-                        specialization: e.target.value,
+                        graduationYear: e.target.value,
+                      },
+                    })
+                  }
+                />
+                <Input
+                  placeholder="City"
+                  value={newItem.education.city}
+                  onChange={(e) =>
+                    setNewItem({
+                      ...newItem,
+                      education: {
+                        ...newItem.education,
+                        city: e.target.value,
                       },
                     })
                   }
                 />
               </div>
-              <Button type="button" onClick={() => addItem("education")}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Education
-              </Button>
+              <Input
+                placeholder="Specialization"
+                value={newItem.education.specialization}
+                onChange={(e) =>
+                  setNewItem({
+                    ...newItem,
+                    education: {
+                      ...newItem.education,
+                      specialization: e.target.value,
+                    },
+                  })
+                }
+              />
             </div>
+            <Button type="button" onClick={() => addItem("education")}>
+              <Plus className="h-4 w-4 mr-2" />
+              Add Education
+            </Button>
           </CardContent>
         </Card>
 
@@ -531,12 +607,14 @@ export function ProfileManagement() {
               <div key={index} className="p-4 border rounded-lg">
                 <div className="flex justify-between items-start">
                   <div>
-                    <h4 className="font-semibold">{emp.position}</h4>
-                    <p className="text-muted-foreground">{emp.firm}</p>
+                    <h4 className="font-semibold">{emp.designation}</h4>
+                    <p className="text-muted-foreground">{emp.company}</p>
                     <p className="text-sm text-muted-foreground">
-                      {emp.duration}
+                      {emp.yearFrom} - {emp.yearTo}
                     </p>
-                    <p className="text-sm mt-2">{emp.description}</p>
+                    <p className="text-sm mt-2">
+                      {emp.city}, {emp.state}, {emp.country}
+                    </p>
                   </div>
                   <Button variant="ghost" size="sm">
                     <X className="h-4 w-4" />

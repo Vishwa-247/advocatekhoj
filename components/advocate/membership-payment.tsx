@@ -1,27 +1,37 @@
-"use client"
+"use client";
 
-import type React from "react"
+import type React from "react";
 
-import { useState } from "react"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Badge } from "@/components/ui/badge"
-import { Separator } from "@/components/ui/separator"
-import { CheckCircle, CreditCard, Shield } from "lucide-react"
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { Separator } from "@/components/ui/separator";
+import { CheckCircle, CreditCard, Shield, ArrowLeft } from "lucide-react";
 
-export function MembershipPayment() {
-  const [selectedPlan, setSelectedPlan] = useState("professional")
-  const [paymentMethod, setPaymentMethod] = useState("card")
+interface MembershipPaymentProps {
+  onNavigate?: (section: string) => void;
+}
+
+export function MembershipPayment({ onNavigate }: MembershipPaymentProps = {}) {
+  const [selectedPlan, setSelectedPlan] = useState("professional");
+  const [paymentMethod, setPaymentMethod] = useState("card");
   const [formData, setFormData] = useState({
     cardNumber: "",
     expiryDate: "",
     cvv: "",
     cardholderName: "",
     upiId: "",
-  })
+  });
 
   const plans = [
     {
@@ -29,7 +39,12 @@ export function MembershipPayment() {
       name: "Basic",
       price: 2999,
       duration: "6 months",
-      features: ["Profile listing", "Respond to up to 10 cases/month", "Basic messaging", "Email support"],
+      features: [
+        "Profile listing",
+        "Respond to up to 10 cases/month",
+        "Basic messaging",
+        "Email support",
+      ],
       popular: false,
     },
     {
@@ -62,22 +77,40 @@ export function MembershipPayment() {
       ],
       popular: false,
     },
-  ]
+  ];
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
     // Handle payment processing - connect to payment gateway
-    console.log("Processing payment:", { selectedPlan, paymentMethod, formData })
-  }
+    console.log("Processing payment:", {
+      selectedPlan,
+      paymentMethod,
+      formData,
+    });
+  };
 
-  const selectedPlanDetails = plans.find((plan) => plan.id === selectedPlan)
+  const selectedPlanDetails = plans.find((plan) => plan.id === selectedPlan);
 
   return (
     <div className="space-y-6">
+      <div className="flex items-center justify-between mb-4">
+        {onNavigate && (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => onNavigate("overview")}
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Dashboard
+          </Button>
+        )}
+      </div>
+
       <div className="text-center">
         <h2 className="text-3xl font-bold mb-2">Choose Your Membership Plan</h2>
         <p className="text-muted-foreground">
-          Join our network of legal professionals and start connecting with clients
+          Join our network of legal professionals and start connecting with
+          clients
         </p>
       </div>
 
@@ -87,19 +120,25 @@ export function MembershipPayment() {
           <Card
             key={plan.id}
             className={`cursor-pointer transition-all ${
-              selectedPlan === plan.id ? "ring-2 ring-primary border-primary" : "hover:shadow-md"
+              selectedPlan === plan.id
+                ? "ring-2 ring-primary border-primary"
+                : "hover:shadow-md"
             } ${plan.popular ? "relative" : ""}`}
             onClick={() => setSelectedPlan(plan.id)}
           >
             {plan.popular && (
               <div className="absolute -top-3 left-1/2 transform -translate-x-1/2">
-                <Badge className="bg-primary text-primary-foreground">Most Popular</Badge>
+                <Badge className="bg-primary text-primary-foreground">
+                  Most Popular
+                </Badge>
               </div>
             )}
             <CardHeader className="text-center">
               <CardTitle className="text-xl">{plan.name}</CardTitle>
               <div className="mt-4">
-                <span className="text-3xl font-bold">₹{plan.price.toLocaleString()}</span>
+                <span className="text-3xl font-bold">
+                  ₹{plan.price.toLocaleString()}
+                </span>
                 <span className="text-muted-foreground">/{plan.duration}</span>
               </div>
             </CardHeader>
@@ -129,18 +168,33 @@ export function MembershipPayment() {
               <h3 className="font-semibold mb-2">Order Summary</h3>
               <div className="flex justify-between items-center mb-2">
                 <span>
-                  {selectedPlanDetails?.name} Plan ({selectedPlanDetails?.duration})
+                  {selectedPlanDetails?.name} Plan (
+                  {selectedPlanDetails?.duration})
                 </span>
                 <span>₹{selectedPlanDetails?.price.toLocaleString()}</span>
               </div>
               <div className="flex justify-between items-center mb-2">
                 <span>GST (18%)</span>
-                <span>₹{selectedPlanDetails ? Math.round(selectedPlanDetails.price * 0.18).toLocaleString() : 0}</span>
+                <span>
+                  ₹
+                  {selectedPlanDetails
+                    ? Math.round(
+                        selectedPlanDetails.price * 0.18
+                      ).toLocaleString()
+                    : 0}
+                </span>
               </div>
               <Separator className="my-2" />
               <div className="flex justify-between items-center font-semibold">
                 <span>Total Amount</span>
-                <span>₹{selectedPlanDetails ? Math.round(selectedPlanDetails.price * 1.18).toLocaleString() : 0}</span>
+                <span>
+                  ₹
+                  {selectedPlanDetails
+                    ? Math.round(
+                        selectedPlanDetails.price * 1.18
+                      ).toLocaleString()
+                    : 0}
+                </span>
               </div>
             </div>
 
@@ -149,25 +203,33 @@ export function MembershipPayment() {
               <Label>Payment Method</Label>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Card
-                  className={`cursor-pointer transition-all ${paymentMethod === "card" ? "ring-2 ring-primary" : ""}`}
+                  className={`cursor-pointer transition-all ${
+                    paymentMethod === "card" ? "ring-2 ring-primary" : ""
+                  }`}
                   onClick={() => setPaymentMethod("card")}
                 >
                   <CardContent className="flex items-center justify-center p-4">
                     <div className="text-center">
                       <CreditCard className="h-8 w-8 mx-auto mb-2" />
-                      <span className="text-sm font-medium">Credit/Debit Card</span>
+                      <span className="text-sm font-medium">
+                        Credit/Debit Card
+                      </span>
                     </div>
                   </CardContent>
                 </Card>
 
                 <Card
-                  className={`cursor-pointer transition-all ${paymentMethod === "upi" ? "ring-2 ring-primary" : ""}`}
+                  className={`cursor-pointer transition-all ${
+                    paymentMethod === "upi" ? "ring-2 ring-primary" : ""
+                  }`}
                   onClick={() => setPaymentMethod("upi")}
                 >
                   <CardContent className="flex items-center justify-center p-4">
                     <div className="text-center">
                       <div className="h-8 w-8 mx-auto mb-2 bg-primary rounded flex items-center justify-center">
-                        <span className="text-white text-xs font-bold">UPI</span>
+                        <span className="text-white text-xs font-bold">
+                          UPI
+                        </span>
                       </div>
                       <span className="text-sm font-medium">UPI Payment</span>
                     </div>
@@ -199,7 +261,12 @@ export function MembershipPayment() {
                     id="cardholderName"
                     placeholder="Enter cardholder name"
                     value={formData.cardholderName}
-                    onChange={(e) => setFormData({ ...formData, cardholderName: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        cardholderName: e.target.value,
+                      })
+                    }
                     required
                   />
                 </div>
@@ -210,7 +277,9 @@ export function MembershipPayment() {
                     id="cardNumber"
                     placeholder="1234 5678 9012 3456"
                     value={formData.cardNumber}
-                    onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, cardNumber: e.target.value })
+                    }
                     required
                   />
                 </div>
@@ -222,7 +291,9 @@ export function MembershipPayment() {
                       id="expiryDate"
                       placeholder="MM/YY"
                       value={formData.expiryDate}
-                      onChange={(e) => setFormData({ ...formData, expiryDate: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, expiryDate: e.target.value })
+                      }
                       required
                     />
                   </div>
@@ -233,7 +304,9 @@ export function MembershipPayment() {
                       id="cvv"
                       placeholder="123"
                       value={formData.cvv}
-                      onChange={(e) => setFormData({ ...formData, cvv: e.target.value })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, cvv: e.target.value })
+                      }
                       required
                     />
                   </div>
@@ -248,7 +321,9 @@ export function MembershipPayment() {
                   id="upiId"
                   placeholder="yourname@upi"
                   value={formData.upiId}
-                  onChange={(e) => setFormData({ ...formData, upiId: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, upiId: e.target.value })
+                  }
                   required
                 />
               </div>
@@ -273,16 +348,19 @@ export function MembershipPayment() {
             )}
 
             <Button type="submit" className="w-full" size="lg">
-              Pay ₹{selectedPlanDetails ? Math.round(selectedPlanDetails.price * 1.18).toLocaleString() : 0}
+              Pay ₹
+              {selectedPlanDetails
+                ? Math.round(selectedPlanDetails.price * 1.18).toLocaleString()
+                : 0}
             </Button>
 
             <p className="text-xs text-muted-foreground text-center">
-              By proceeding, you agree to our Terms of Service and Privacy Policy. Your payment is secured with 256-bit
-              SSL encryption.
+              By proceeding, you agree to our Terms of Service and Privacy
+              Policy. Your payment is secured with 256-bit SSL encryption.
             </p>
           </form>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
