@@ -19,8 +19,12 @@ import {
   Menu,
   X,
   ChevronDown,
+  Megaphone,
+  GraduationCap,
 } from "lucide-react";
 import Link from "next/link";
+import Header from "@/components/layout/header";
+import Footer from "@/components/layout/footer";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -62,11 +66,18 @@ const navigationItems = [
     badge: "5",
   },
   {
-    id: "settings",
-    label: "Settings",
-    icon: Settings,
-    description: "Account preferences",
+    id: "advertising",
+    label: "Advertising",
+    icon: Megaphone,
+    description: "Promote your services",
   },
+  {
+    id: "education",
+    label: "Education & Career",
+    icon: GraduationCap,
+    description: "Resources for law aspirants",
+  },
+  // Settings removed - duplicates My Profile functionality
 ];
 
 export function DashboardLayout({
@@ -87,7 +98,10 @@ export function DashboardLayout({
   );
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex flex-col">
+      {/* Global Navigation */}
+      <Header />
+
       {/* Mobile Header */}
       <div className="lg:hidden flex items-center justify-between p-4 bg-white border-b">
         <Button
@@ -114,29 +128,19 @@ export function DashboardLayout({
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           )}
         >
-          {/* Sidebar Header */}
-          <div className="flex items-center justify-between p-6 border-b">
-            <Link href="/" className="flex items-center gap-3">
-              <Image
-                src="/logo.svg"
-                alt="AdvocateKhoj Logo"
-                width={120}
-                height={40}
-                className="h-10 w-auto"
-              />
-            </Link>
+          {/* Mobile Close Button */}
+          <div className="lg:hidden flex items-center justify-end p-4 border-b">
             <Button
               variant="ghost"
               size="sm"
               onClick={() => setSidebarOpen(false)}
-              className="lg:hidden"
             >
               <X className="h-5 w-5" />
             </Button>
           </div>
 
           {/* User Profile Section */}
-          <div className="p-6 border-b">
+          <div className="p-6 border-b lg:pt-6">
             <div className="flex items-center gap-3 mb-4">
               <Avatar className="h-10 w-10">
                 <AvatarImage src={userInfo.avatar} />
@@ -170,10 +174,10 @@ export function DashboardLayout({
                 key={item.id}
                 variant={activeSection === item.id ? "default" : "ghost"}
                 className={cn(
-                  "w-full justify-start h-auto p-4 text-left",
+                  "w-full justify-start h-auto p-4 text-left transition-all duration-200",
                   activeSection === item.id
                     ? "bg-primary text-primary-foreground"
-                    : "hover:bg-gray-100"
+                    : "hover:translate-x-1 hover:opacity-80"
                 )}
                 onClick={() => {
                   onSectionChange(item.id);
@@ -206,16 +210,20 @@ export function DashboardLayout({
           </nav>
 
           {/* Help & Support */}
-          <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-gray-50">
-            <Button variant="ghost" className="w-full justify-start" asChild>
-              <Link href="/support">
+          <div className="absolute bottom-0 left-0 right-0 p-4 border-t bg-gray-50 space-y-1">
+            <Button
+              variant="ghost"
+              className="w-full justify-start transition-all duration-200 hover:translate-x-1 hover:opacity-80"
+              asChild
+            >
+              <Link href="/contact">
                 <HelpCircle className="h-4 w-4 mr-3" />
                 Help & Support
               </Link>
             </Button>
             <Button
               variant="ghost"
-              className="w-full justify-start text-red-600"
+              className="w-full justify-start text-red-600 transition-all duration-200 hover:translate-x-1 hover:opacity-80"
             >
               <LogOut className="h-4 w-4 mr-3" />
               Sign Out
@@ -301,6 +309,9 @@ export function DashboardLayout({
           onClick={() => setSidebarOpen(false)}
         />
       )}
+
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }

@@ -23,7 +23,7 @@ export default function FeaturesSection() {
       title: "Find Expert Advocates",
       description:
         "Connect with qualified and experienced advocates across India for your legal needs.",
-      link: "/client/dashboard",
+      link: "/client-area",
       linkText: "Find Lawyers",
     },
     {
@@ -55,7 +55,7 @@ export default function FeaturesSection() {
       title: "Case Management",
       description:
         "Efficiently manage your legal cases with our comprehensive case tracking system.",
-      link: "/client/dashboard",
+      link: "/client-area",
       linkText: "Manage Cases",
     },
     {

@@ -59,12 +59,14 @@ export function Agreements() {
             <div className="p-6 border-b">
               <h2 className="text-xl font-bold text-gray-800">Agreements</h2>
             </div>
-            
+
             <div className="p-8">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {agreementCategories.map((category, index) => (
                   <div key={category.id} className="flex gap-4 py-2">
-                    <span className="text-blue-600 font-medium w-8">{index + 1}.</span>
+                    <span className="text-blue-600 font-medium w-8">
+                      {index + 1}.
+                    </span>
                     <div className="flex-1">
                       <Link
                         href={`/law-library/agreements/${category.id}`}
@@ -72,100 +74,13 @@ export function Agreements() {
                       >
                         {category.title}
                       </Link>
-                      <span className="text-gray-500 text-xs ml-2">({category.count})</span>
+                      <span className="text-gray-500 text-xs ml-2">
+                        ({category.count})
+                      </span>
                     </div>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
-                    <span className="text-xs font-bold">🎓</span>
-                  </div>
-                </div>
-                <span className="text-sm font-medium text-blue-600">
-                  Search Law Colleges
-                </span>
-              </div>
-            </Link>
-          </div>
-        </div>
-
-        {/* Main Content */}
-        <div className="flex-1">
-          <div className="bg-white">
-            <div className="space-y-2">
-              {agreementCategories.map((category, index) => (
-                <div key={category.id} className="flex gap-4">
-                  <span className="text-blue-600 font-medium">
-                    {index + 1}.
-                  </span>
-                  <Link
-                    href={`/law-library/agreements/${category.id}`}
-                    className="text-blue-600 hover:text-blue-800 underline flex-1"
-                  >
-                    {category.title}
-                  </Link>
-                </div>
-              ))}
-            </div>
-
-            {/* Back Link */}
-            <div className="mt-8 pt-4 border-t">
-              <Link
-                href="/law-library"
-                className="text-blue-600 hover:text-blue-800 underline inline-flex items-center gap-1"
-              >
-                ← Back
-              </Link>
-            </div>
-          </div>
-        </div>
-
-        {/* Right Sidebar */}
-        <div className="w-48 flex-shrink-0">
-          <div className="space-y-4">
-            {/* Legal Information */}
-            <div className="bg-red-800 text-white p-3 rounded">
-              <h3 className="font-bold text-sm mb-2">LEGAL Information</h3>
-              <p className="text-xs leading-relaxed">
-                AdvocateKhoj provides summaries of Indian statutes, Law codes,
-                and the areas of law most likely to affect you in life's "fine"
-                of law.
-              </p>
-              <div className="mt-2 text-right">
-                <span className="text-xs bg-red-600 px-2 py-1 rounded">
-                  KNOW MORE &gt;
-                </span>
-              </div>
-            </div>
-
-            {/* Law Dictionary */}
-            <div className="bg-blue-600 text-white p-3 rounded text-center">
-              <h3 className="font-bold text-sm mb-1">LAW Dictionary</h3>
-              <div className="w-12 h-8 bg-white mx-auto rounded mb-2"></div>
-            </div>
-
-            {/* Areas of Law */}
-            <div className="bg-yellow-600 text-white p-3 rounded text-center">
-              <h3 className="font-bold text-sm mb-1">AREAS of Law</h3>
-              <div className="w-12 h-8 bg-white mx-auto rounded mb-2"></div>
-            </div>
-
-            {/* Search Judgements */}
-            <div className="bg-red-900 text-white p-3 rounded text-center">
-              <h3 className="font-bold text-sm mb-1">SEARCH Judgements</h3>
-              <div className="w-12 h-8 bg-white mx-auto rounded mb-2"></div>
-            </div>
-
-            {/* Bare Acts */}
-            <div className="bg-gray-600 text-white p-3 rounded text-center">
-              <h3 className="font-bold text-sm mb-1">BARE Acts</h3>
-              <div className="w-12 h-8 bg-white mx-auto rounded mb-2"></div>
             </div>
           </div>
         </div>

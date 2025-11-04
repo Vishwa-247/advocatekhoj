@@ -21,12 +21,7 @@ import {
   User,
   MessageCircle,
   Eye,
-  ArrowLeft,
 } from "lucide-react";
-
-interface CaseBrowserProps {
-  onNavigate?: (section: string) => void;
-}
 
 interface ClientCase {
   id: string;
@@ -44,7 +39,7 @@ interface ClientCase {
   experienceRequired: string;
 }
 
-export function CaseBrowser({ onNavigate }: CaseBrowserProps = {}) {
+export function CaseBrowser() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [selectedLocation, setSelectedLocation] = useState("all");
@@ -148,19 +143,7 @@ export function CaseBrowser({ onNavigate }: CaseBrowserProps = {}) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
-          {onNavigate && (
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => onNavigate("overview")}
-            >
-              <ArrowLeft className="w-4 h-4 mr-2" />
-              Back
-            </Button>
-          )}
-          <h2 className="text-2xl font-bold">Available Cases</h2>
-        </div>
+        <h2 className="text-2xl font-bold">Available Cases</h2>
         <div className="flex items-center gap-2">
           <Badge variant="outline">
             {filteredCases.length} cases available

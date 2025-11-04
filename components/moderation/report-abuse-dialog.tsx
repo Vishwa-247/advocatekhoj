@@ -5,40 +5,37 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
-  DialogFooter,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
+import { submitAbuseReport } from "@/lib/moderation-api";
 
-export type ReportReason =
-  | "offensive_language"
-  | "spam"
-  | "harassment"
-  | "misleading"
-  | "inappropriate_content"
-  | "copyright"
-  | "privacy_violation"
-  | "other";
+interface ReportData {
+  contentId: string | number;
+  contentType: string;
+  reason: string;
+  details?: string;
+  anonymous?: boolean;
+}
 
 interface ReportAbuseDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  contentType: "question" | "answer" | "case" | "comment";
+  contentType: "question" | "answer" | "case" | "comment" | "blog";
   contentId: string | number;
-  onSubmit?: (report: {
-    contentId: string | number;
-    contentType: string;
-    reason: ReportReason;
-    details: string;
-    anonymous: boolean;
-  }) => Promise<void>;
+  onSubmit?: (report: ReportData) => Promise<void>;
 }
 
 export function ReportAbuseDialog({
@@ -48,26 +45,19 @@ export function ReportAbuseDialog({
   contentId,
   onSubmit,
 }: ReportAbuseDialogProps) {
-  const [reason, setReason] = useState<ReportReason | "">("");
+  const [reason, setReason] = useState("");
   const [details, setDetails] = useState("");
   const [anonymous, setAnonymous] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
-    null
-  );
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
 
-  const reportReasons: { value: ReportReason; label: string }[] = [
-    { value: "offensive_language", label: "Offensive or abusive language" },
-    { value: "spam", label: "Spam or irrelevant content" },
-    { value: "harassment", label: "Harassment or bullying" },
-    { value: "misleading", label: "Misleading or false information" },
-    {
-      value: "inappropriate_content",
-      label: "Inappropriate or explicit content",
-    },
-    { value: "copyright", label: "Copyright violation" },
-    { value: "privacy_violation", label: "Privacy violation" },
-    { value: "other", label: "Other (please specify)" },
+  const reasonOptions = [
+    { value: "spam", label: "Spam or misleading" },
+    { value: "offensive", label: "Offensive or harassment" },
+    { value: "misinformation", label: "Misinformation" },
+    { value: "other", label: "Other" },
   ];
 
   const handleSubmit = async () => {
@@ -76,50 +66,43 @@ export function ReportAbuseDialog({
     }
 
     setIsSubmitting(true);
-    setSubmitStatus(null);
+    setSubmitStatus("idle");
+
+    const reportData: ReportData = {
+      contentId,
+      contentType,
+      reason,
+      details,
+      anonymous,
+    };
 
     try {
-      // Call the onSubmit callback if provided
       if (onSubmit) {
-        await onSubmit({
-          contentId,
-          contentType,
-          reason: reason as ReportReason,
-          details,
-          anonymous,
-        });
+        await onSubmit(reportData);
       } else {
-        // Default implementation - send to API
-        const response = await fetch("/api/moderation/report-abuse", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({
-            contentId,
-            contentType,
-            reason,
-            details,
-            anonymous,
-            timestamp: new Date().toISOString(),
-          }),
+        await submitAbuseReport({
+          contentId,
+          contentType: contentType as
+            | "question"
+            | "answer"
+            | "case"
+            | "comment",
+          reason,
+          details,
+          reportedBy: anonymous ? undefined : "current-user-id", // Replace with actual user ID
         });
-
-        if (!response.ok) {
-          throw new Error("Failed to submit report");
-        }
       }
 
       setSubmitStatus("success");
 
-      // Reset form and close after delay
+      // Reset form and close dialog after 1.5 seconds
       setTimeout(() => {
         setReason("");
         setDetails("");
         setAnonymous(false);
-        setSubmitStatus(null);
+        setSubmitStatus("idle");
         onOpenChange(false);
-      }, 2000);
+      }, 1500);
     } catch (error) {
       console.error("Error submitting report:", error);
       setSubmitStatus("error");
@@ -128,21 +111,11 @@ export function ReportAbuseDialog({
     }
   };
 
-  const handleClose = () => {
-    if (!isSubmitting) {
-      setReason("");
-      setDetails("");
-      setAnonymous(false);
-      setSubmitStatus(null);
-      onOpenChange(false);
-    }
-  };
-
   return (
-    <Dialog open={open} onOpenChange={handleClose}>
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle className="text-xl">Report Abuse</DialogTitle>
+          <DialogTitle>Report Content</DialogTitle>
           <DialogDescription>
             Help us maintain a safe and respectful community. Your report will
             be reviewed by our moderation team.
@@ -150,52 +123,55 @@ export function ReportAbuseDialog({
         </DialogHeader>
 
         {submitStatus === "success" ? (
-          <Alert className="border-green-200 bg-green-50">
-            <CheckCircle2 className="h-4 w-4 text-green-600" />
-            <AlertDescription className="text-green-800">
-              Thank you for your report. Our moderation team will review it
-              shortly.
-            </AlertDescription>
-          </Alert>
-        ) : submitStatus === "error" ? (
-          <Alert variant="destructive">
-            <AlertCircle className="h-4 w-4" />
-            <AlertDescription>
-              Failed to submit report. Please try again.
-            </AlertDescription>
-          </Alert>
+          <div className="py-8 text-center">
+            <div className="mx-auto mb-4 h-12 w-12 rounded-full bg-green-100 flex items-center justify-center">
+              <svg
+                className="h-6 w-6 text-green-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M5 13l4 4L19 7"
+                />
+              </svg>
+            </div>
+            <h3 className="text-lg font-medium text-gray-900 mb-2">
+              Report Submitted
+            </h3>
+            <p className="text-sm text-gray-500">
+              Thank you for helping us maintain our community standards.
+            </p>
+          </div>
         ) : (
           <div className="space-y-4 py-4">
-            <div className="space-y-3">
-              <Label className="text-sm font-medium">
-                Why are you reporting this {contentType}?
-              </Label>
-              <RadioGroup value={reason} onValueChange={setReason as any}>
-                {reportReasons.map((r) => (
-                  <div key={r.value} className="flex items-center space-x-2">
-                    <RadioGroupItem value={r.value} id={r.value} />
-                    <Label
-                      htmlFor={r.value}
-                      className="text-sm font-normal cursor-pointer"
-                    >
-                      {r.label}
-                    </Label>
-                  </div>
-                ))}
-              </RadioGroup>
+            <div className="space-y-2">
+              <Label htmlFor="reason">Reason for reporting *</Label>
+              <Select value={reason} onValueChange={setReason}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Select a reason" />
+                </SelectTrigger>
+                <SelectContent>
+                  {reasonOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="details" className="text-sm font-medium">
-                Additional details (optional)
-              </Label>
+              <Label htmlFor="details">Additional details (optional)</Label>
               <Textarea
                 id="details"
-                placeholder="Please provide any additional context that might help us understand the issue..."
+                placeholder="Provide any additional context that might help our moderation team..."
                 value={details}
                 onChange={(e) => setDetails(e.target.value)}
                 rows={4}
-                className="resize-none"
               />
             </div>
 
@@ -209,36 +185,39 @@ export function ReportAbuseDialog({
                 htmlFor="anonymous"
                 className="text-sm font-normal cursor-pointer"
               >
-                Submit report anonymously
+                Submit anonymously
               </Label>
             </div>
 
-            <Alert>
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription className="text-sm">
-                False reports may result in action against your account. Please
-                only report content that genuinely violates our community
-                guidelines.
-              </AlertDescription>
-            </Alert>
+            {submitStatus === "error" && (
+              <div className="rounded-md bg-red-50 p-3">
+                <p className="text-sm text-red-800">
+                  Failed to submit report. Please try again.
+                </p>
+              </div>
+            )}
           </div>
         )}
 
-        <DialogFooter>
-          <Button
-            variant="outline"
-            onClick={handleClose}
-            disabled={isSubmitting}
-          >
-            Cancel
-          </Button>
-          <Button
-            onClick={handleSubmit}
-            disabled={!reason || isSubmitting || submitStatus === "success"}
-          >
-            {isSubmitting ? "Submitting..." : "Submit Report"}
-          </Button>
-        </DialogFooter>
+        {submitStatus !== "success" && (
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => onOpenChange(false)}
+              disabled={isSubmitting}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              onClick={handleSubmit}
+              disabled={!reason || isSubmitting}
+            >
+              {isSubmitting ? "Submitting..." : "Submit Report"}
+            </Button>
+          </DialogFooter>
+        )}
       </DialogContent>
     </Dialog>
   );

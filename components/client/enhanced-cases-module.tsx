@@ -463,22 +463,15 @@ export function EnhancedCasesModule({ onNavigate }: EnhancedCasesModuleProps) {
                         </div>
                       )}
 
-                      {/* Budget & Timeline */}
+                      {/* Timeline Only - Budget Range Masked */}
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                        <div>
-                          <p className="text-gray-600">Budget Range</p>
-                          <p className="font-medium">
-                            ₹{caseItem.budget.min.toLocaleString()} - ₹
-                            {caseItem.budget.max.toLocaleString()}
-                          </p>
-                        </div>
                         <div>
                           <p className="text-gray-600">Expected Timeline</p>
                           <p className="font-medium">{caseItem.timeline}</p>
                         </div>
                       </div>
 
-                      {/* Actions */}
+                      {/* Actions - Documents button removed */}
                       <div className="flex items-center justify-between pt-2 border-t">
                         <div className="flex gap-2">
                           <Button variant="outline" size="sm">
@@ -488,10 +481,6 @@ export function EnhancedCasesModule({ onNavigate }: EnhancedCasesModuleProps) {
                           <Button variant="outline" size="sm">
                             <MessageSquare className="h-4 w-4 mr-1" />
                             Messages ({caseItem.responses})
-                          </Button>
-                          <Button variant="outline" size="sm">
-                            <Download className="h-4 w-4 mr-1" />
-                            Documents
                           </Button>
                         </div>
                         <p className="text-xs text-gray-500">

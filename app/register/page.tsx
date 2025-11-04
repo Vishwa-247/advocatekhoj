@@ -1,35 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
 import Link from "next/link";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { LoginForm } from "@/components/auth/login-form";
 import { SignupForm } from "@/components/auth/signup-form";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, X } from "lucide-react";
+import { X } from "lucide-react";
 import Image from "next/image";
 
-export default function AuthPage() {
-  const searchParams = useSearchParams();
+export default function RegisterPage() {
   const [userType, setUserType] = useState<"client" | "advocate">("client");
-  const [authMode, setAuthMode] = useState<"login" | "signup">("login");
-
-  useEffect(() => {
-    // Get URL parameters
-    const urlUserType = searchParams.get("userType");
-    const urlAuthMode = searchParams.get("authMode");
-
-    // Set user type from URL
-    if (urlUserType === "advocate" || urlUserType === "client") {
-      setUserType(urlUserType);
-    }
-
-    // Set auth mode from URL
-    if (urlAuthMode === "login" || urlAuthMode === "signup") {
-      setAuthMode(urlAuthMode);
-    }
-  }, [searchParams]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 flex items-center justify-center p-4">
@@ -58,10 +38,10 @@ export default function AuthPage() {
             />
           </Link>
           <h1 className="text-3xl font-bold text-foreground mb-2">
-            Welcome to AdvocateKhoj
+            Join AdvocateKhoj
           </h1>
           <p className="text-muted-foreground">
-            Your trusted platform for legal services and consultation
+            Create your account to get started
           </p>
         </div>
 
@@ -89,37 +69,22 @@ export default function AuthPage() {
           </Tabs>
         </div>
 
-        {/* Auth Mode Selection */}
-        <div className="flex justify-center mb-8">
-          <Tabs
-            value={authMode}
-            onValueChange={(value) => setAuthMode(value as any)}
-            className="w-full max-w-md"
-          >
-            <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger
-                value="login"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground hover:bg-secondary/90 hover:text-white transition-colors duration-200"
-              >
-                Log In
-              </TabsTrigger>
-              <TabsTrigger
-                value="signup"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground hover:bg-secondary/90 hover:text-white transition-colors duration-200"
-              >
-                Register
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+        {/* Register Form */}
+        <div className="flex justify-center">
+          <SignupForm userType={userType} />
         </div>
 
-        {/* Auth Forms */}
-        <div className="flex justify-center">
-          {authMode === "login" ? (
-            <LoginForm userType={userType} />
-          ) : (
-            <SignupForm userType={userType} />
-          )}
+        {/* Login link */}
+        <div className="text-center mt-6">
+          <p className="text-sm text-muted-foreground">
+            Already have an account?{" "}
+            <Link
+              href="/login"
+              className="text-primary font-medium hover:underline"
+            >
+              Login here
+            </Link>
+          </p>
         </div>
       </div>
     </div>

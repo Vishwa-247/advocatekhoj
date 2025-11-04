@@ -17,12 +17,6 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Alert, AlertDescription } from "@/components/ui/alert";
-import { AlertCircle, CheckCircle2 } from "lucide-react";
-import {
-  validateContent,
-  getProfanityErrorMessage,
-} from "@/lib/content-filter";
 
 export function PostCaseForm() {
   const [formData, setFormData] = useState({
@@ -38,68 +32,10 @@ export function PostCaseForm() {
     experienceLevel: "",
   });
 
-  const [contentValidation, setContentValidation] = useState<{
-    isValid: boolean;
-    errors: string[];
-    warnings: string[];
-  } | null>(null);
-
-  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
-    null
-  );
-
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
-    // Reset previous validation and status
-    setContentValidation(null);
-    setSubmitStatus(null);
-
-    // Validate content for profanity and offensive language
-    const validation = validateContent(
-      {
-        title: formData.title,
-        description: formData.description,
-        location: formData.location,
-      },
-      true // strict mode enabled
-    );
-
-    setContentValidation(validation);
-
-    if (!validation.isValid) {
-      // Block submission - content has offensive language
-      setSubmitStatus("error");
-      return;
-    }
-
-    // If valid, proceed with submission
-    try {
-      // Handle form submission - connect to existing backend
-      console.log("Case posted:", formData);
-      setSubmitStatus("success");
-
-      // Reset form after successful submission
-      setTimeout(() => {
-        setFormData({
-          title: "",
-          category: "",
-          legalIssue: "",
-          description: "",
-          location: "",
-          urgency: "",
-          budget: "",
-          isAnonymous: false,
-          language: "English",
-          experienceLevel: "",
-        });
-        setContentValidation(null);
-        setSubmitStatus(null);
-      }, 3000);
-    } catch (error) {
-      console.error("Error submitting case:", error);
-      setSubmitStatus("error");
-    }
+    // Handle form submission - connect to existing backend
+    console.log("Case posted:", formData);
   };
 
   const legalCategories = [
@@ -140,41 +76,6 @@ export function PostCaseForm() {
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Validation Messages */}
-          {contentValidation && !contentValidation.isValid && (
-            <Alert variant="destructive">
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                <strong>Content Blocked:</strong>{" "}
-                {contentValidation.errors.join(". ")}
-                <br />
-                <span className="text-sm mt-1 block">
-                  Your post contains offensive or inappropriate language and
-                  cannot be submitted. Please review and remove any profanity or
-                  controversial terms.
-                </span>
-              </AlertDescription>
-            </Alert>
-          )}
-          {contentValidation && contentValidation.warnings.length > 0 && (
-            <Alert>
-              <AlertCircle className="h-4 w-4" />
-              <AlertDescription>
-                <strong>Warning:</strong>{" "}
-                {contentValidation.warnings.join(". ")}
-              </AlertDescription>
-            </Alert>
-          )}
-          {submitStatus === "success" && (
-            <Alert className="border-green-200 bg-green-50">
-              <CheckCircle2 className="h-4 w-4 text-green-600" />
-              <AlertDescription className="text-green-800">
-                Case posted successfully! Advocates will be able to view and
-                respond to your case.
-              </AlertDescription>
-            </Alert>
-          )}
-
           {/* Basic Information */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Case Details</h3>

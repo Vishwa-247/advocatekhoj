@@ -70,13 +70,13 @@ export function EnhancedProfileModule({
     twoFactorEnabled: false,
   });
 
-  // Privacy settings
+  // Privacy settings - Email notifications enabled by default
   const [privacyData, setPrivacyData] = useState({
     profileVisibility: "advocates",
     showEmail: false,
     showPhone: false,
     allowMessages: true,
-    emailNotifications: true,
+    emailNotifications: true, // Enabled by default
     smsNotifications: false,
   });
 
@@ -460,7 +460,8 @@ export function EnhancedProfileModule({
               <CardTitle>Privacy Settings</CardTitle>
             </CardHeader>
             <CardContent className="space-y-6">
-              <div className="space-y-4">
+              {/* Profile Visibility - Masked for now */}
+              {/* <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Profile Visibility</h3>
                 <div className="space-y-2">
                   <Label>Who can see your profile?</Label>
@@ -483,13 +484,18 @@ export function EnhancedProfileModule({
                     </SelectContent>
                   </Select>
                 </div>
-              </div>
+              </div> */}
 
               <div className="space-y-4">
                 <h3 className="text-lg font-semibold">Notifications</h3>
                 <div className="space-y-3">
                   <div className="flex items-center justify-between">
-                    <span>Email Notifications</span>
+                    <div>
+                      <p className="font-medium">Email Notifications</p>
+                      <p className="text-sm text-gray-500">
+                        Receive updates about your cases and messages
+                      </p>
+                    </div>
                     <Switch
                       checked={privacyData.emailNotifications}
                       onCheckedChange={(checked) =>
@@ -500,7 +506,8 @@ export function EnhancedProfileModule({
                       }
                     />
                   </div>
-                  <div className="flex items-center justify-between">
+                  {/* SMS Notifications - Masked for now */}
+                  {/* <div className="flex items-center justify-between">
                     <span>SMS Notifications</span>
                     <Switch
                       checked={privacyData.smsNotifications}
@@ -511,7 +518,7 @@ export function EnhancedProfileModule({
                         })
                       }
                     />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </CardContent>

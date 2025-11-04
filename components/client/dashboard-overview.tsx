@@ -84,6 +84,14 @@ export function DashboardOverview({ onNavigate }: DashboardOverviewProps) {
       icon: Plus,
       color: "bg-primary",
       action: () => onNavigate("cases"),
+      highlighted: true,
+    },
+    {
+      title: "View All Cases",
+      description: "Manage your legal cases",
+      icon: FileText,
+      color: "bg-primary",
+      action: () => onNavigate("cases"),
     },
     {
       title: "Browse Messages",
@@ -100,13 +108,6 @@ export function DashboardOverview({ onNavigate }: DashboardOverviewProps) {
       icon: Users,
       color: "bg-primary",
       action: () => onNavigate("profile"),
-    },
-    {
-      title: "View All Cases",
-      description: "Manage your legal cases",
-      icon: FileText,
-      color: "bg-primary",
-      action: () => onNavigate("cases"),
     },
   ];
 
@@ -183,10 +184,7 @@ export function DashboardOverview({ onNavigate }: DashboardOverviewProps) {
             <MessageSquare className="h-4 w-4" />
             <span>{stats.unreadMessages} new messages</span>
           </div>
-          <div className="flex items-center gap-2">
-            <TrendingUp className="h-4 w-4" />
-            <span>{stats.responseRate}% response rate</span>
-          </div>
+          {/* Response Rate Masked - Free for all clients */}
         </div>
       </div>
 

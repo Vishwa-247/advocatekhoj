@@ -87,7 +87,9 @@ export default function Glossary() {
               <div className="space-y-6">
                 {glossaryTerms.map((item, index) => (
                   <div key={index} className="border-b border-gray-200 pb-4">
-                    <h3 className="font-bold text-gray-800 mb-2">{item.term}</h3>
+                    <h3 className="font-bold text-gray-800 mb-2">
+                      {item.term}
+                    </h3>
                     <p className="text-gray-700 text-sm leading-relaxed">
                       {item.definition}
                     </p>
@@ -98,17 +100,10 @@ export default function Glossary() {
               {/* Load More / Pagination */}
               <div className="mt-8 text-center">
                 <p className="text-gray-600 text-sm">
-                  Showing terms starting with "A" - Use the alphabet navigation above to browse other letters
+                  Showing terms starting with "A" - Use the alphabet navigation
+                  above to browse other letters
                 </p>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-              <p className="text-gray-600 text-sm">
-                Showing terms starting with "A" - Use the alphabet navigation
-                above to browse other letters
-              </p>
             </div>
           </div>
         </div>

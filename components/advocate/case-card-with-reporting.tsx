@@ -32,7 +32,7 @@ export function CaseCardWithReporting({
 
   return (
     <>
-      <Card className="hover:shadow-md transition-shadow">
+      <Card className="transition-all duration-200 hover:translate-x-1 hover:opacity-90">
         <CardHeader>
           <div className="flex justify-between items-start">
             <div className="flex-1">
@@ -45,7 +45,7 @@ export function CaseCardWithReporting({
               <Button
                 variant="ghost"
                 size="sm"
-                className="text-red-500 hover:text-red-700 hover:bg-red-50"
+                className="text-red-500 transition-all duration-200 hover:opacity-80"
                 onClick={() => setReportDialogOpen(true)}
               >
                 <Flag className="w-4 h-4" />

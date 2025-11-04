@@ -21,7 +21,14 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Textarea } from "@/components/ui/textarea";
-import { Scale, CheckCircle, Clock, AlertCircle } from "lucide-react";
+import {
+  Scale,
+  CheckCircle,
+  Clock,
+  AlertCircle,
+  Eye,
+  EyeOff,
+} from "lucide-react";
 import ReCaptcha from "@/components/ui/recaptcha";
 
 interface ComprehensiveAdvocateSignupProps {
@@ -31,13 +38,33 @@ interface ComprehensiveAdvocateSignupProps {
 export function ComprehensiveAdvocateSignup({
   userType,
 }: ComprehensiveAdvocateSignupProps) {
-  const [registrationStatus, setRegistrationStatus] = useState<'initial' | 'submitted' | 'under_review' | 'approved' | 'rejected'>('initial');
+  const [registrationStatus, setRegistrationStatus] = useState<
+    "initial" | "submitted" | "under_review" | "approved" | "rejected"
+  >("initial");
+  const [currentStep, setCurrentStep] = useState(1);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
+    // Account Information
+    username: "",
+    password: "",
+    confirmPassword: "",
+    recoveryQuestion: "",
+    recoveryAnswer: "",
+
     // Personal Information (Contact Me Form - Step 1)
     salutation: "",
     firstName: "",
+    middleName: "",
     lastName: "",
+    dateOfBirth: "",
+    gender: "",
     address: "",
+    address1: "",
+    address2: "",
+    city: "",
+    state: "",
+    country: "",
     pincode: "",
     primaryPhone: "",
     secondaryPhone: "",
@@ -53,11 +80,41 @@ export function ComprehensiveAdvocateSignup({
     enrollmentYear: "",
     isLocalBarMember: false,
     localBarAssociation: "",
-    
+    practiceAreas: [] as string[],
+    experience: "",
+    highCourt: "",
+    supremeCourt: false,
+    currentChamber: "",
+    chamberAddress: "",
+
+    // Education
+    lawDegree: "",
+    graduationYear: "",
+    lawCollege: "",
+    additionalQualifications: "",
+
+    // Languages
+    languagesSpoken: [] as string[],
+
+    // Fees
+    fees: {
+      consultation: "",
+      courtAppearance: "",
+      documentation: "",
+    },
+
     // Additional Information
+    bio: "",
+    achievements: "",
     referralAdvocateId: "",
     additionalComments: "",
-    
+
+    // Document Uploads
+    barCouncilCertificate: null as File | null,
+    idProof: null as File | null,
+    addressProof: null as File | null,
+    photograph: null as File | null,
+
     // Terms and Privacy
     acceptTerms: false,
     acceptPrivacy: false,
@@ -66,11 +123,14 @@ export function ComprehensiveAdvocateSignup({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     // Step 1: Submit for admin verification
-    setRegistrationStatus('submitted');
-    console.log("Advocate registration submitted for admin verification:", formData);
-    
+    setRegistrationStatus("submitted");
+    console.log(
+      "Advocate registration submitted for admin verification:",
+      formData
+    );
+
     // In real implementation, this would:
     // 1. Send data to backend for BAR Council ID verification
     // 2. Admin reviews and approves/rejects
@@ -80,46 +140,70 @@ export function ComprehensiveAdvocateSignup({
   };
 
   // Show status screen if registration is submitted
-  if (registrationStatus !== 'initial') {
+  if (registrationStatus !== "initial") {
     return (
       <Card className="w-full max-w-2xl">
         <CardHeader className="text-center">
           <div className="flex justify-center mb-4">
-            {registrationStatus === 'submitted' && <Clock className="h-12 w-12 text-orange-500" />}
-            {registrationStatus === 'under_review' && <Clock className="h-12 w-12 text-blue-500" />}
-            {registrationStatus === 'approved' && <CheckCircle className="h-12 w-12 text-green-500" />}
-            {registrationStatus === 'rejected' && <AlertCircle className="h-12 w-12 text-red-500" />}
+            {registrationStatus === "submitted" && (
+              <Clock className="h-12 w-12 text-orange-500" />
+            )}
+            {registrationStatus === "under_review" && (
+              <Clock className="h-12 w-12 text-blue-500" />
+            )}
+            {registrationStatus === "approved" && (
+              <CheckCircle className="h-12 w-12 text-green-500" />
+            )}
+            {registrationStatus === "rejected" && (
+              <AlertCircle className="h-12 w-12 text-red-500" />
+            )}
           </div>
           <CardTitle className="text-2xl font-bold">
-            {registrationStatus === 'submitted' && 'Registration Submitted'}
-            {registrationStatus === 'under_review' && 'Under Admin Review'}
-            {registrationStatus === 'approved' && 'Registration Approved'}
-            {registrationStatus === 'rejected' && 'Registration Rejected'}
+            {registrationStatus === "submitted" && "Registration Submitted"}
+            {registrationStatus === "under_review" && "Under Admin Review"}
+            {registrationStatus === "approved" && "Registration Approved"}
+            {registrationStatus === "rejected" && "Registration Rejected"}
           </CardTitle>
           <CardDescription>
-            {registrationStatus === 'submitted' && (
+            {registrationStatus === "submitted" && (
               <div className="space-y-2">
                 <p>Thank you for submitting your registration application.</p>
-                <p>Our admin team will verify your BAR Council ID and other details.</p>
-                <p className="font-medium">You will receive an email with your login credentials once approved.</p>
+                <p>
+                  Our admin team will verify your BAR Council ID and other
+                  details.
+                </p>
+                <p className="font-medium">
+                  You will receive an email with your login credentials once
+                  approved.
+                </p>
               </div>
             )}
-            {registrationStatus === 'under_review' && (
+            {registrationStatus === "under_review" && (
               <div className="space-y-2">
-                <p>Your application is currently under review by our admin team.</p>
-                <p>We are verifying your BAR Council registration and other professional details.</p>
+                <p>
+                  Your application is currently under review by our admin team.
+                </p>
+                <p>
+                  We are verifying your BAR Council registration and other
+                  professional details.
+                </p>
                 <p>This process typically takes 1-2 business days.</p>
               </div>
             )}
-            {registrationStatus === 'approved' && (
+            {registrationStatus === "approved" && (
               <div className="space-y-2">
                 <p>Congratulations! Your registration has been approved.</p>
-                <p>Your username and password have been sent to your email address.</p>
+                <p>
+                  Your username and password have been sent to your email
+                  address.
+                </p>
                 <p>You can now login and complete your professional profile.</p>
-                <p className="font-medium text-green-600">15-day free trial has been activated!</p>
+                <p className="font-medium text-green-600">
+                  15-day free trial has been activated!
+                </p>
               </div>
             )}
-            {registrationStatus === 'rejected' && (
+            {registrationStatus === "rejected" && (
               <div className="space-y-2">
                 <p>Your registration application has been rejected.</p>
                 <p>Please contact our support team for more information.</p>
@@ -129,25 +213,42 @@ export function ComprehensiveAdvocateSignup({
           </CardDescription>
         </CardHeader>
         <CardContent className="text-center">
-          {registrationStatus === 'approved' && (
-            <Button onClick={() => window.location.href = '/auth'} className="mt-4">
+          {registrationStatus === "approved" && (
+            <Button
+              onClick={() => (window.location.href = "/auth")}
+              className="mt-4"
+            >
               Login to Your Account
             </Button>
           )}
-          {registrationStatus === 'rejected' && (
-            <Button onClick={() => setRegistrationStatus('initial')} className="mt-4">
+          {registrationStatus === "rejected" && (
+            <Button
+              onClick={() => setRegistrationStatus("initial")}
+              className="mt-4"
+            >
               Try Again
             </Button>
           )}
-          {(registrationStatus === 'submitted' || registrationStatus === 'under_review') && (
+          {(registrationStatus === "submitted" ||
+            registrationStatus === "under_review") && (
             <div className="mt-4 p-4 bg-blue-50 rounded-lg">
               <h4 className="font-semibold mb-2">What happens next?</h4>
               <div className="text-sm space-y-1 text-left">
-                <div className="flex items-center">✓ Step 1: Application submitted</div>
-                <div className="flex items-center">⏳ Step 2: Admin verifies BAR Council ID</div>
-                <div className="flex items-center text-gray-500">○ Step 3: Username/Password generated</div>
-                <div className="flex items-center text-gray-500">○ Step 4: Complete your profile</div>
-                <div className="flex items-center text-gray-500">○ Step 5: Get 15-day free trial</div>
+                <div className="flex items-center">
+                  ✓ Step 1: Application submitted
+                </div>
+                <div className="flex items-center">
+                  ⏳ Step 2: Admin verifies BAR Council ID
+                </div>
+                <div className="flex items-center text-gray-500">
+                  ○ Step 3: Username/Password generated
+                </div>
+                <div className="flex items-center text-gray-500">
+                  ○ Step 4: Complete your profile
+                </div>
+                <div className="flex items-center text-gray-500">
+                  ○ Step 5: Get 15-day free trial
+                </div>
               </div>
             </div>
           )}
@@ -155,17 +256,6 @@ export function ComprehensiveAdvocateSignup({
       </Card>
     );
   }
-
-    // Terms and Privacy
-    acceptTerms: false,
-    acceptPrivacy: false,
-    acceptDataProcessing: false,
-  });
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log("Advocate signup:", formData);
-  };
 
   const practiceAreaOptions = [
     "Civil Law",

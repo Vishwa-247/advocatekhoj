@@ -17,12 +17,12 @@ export default function HeroSection() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Link href="/client/dashboard">
+            <Link href="/client-area">
               <Button size="lg" className="w-full sm:w-auto">
-                Find an Advocate
+                Post a Case
               </Button>
             </Link>
-            <Link href="/advocate/dashboard">
+            <Link href="/advocate-area">
               <Button
                 variant="outline"
                 size="lg"

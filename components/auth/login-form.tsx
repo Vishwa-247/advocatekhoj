@@ -3,6 +3,7 @@
 import type React from "react";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,13 +16,17 @@ import {
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, Scale, Users, Shield } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface LoginFormProps {
   userType: "client" | "advocate" | "admin";
 }
 
 export function LoginForm({ userType }: LoginFormProps) {
+  const router = useRouter();
+  const { toast } = useToast();
   const [showPassword, setShowPassword] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
     email: "",
     username: "",
@@ -30,13 +35,68 @@ export function LoginForm({ userType }: LoginFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle login logic here - will connect to existing backend
-    console.log("Login attempt:", { userType, ...formData });
+    setIsLoading(true);
+
+    // Mock login - accepts any credentials
+    setTimeout(() => {
+      // Store mock user data in localStorage
+      const mockUser = {
+        userType,
+        email: formData.email || "demo@example.com",
+        username: formData.username || "demo_user",
+        name: userType === "advocate" ? "Demo Advocate" : "Demo Client",
+        isAuthenticated: true,
+        loginTime: new Date().toISOString(),
+      };
+
+      localStorage.setItem("user", JSON.stringify(mockUser));
+
+      toast({
+        title: "Login Successful! 🎉",
+        description: `Welcome back! Redirecting to your ${userType} dashboard...`,
+      });
+
+      // Redirect to appropriate dashboard
+      setTimeout(() => {
+        if (userType === "advocate") {
+          router.push("/advocate/dashboard");
+        } else if (userType === "client") {
+          router.push("/client/dashboard");
+        } else {
+          router.push("/admin/dashboard");
+        }
+      }, 1000);
+    }, 1000);
   };
 
   const handleOAuthLogin = (provider: "google" | "facebook") => {
-    // Handle OAuth login - will connect to existing backend
-    console.log(`${provider} OAuth login for ${userType}`);
+    setIsLoading(true);
+
+    // Mock OAuth login
+    setTimeout(() => {
+      const mockUser = {
+        userType,
+        email: `demo@${provider}.com`,
+        username: `${provider}_user`,
+        name: `${provider.charAt(0).toUpperCase() + provider.slice(1)} User`,
+        isAuthenticated: true,
+        loginTime: new Date().toISOString(),
+        provider,
+      };
+
+      localStorage.setItem("user", JSON.stringify(mockUser));
+
+      toast({
+        title: "Login Successful! 🎉",
+        description: `Logged in with ${provider}. Redirecting...`,
+      });
+
+      setTimeout(() => {
+        router.push(
+          userType === "advocate" ? "/advocate/dashboard" : "/client/dashboard"
+        );
+      }, 1000);
+    }, 1000);
   };
 
   const getIcon = () => {
@@ -53,11 +113,11 @@ export function LoginForm({ userType }: LoginFormProps) {
   const getTitle = () => {
     switch (userType) {
       case "client":
-        return "Client Login";
+        return "Client Log In";
       case "advocate":
-        return "Advocate Login";
+        return "Advocate Log In";
       case "admin":
-        return "Admin Login";
+        return "Admin Log In";
     }
   };
 
@@ -134,9 +194,16 @@ export function LoginForm({ userType }: LoginFormProps) {
             </div>
           </div>
 
-          <Button type="submit" className="w-full">
-            Sign In
+          <Button type="submit" className="w-full" disabled={isLoading}>
+            {isLoading ? "Logging In..." : "Log In"}
           </Button>
+
+          {/* Mock Login Helper */}
+          <div className="text-center">
+            <p className="text-xs text-muted-foreground bg-blue-50 p-2 rounded">
+              💡 Demo Mode: Enter any credentials to log in
+            </p>
+          </div>
         </form>
 
         {userType === "client" && (
@@ -196,37 +263,30 @@ export function LoginForm({ userType }: LoginFormProps) {
           </>
         )}
 
-        <div className="text-center text-sm">
-          {userType === "advocate" ? (
-            <div className="space-y-1">
-              <div>
-                <a href="#" className="text-primary hover:underline">
-                  Forgot your username?
-                </a>
-              </div>
-              <div>
-                <a href="#" className="text-primary hover:underline">
-                  Forgot your password?
-                </a>
-              </div>
+        <div className="space-y-3">
+          <div className="text-center text-sm">
+            {userType === "advocate" ? (
+              <a href="#" className="text-primary hover:underline">
+                Forgot username or password?
+              </a>
+            ) : (
+              <a href="#" className="text-primary hover:underline">
+                Forgot your password?
+              </a>
+            )}
+          </div>
+
+          {userType !== "admin" && (
+            <div className="text-center text-sm">
+              <span className="text-muted-foreground">
+                Don't have an account?{" "}
+              </span>
+              <a href="/register" className="text-primary hover:underline">
+                Register here
+              </a>
             </div>
-          ) : (
-            <a href="#" className="text-primary hover:underline">
-              Forgot your password?
-            </a>
           )}
         </div>
-
-        {userType !== "admin" && (
-          <div className="text-center text-sm">
-            <span className="text-muted-foreground">
-              Don't have an account?{" "}
-            </span>
-            <a href="#" className="text-primary hover:underline">
-              Sign up here
-            </a>
-          </div>
-        )}
       </CardContent>
     </Card>
   );

@@ -361,7 +361,13 @@ export default function LawCollegesPage() {
                                     NIRF 2025 #{college.nirfRanking}
                                   </Button>
                                 ) : null}
-                                <Button variant="outline" size="sm">
+                                <Button
+                                  variant="outline"
+                                  size="sm"
+                                  onClick={() =>
+                                    (window.location.href = `/law-colleges/${college.id}`)
+                                  }
+                                >
                                   View Details
                                 </Button>
                                 <Button

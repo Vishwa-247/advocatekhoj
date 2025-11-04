@@ -45,6 +45,11 @@ export function SignupForm({ userType }: SignupFormProps) {
     recoveryQuestion: "",
     recoveryAnswer: "",
 
+    // Usage Information
+    seekingLegalConsultation: false,
+    advertisingPurpose: false,
+    lawAspirantEducation: false,
+
     // Contact Information
     salutation: "",
     firstName: "",
@@ -84,6 +89,113 @@ export function SignupForm({ userType }: SignupFormProps) {
   ];
 
   const salutations = ["Mr.", "Ms.", "Mrs.", "Dr.", "Prof."];
+
+  const indianStates = [
+    "Andhra Pradesh",
+    "Arunachal Pradesh",
+    "Assam",
+    "Bihar",
+    "Chhattisgarh",
+    "Goa",
+    "Gujarat",
+    "Haryana",
+    "Himachal Pradesh",
+    "Jharkhand",
+    "Karnataka",
+    "Kerala",
+    "Madhya Pradesh",
+    "Maharashtra",
+    "Manipur",
+    "Meghalaya",
+    "Mizoram",
+    "Nagaland",
+    "Odisha",
+    "Punjab",
+    "Rajasthan",
+    "Sikkim",
+    "Tamil Nadu",
+    "Telangana",
+    "Tripura",
+    "Uttar Pradesh",
+    "Uttarakhand",
+    "West Bengal",
+    "Andaman and Nicobar Islands",
+    "Chandigarh",
+    "Dadra and Nagar Haveli and Daman and Diu",
+    "Delhi",
+    "Jammu and Kashmir",
+    "Ladakh",
+    "Lakshadweep",
+    "Puducherry",
+  ];
+
+  const indianCities = [
+    "Agra",
+    "Ahmedabad",
+    "Ajmer",
+    "Aligarh",
+    "Allahabad (Prayagraj)",
+    "Amravati",
+    "Amritsar",
+    "Aurangabad",
+    "Bengaluru",
+    "Bhopal",
+    "Bhubaneswar",
+    "Chandigarh",
+    "Chennai",
+    "Coimbatore",
+    "Cuttack",
+    "Dehradun",
+    "Delhi",
+    "Dhanbad",
+    "Durgapur",
+    "Erode",
+    "Faridabad",
+    "Ghaziabad",
+    "Guwahati",
+    "Gwalior",
+    "Haridwar",
+    "Howrah",
+    "Hyderabad",
+    "Indore",
+    "Jabalpur",
+    "Jaipur",
+    "Jalandhar",
+    "Jamshedpur",
+    "Jodhpur",
+    "Kanpur",
+    "Kochi",
+    "Kolkata",
+    "Kota",
+    "Kozhikode",
+    "Lucknow",
+    "Ludhiana",
+    "Madurai",
+    "Mangalore",
+    "Meerut",
+    "Mumbai",
+    "Mysore",
+    "Nagpur",
+    "Nashik",
+    "Navi Mumbai",
+    "Noida",
+    "Patna",
+    "Pune",
+    "Raipur",
+    "Rajkot",
+    "Ranchi",
+    "Salem",
+    "Srinagar",
+    "Surat",
+    "Thane",
+    "Thiruvananthapuram",
+    "Tiruchirappalli",
+    "Udaipur",
+    "Vadodara",
+    "Varanasi",
+    "Vijayawada",
+    "Visakhapatnam",
+  ];
 
   return (
     <Card className="w-full max-w-2xl">
@@ -302,6 +414,97 @@ export function SignupForm({ userType }: SignupFormProps) {
             </div>
           </div>
 
+          {/* Usage Information */}
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold">
+              How Will You Use AdvocateKhoj?
+            </h3>
+            <p className="text-sm text-muted-foreground">
+              Select all that apply (at least one required)
+            </p>
+
+            <div className="space-y-3">
+              <div className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors">
+                <Checkbox
+                  id="legalConsultation"
+                  checked={formData.seekingLegalConsultation}
+                  onCheckedChange={(checked) =>
+                    setFormData({
+                      ...formData,
+                      seekingLegalConsultation: checked as boolean,
+                    })
+                  }
+                  className="mt-1"
+                />
+                <div className="flex-1">
+                  <Label
+                    htmlFor="legalConsultation"
+                    className="text-sm font-medium cursor-pointer"
+                  >
+                    As a normal person seeking legal consultation
+                  </Label>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Find qualified advocates, post your legal cases, and get
+                    professional legal assistance
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors">
+                <Checkbox
+                  id="advertising"
+                  checked={formData.advertisingPurpose}
+                  onCheckedChange={(checked) =>
+                    setFormData({
+                      ...formData,
+                      advertisingPurpose: checked as boolean,
+                    })
+                  }
+                  className="mt-1"
+                />
+                <div className="flex-1">
+                  <Label
+                    htmlFor="advertising"
+                    className="text-sm font-medium cursor-pointer"
+                  >
+                    To advertise
+                  </Label>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Access our advertising module to promote your legal
+                    services, law firm, or legal products
+                  </p>
+                </div>
+              </div>
+
+              <div className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors">
+                <Checkbox
+                  id="lawAspirant"
+                  checked={formData.lawAspirantEducation}
+                  onCheckedChange={(checked) =>
+                    setFormData({
+                      ...formData,
+                      lawAspirantEducation: checked as boolean,
+                    })
+                  }
+                  className="mt-1"
+                />
+                <div className="flex-1">
+                  <Label
+                    htmlFor="lawAspirant"
+                    className="text-sm font-medium cursor-pointer"
+                  >
+                    Law aspirant here for career guidance and educational
+                    purpose
+                  </Label>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    Access educational resources, career guidance, law college
+                    information, and student-focused content
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
           {/* Contact Information */}
           <div className="space-y-4">
             <h3 className="text-lg font-semibold">Contact Information</h3>
@@ -391,26 +594,46 @@ export function SignupForm({ userType }: SignupFormProps) {
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="city">City *</Label>
-                <Input
-                  id="city"
+                <Select
                   value={formData.city}
-                  onChange={(e) =>
-                    setFormData({ ...formData, city: e.target.value })
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, city: value })
                   }
                   required
-                />
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select city" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[300px]">
+                    {indianCities.map((city) => (
+                      <SelectItem key={city} value={city}>
+                        {city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">
                 <Label htmlFor="state">State *</Label>
-                <Input
-                  id="state"
+                <Select
                   value={formData.state}
-                  onChange={(e) =>
-                    setFormData({ ...formData, state: e.target.value })
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, state: value })
                   }
                   required
-                />
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select state" />
+                  </SelectTrigger>
+                  <SelectContent className="max-h-[300px]">
+                    {indianStates.map((state) => (
+                      <SelectItem key={state} value={state}>
+                        {state}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">
@@ -514,16 +737,16 @@ export function SignupForm({ userType }: SignupFormProps) {
           <Button type="submit" className="w-full" size="lg">
             Create {userType === "client" ? "Client" : "Advocate"} Account
           </Button>
-        </form>
 
-        <div className="text-center text-sm">
-          <span className="text-muted-foreground">
-            Already have an account?{" "}
-          </span>
-          <a href="#" className="text-primary hover:underline">
-            Sign in here
-          </a>
-        </div>
+          <div className="text-center text-sm pt-2">
+            <span className="text-muted-foreground">
+              Already have an account?{" "}
+            </span>
+            <a href="/auth" className="text-primary hover:underline">
+              Log in here
+            </a>
+          </div>
+        </form>
       </CardContent>
     </Card>
   );

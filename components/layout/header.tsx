@@ -22,9 +22,9 @@ const Header = () => {
             <Image
               src="/logo.svg"
               alt="AdvocateKhoj Logo"
-              width={60}
-              height={60}
-              className="h-10 w-auto sm:h-12"
+              width={120}
+              height={80}
+              className="h-14 w-auto sm:h-16"
             />
           </Link>
         </div>
@@ -32,8 +32,8 @@ const Header = () => {
         {/* Desktop Navigation */}
         <nav className="hidden md:flex items-center space-x-6 relative">
           {[
-            { href: "/client/dashboard", label: "Post a Case" },
-            { href: "/advocate/dashboard", label: "Join as Advocate" },
+            { href: "/client-area", label: "Post a Case" },
+            { href: "/advocate-area", label: "Join as Advocate" },
             { href: "/law-library", label: "Law Library" },
             { href: "/law-colleges", label: "Law College" },
             { href: "/sawal-jawab", label: "Sawal Jawab" },
@@ -53,13 +53,13 @@ const Header = () => {
           ))}
         </nav>
 
-        {/* Login/Signup Buttons */}
+        {/* Login/Register Buttons */}
         <div className="hidden md:flex items-center space-x-3">
-          <Button variant="ghost" asChild>
-            <Link href="/auth">Login</Link>
+          <Button className="bg-primary text-white" asChild>
+            <Link href="/auth">Log In</Link>
           </Button>
-          <Button className="bg-secondary hover:bg-secondary/90" asChild>
-            <Link href="/auth">Sign Up</Link>
+          <Button className="bg-secondary text-white" asChild>
+            <Link href="/auth?authMode=signup">Register</Link>
           </Button>
         </div>
 
@@ -83,14 +83,14 @@ const Header = () => {
         <div className="md:hidden border-t bg-background">
           <nav className="container mx-auto px-4 py-4 space-y-3">
             <Link
-              href="/client/dashboard"
+              href="/client-area"
               className="block text-sm font-medium hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
               Post a Case
             </Link>
             <Link
-              href="/advocate/dashboard"
+              href="/advocate-area"
               className="block text-sm font-medium hover:text-primary transition-colors"
               onClick={() => setIsMenuOpen(false)}
             >
@@ -118,14 +118,11 @@ const Header = () => {
               Sawal Jawab
             </Link>
             <div className="pt-3 border-t space-y-2">
-              <Button variant="ghost" className="w-full justify-start" asChild>
-                <Link href="/auth">Login</Link>
+              <Button className="w-full bg-primary text-white" asChild>
+                <Link href="/auth">Log In</Link>
               </Button>
-              <Button
-                className="w-full bg-secondary hover:bg-secondary/90"
-                asChild
-              >
-                <Link href="/auth">Sign Up</Link>
+              <Button className="w-full bg-secondary text-white" asChild>
+                <Link href="/auth?authMode=signup">Register</Link>
               </Button>
             </div>
           </nav>

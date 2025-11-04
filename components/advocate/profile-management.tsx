@@ -146,6 +146,50 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
     localBarAssociationName: "",
   });
 
+  // Predefined Practice Areas List
+  const practiceAreasList = [
+    "Administrative Law",
+    "Arbitration",
+    "Banking",
+    "Capital Market",
+    "Commercial",
+    "Constitutional",
+    "Consumer Rights",
+    "Corporate Law",
+    "Criminal",
+    "Cyber Law",
+    "Direct Taxation",
+    "Environmental Law",
+    "Export and Import Laws",
+    "Family",
+    "Heritage and National Importance",
+    "Indirect Taxation",
+    "Insurance and Infrastructure Law",
+    "Intellectual Property Rights",
+    "Labor & Service",
+    "Motor Accident Claims",
+    "Property Law",
+    "Real Estate",
+  ];
+
+  // Predefined Languages List
+  const languagesList = [
+    "Assamese",
+    "Bengali",
+    "English",
+    "Gujarati",
+    "Hindi",
+    "Kannada",
+    "Malayalam",
+    "Marathi",
+    "Odia",
+    "Punjabi",
+    "Sanskrit",
+    "Tamil",
+    "Telugu",
+    "Urdu",
+  ];
+
   const [newItem, setNewItem] = useState({
     practiceArea: "",
     language: "",
@@ -172,12 +216,27 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
   const addItem = (type: string) => {
     switch (type) {
       case "practiceArea":
-        if (newItem.practiceArea) {
+        if (
+          newItem.practiceArea &&
+          !formData.practiceAreas.includes(newItem.practiceArea)
+        ) {
           setFormData({
             ...formData,
             practiceAreas: [...formData.practiceAreas, newItem.practiceArea],
           });
           setNewItem({ ...newItem, practiceArea: "" });
+        }
+        break;
+      case "language":
+        if (
+          newItem.language &&
+          !formData.languages.includes(newItem.language)
+        ) {
+          setFormData({
+            ...formData,
+            languages: [...formData.languages, newItem.language],
+          });
+          setNewItem({ ...newItem, language: "" });
         }
         break;
       case "education":
@@ -427,13 +486,25 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
               ))}
             </div>
             <div className="flex gap-2">
-              <Input
-                placeholder="Add practice area"
+              <Select
                 value={newItem.practiceArea}
-                onChange={(e) =>
-                  setNewItem({ ...newItem, practiceArea: e.target.value })
+                onValueChange={(value) =>
+                  setNewItem({ ...newItem, practiceArea: value })
                 }
-              />
+              >
+                <SelectTrigger className="flex-1">
+                  <SelectValue placeholder="Select practice area" />
+                </SelectTrigger>
+                <SelectContent className="max-h-[300px]">
+                  {practiceAreasList
+                    .filter((area) => !formData.practiceAreas.includes(area))
+                    .map((area) => (
+                      <SelectItem key={area} value={area}>
+                        {area}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
               <Button type="button" onClick={() => addItem("practiceArea")}>
                 <Plus className="h-4 w-4" />
               </Button>
@@ -463,13 +534,25 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
               ))}
             </div>
             <div className="flex gap-2">
-              <Input
-                placeholder="Add language"
+              <Select
                 value={newItem.language}
-                onChange={(e) =>
-                  setNewItem({ ...newItem, language: e.target.value })
+                onValueChange={(value) =>
+                  setNewItem({ ...newItem, language: value })
                 }
-              />
+              >
+                <SelectTrigger className="flex-1">
+                  <SelectValue placeholder="Select language" />
+                </SelectTrigger>
+                <SelectContent className="max-h-[300px]">
+                  {languagesList
+                    .filter((lang) => !formData.languages.includes(lang))
+                    .map((lang) => (
+                      <SelectItem key={lang} value={lang}>
+                        {lang}
+                      </SelectItem>
+                    ))}
+                </SelectContent>
+              </Select>
               <Button type="button" onClick={() => addItem("language")}>
                 <Plus className="h-4 w-4" />
               </Button>

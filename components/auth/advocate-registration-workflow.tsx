@@ -161,10 +161,13 @@ export function AdvocateRegistrationWorkflow({
         <CardContent className="text-center">
           {registrationStatus === "approved" && (
             <Button
-              onClick={() => (window.location.href = "/auth")}
+              onClick={() =>
+                (window.location.href =
+                  "/auth?userType=advocate&authMode=login")
+              }
               className="mt-4"
             >
-              Login to Your Account
+              Log In to Your Account
             </Button>
           )}
           {registrationStatus === "rejected" && (
@@ -597,8 +600,11 @@ export function AdvocateRegistrationWorkflow({
           <span className="text-muted-foreground">
             Already have an account?{" "}
           </span>
-          <a href="/auth" className="text-primary hover:underline">
-            Sign in here
+          <a
+            href="/auth?userType=advocate&authMode=login"
+            className="text-primary hover:underline"
+          >
+            Log in here
           </a>
         </div>
       </CardContent>
