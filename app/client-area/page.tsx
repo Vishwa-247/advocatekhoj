@@ -242,10 +242,10 @@ export default function ClientAreaPage() {
                 fits your legal needs.
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/auth?type=client&mode=register">
+                <Link href="/register?userType=client">
                   <Button size="lg">Get Started</Button>
                 </Link>
-                <Link href="/auth?type=client&mode=login">
+                <Link href="/login?userType=client">
                   <Button size="lg" variant="outline">
                     Client Login
                   </Button>
@@ -537,7 +537,7 @@ export default function ClientAreaPage() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link href="/auth?type=client&mode=register">
+              <Link href="/register?userType=client">
                 <Button
                   size="lg"
                   variant="secondary"

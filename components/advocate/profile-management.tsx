@@ -2,7 +2,7 @@
 
 import type React from "react";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -23,13 +23,14 @@ import {
   Plus,
   X,
   Save,
-  Star,
   Phone,
   Award,
   BookOpen,
   Building,
   ArrowLeft,
 } from "lucide-react";
+import { INDIAN_STATES, getCitiesByState } from "@/lib/indian-locations";
+import { PRACTICE_AREA_OPTIONS } from "@/lib/legal-data";
 
 interface ProfileManagementProps {
   onNavigate?: (section: string) => void;
@@ -52,8 +53,10 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
     website: "",
     bio: "",
     phone: "",
-    location: "",
+    state: "",
+    city: "",
     experience: "",
+    professionalExperience: "",
 
     // Practice Areas
     practiceAreas: [
@@ -78,6 +81,7 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
         country: "",
         shortDetail: "",
         specialization: "",
+        type: "",
       },
     ],
 
@@ -146,31 +150,10 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
     localBarAssociationName: "",
   });
 
-  // Predefined Practice Areas List
-  const practiceAreasList = [
-    "Administrative Law",
-    "Arbitration",
-    "Banking",
-    "Capital Market",
-    "Commercial",
-    "Constitutional",
-    "Consumer Rights",
-    "Corporate Law",
-    "Criminal",
-    "Cyber Law",
-    "Direct Taxation",
-    "Environmental Law",
-    "Export and Import Laws",
-    "Family",
-    "Heritage and National Importance",
-    "Indirect Taxation",
-    "Insurance and Infrastructure Law",
-    "Intellectual Property Rights",
-    "Labor & Service",
-    "Motor Accident Claims",
-    "Property Law",
-    "Real Estate",
-  ];
+  const citiesForSelectedState = useMemo(
+    () => (formData.state ? getCitiesByState(formData.state) : []),
+    [formData.state]
+  );
 
   // Predefined Languages List
   const languagesList = [
@@ -202,6 +185,7 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
       country: "",
       shortDetail: "",
       specialization: "",
+      type: "",
     },
     publication: { title: "", journal: "", year: "" },
     award: { title: "", organization: "", year: "", shortDetail: "" },
@@ -239,8 +223,12 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
           setNewItem({ ...newItem, language: "" });
         }
         break;
-      case "education":
-        if (newItem.education.degree && newItem.education.institute) {
+    case "education":
+        if (
+          newItem.education.type &&
+          newItem.education.degree &&
+          newItem.education.institute
+        ) {
           setFormData({
             ...formData,
             education: [...formData.education, newItem.education],
@@ -256,6 +244,7 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
               country: "",
               shortDetail: "",
               specialization: "",
+              type: "",
             },
           });
         }
@@ -285,23 +274,24 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-4">
+        <h2 className="text-2xl font-bold">Profile Management</h2>
+        <div className="flex items-center gap-2">
           {onNavigate && (
             <Button
-              variant="outline"
+              variant="ghost"
               size="sm"
               onClick={() => onNavigate("overview")}
+              className="border border-border"
             >
               <ArrowLeft className="w-4 h-4 mr-2" />
               Back
             </Button>
           )}
-          <h2 className="text-2xl font-bold">Profile Management</h2>
+          <Button form="profile-form" type="submit">
+            <Save className="h-4 w-4 mr-2" />
+            Save Profile
+          </Button>
         </div>
-        <Button form="profile-form" type="submit">
-          <Save className="h-4 w-4 mr-2" />
-          Save Profile
-        </Button>
       </div>
 
       <form id="profile-form" onSubmit={handleSubmit} className="space-y-6">
@@ -327,10 +317,6 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
                 <p className="text-sm text-muted-foreground">
                   Professional headshot recommended
                 </p>
-                <div className="flex items-center gap-2">
-                  <Star className="h-4 w-4 text-yellow-500" />
-                  <span className="text-sm font-medium">4.8 (24 reviews)</span>
-                </div>
               </div>
             </div>
 
@@ -432,30 +418,50 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="location">Location *</Label>
-                <Input
-                  id="location"
-                  value={formData.location}
-                  onChange={(e) =>
-                    setFormData({ ...formData, location: e.target.value })
+                <Label htmlFor="state">State *</Label>
+                <Select
+                  value={formData.state}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, state: value, city: "" })
                   }
-                  required
-                />
+                >
+                  <SelectTrigger id="state">
+                    <SelectValue placeholder="Select state" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {INDIAN_STATES.map((state) => (
+                      <SelectItem key={state} value={state}>
+                        {state}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="barCouncilNumber">Bar Council Number *</Label>
-                <Input
-                  id="barCouncilNumber"
-                  value={formData.barCouncilNumber}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      barCouncilNumber: e.target.value,
-                    })
+                <Label htmlFor="city">City / Town *</Label>
+                <Select
+                  value={formData.city}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, city: value })
                   }
-                  required
-                />
+                  disabled={!formData.state}
+                >
+                  <SelectTrigger id="city">
+                    <SelectValue
+                      placeholder={
+                        formData.state ? "Select city / town" : "Select state first"
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {citiesForSelectedState.map((city) => (
+                      <SelectItem key={city} value={city}>
+                        {city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </CardContent>
@@ -495,14 +501,14 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
                 <SelectTrigger className="flex-1">
                   <SelectValue placeholder="Select practice area" />
                 </SelectTrigger>
-                <SelectContent className="max-h-[300px]">
-                  {practiceAreasList
-                    .filter((area) => !formData.practiceAreas.includes(area))
-                    .map((area) => (
-                      <SelectItem key={area} value={area}>
-                        {area}
-                      </SelectItem>
-                    ))}
+                <SelectContent className="max-h-[320px]">
+                  {PRACTICE_AREA_OPTIONS.filter(
+                    (option) => !formData.practiceAreas.includes(option)
+                  ).map((option) => (
+                    <SelectItem key={option} value={option}>
+                      {option}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
               <Button type="button" onClick={() => addItem("practiceArea")}>
@@ -573,11 +579,21 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
               <div key={index} className="p-4 border rounded-lg">
                 <div className="flex justify-between items-start">
                   <div>
+                    {edu.type && (
+                      <p className="text-xs uppercase tracking-wide text-muted-foreground mb-1">
+                        {edu.type}
+                      </p>
+                    )}
                     <h4 className="font-semibold">{edu.degree}</h4>
                     <p className="text-muted-foreground">{edu.institute}</p>
                     <p className="text-sm text-muted-foreground">
                       {edu.graduationYear} • {edu.specialization}
                     </p>
+                    {edu.shortDetail && (
+                      <p className="text-sm mt-2 text-muted-foreground">
+                        {edu.shortDetail}
+                      </p>
+                    )}
                   </div>
                   <Button variant="ghost" size="sm" type="button">
                     <X className="h-4 w-4" />
@@ -588,21 +604,28 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
             <Separator />
             <div className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Input
-                  placeholder="Degree"
-                  value={newItem.education.degree}
-                  onChange={(e) =>
+                <Select
+                  value={newItem.education.type}
+                  onValueChange={(value) =>
                     setNewItem({
                       ...newItem,
-                      education: {
-                        ...newItem.education,
-                        degree: e.target.value,
-                      },
+                      education: { ...newItem.education, type: value },
                     })
                   }
-                />
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select education type" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Law School">Law School</SelectItem>
+                    <SelectItem value="College">College</SelectItem>
+                    <SelectItem value="University">University</SelectItem>
+                    <SelectItem value="High School">High School</SelectItem>
+                    <SelectItem value="Other School">Other School</SelectItem>
+                  </SelectContent>
+                </Select>
                 <Input
-                  placeholder="Institute"
+                  placeholder="Institute / School"
                   value={newItem.education.institute}
                   onChange={(e) =>
                     setNewItem({
@@ -610,6 +633,19 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
                       education: {
                         ...newItem.education,
                         institute: e.target.value,
+                      },
+                    })
+                  }
+                />
+                <Input
+                  placeholder="Degree / Qualification"
+                  value={newItem.education.degree}
+                  onChange={(e) =>
+                    setNewItem({
+                      ...newItem,
+                      education: {
+                        ...newItem.education,
+                        degree: e.target.value,
                       },
                     })
                   }
@@ -627,6 +663,8 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
                     })
                   }
                 />
+              </div>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <Input
                   placeholder="City"
                   value={newItem.education.city}
@@ -636,6 +674,32 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
                       education: {
                         ...newItem.education,
                         city: e.target.value,
+                      },
+                    })
+                  }
+                />
+                <Input
+                  placeholder="State"
+                  value={newItem.education.state}
+                  onChange={(e) =>
+                    setNewItem({
+                      ...newItem,
+                      education: {
+                        ...newItem.education,
+                        state: e.target.value,
+                      },
+                    })
+                  }
+                />
+                <Input
+                  placeholder="Country"
+                  value={newItem.education.country}
+                  onChange={(e) =>
+                    setNewItem({
+                      ...newItem,
+                      education: {
+                        ...newItem.education,
+                        country: e.target.value,
                       },
                     })
                   }
@@ -653,6 +717,20 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
                     },
                   })
                 }
+              />
+              <Textarea
+                placeholder="Short details (honours, key coursework, notable achievements)"
+                value={newItem.education.shortDetail}
+                onChange={(e) =>
+                  setNewItem({
+                    ...newItem,
+                    education: {
+                      ...newItem.education,
+                      shortDetail: e.target.value,
+                    },
+                  })
+                }
+                rows={3}
               />
             </div>
             <Button type="button" onClick={() => addItem("education")}>
@@ -684,6 +762,27 @@ export function ProfileManagement({ onNavigate }: ProfileManagementProps = {}) {
                   required
                 />
               </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="professionalExperience">
+                Professional Experience Summary
+              </Label>
+              <Textarea
+                id="professionalExperience"
+                value={formData.professionalExperience}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    professionalExperience: e.target.value,
+                  })
+                }
+                placeholder="Provide a short overview of practice history, notable work, or focus areas."
+                rows={4}
+              />
+              <p className="text-xs text-muted-foreground">
+                Optional: Helps clients understand your background. Leave blank if you
+                prefer not to share this publicly.
+              </p>
             </div>
 
             {formData.employment.map((emp, index) => (

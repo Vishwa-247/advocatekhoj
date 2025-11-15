@@ -1,7 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -11,110 +17,123 @@ import {
   CheckCircle,
   ArrowRight,
   ArrowLeft,
-  User,
   Mail,
   Phone,
-  Lock,
 } from "lucide-react";
-import Link from "next/link";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+type FormField =
+  | "firstName"
+  | "middleName"
+  | "lastName"
+  | "email"
+  | "mobile"
+  | "alternatePhone"
+  | "stateBarCouncil"
+  | "barCouncilNumber"
+  | "yearOfEnrollment"
+  | "localBarAssociation"
+  | "localBarAssociationName"
+  | "referralAdvocateId"
+  | "additionalComments";
 
 export default function AdvocateRegister() {
-  const [step, setStep] = useState(1);
-  const [formData, setFormData] = useState({
-    // Step 1 - Contact Information
-    title: "",
+  const [currentStep, setCurrentStep] = useState<1 | 2>(1);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [registrationComplete, setRegistrationComplete] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [formData, setFormData] = useState<Record<FormField, string>>({
     firstName: "",
     middleName: "",
     lastName: "",
-    address: "",
-    pincode: "",
-    primaryPhone: "",
-    primaryPhoneSTD: "",
-    secondaryPhone: "",
-    secondaryPhoneSTD: "",
-    emergencyPhone: "",
-    mobile: "",
-    fax: "",
     email: "",
-    alternateEmail: "",
-    website: "",
-
-    // Membership / Affiliations
+    mobile: "",
+    alternatePhone: "",
     stateBarCouncil: "",
     barCouncilNumber: "",
     yearOfEnrollment: "",
     localBarAssociation: "No",
     localBarAssociationName: "",
-
-    // Miscellaneous
     referralAdvocateId: "",
     additionalComments: "",
-
-    // Step 2 will be handled after admin verification
-    username: "",
-    password: "",
-    confirmPassword: "",
   });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [registrationComplete, setRegistrationComplete] = useState(false);
-  const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const validateStep1 = () => {
-    const newErrors: Record<string, string> = {};
-
-    if (!formData.firstName.trim())
-      newErrors.firstName = "First name is required";
-    if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
-    if (!formData.email.trim()) newErrors.email = "Email is required";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = "Invalid email format";
-    }
-    if (!formData.primaryPhone.trim())
-      newErrors.primaryPhone = "Primary phone is required";
-    else if (!/^\d{10}$/.test(formData.primaryPhone)) {
-      newErrors.primaryPhone = "Phone must be 10 digits";
-    }
-    if (!formData.stateBarCouncil.trim())
-      newErrors.stateBarCouncil = "State BAR Council is required";
-    if (!formData.barCouncilNumber.trim())
-      newErrors.barCouncilNumber = "BAR Council Number is required";
-    if (!formData.yearOfEnrollment.trim())
-      newErrors.yearOfEnrollment = "Year of enrollment is required";
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleStep1Submit = async (e: React.FormEvent) => {
-    e.preventDefault();
-
-    if (!validateStep1()) return;
-
-    setIsSubmitting(true);
-
-    // Simulate API call to create advocate application
-    // This would send email notification to admin and advocate
-    try {
-      await new Promise((resolve) => setTimeout(resolve, 1500));
-
-      // After successful registration, show confirmation
-      setRegistrationComplete(true);
-    } catch (error) {
-      console.error("Registration failed:", error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  const updateFormData = (field: string, value: string) => {
+  const updateFormData = (field: FormField, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
-    // Clear error for this field when user starts typing
     if (errors[field]) {
       setErrors((prev) => {
-        const newErrors = { ...prev };
-        delete newErrors[field];
-        return newErrors;
+        const next = { ...prev };
+        delete next[field];
+        return next;
       });
+    }
+  };
+
+  const validateStep1 = () => {
+    const nextErrors: Record<string, string> = {};
+    if (!formData.firstName.trim()) nextErrors.firstName = "First name is required";
+    if (!formData.lastName.trim()) nextErrors.lastName = "Last name is required";
+    if (!formData.email.trim()) {
+      nextErrors.email = "Email is required";
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      nextErrors.email = "Enter a valid email address";
+    }
+    if (!formData.mobile.trim()) {
+      nextErrors.mobile = "Mobile number is required";
+    } else if (!/^\d{10}$/.test(formData.mobile)) {
+      nextErrors.mobile = "Mobile must be 10 digits";
+    }
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const validateStep2 = () => {
+    const nextErrors: Record<string, string> = {};
+    if (!formData.stateBarCouncil.trim()) {
+      nextErrors.stateBarCouncil = "State BAR Council is required";
+    }
+    if (!formData.barCouncilNumber.trim()) {
+      nextErrors.barCouncilNumber = "BAR Council Number is required";
+    }
+    if (!formData.yearOfEnrollment.trim()) {
+      nextErrors.yearOfEnrollment = "Year of enrollment is required";
+    } else if (!/^\d{4}$/.test(formData.yearOfEnrollment)) {
+      nextErrors.yearOfEnrollment = "Enter a valid 4 digit year";
+    }
+    if (
+      formData.localBarAssociation === "Yes" &&
+      !formData.localBarAssociationName.trim()
+    ) {
+      nextErrors.localBarAssociationName = "Please mention the association name";
+    }
+    setErrors(nextErrors);
+    return Object.keys(nextErrors).length === 0;
+  };
+
+  const handleNext = (event: React.FormEvent) => {
+    event.preventDefault();
+    if (currentStep === 1 && validateStep1()) {
+      setCurrentStep(2);
+    }
+  };
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    if (!validateStep2()) return;
+
+    setIsSubmitting(true);
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 1500));
+      setRegistrationComplete(true);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -132,52 +151,38 @@ export default function AdvocateRegister() {
           </CardHeader>
           <CardContent className="space-y-6">
             <Alert className="bg-blue-50 border-blue-200">
-              <AlertDescription className="text-gray-700 text-sm">
-                <p className="mb-3">
+              <AlertDescription className="text-gray-700 text-sm space-y-3">
+                <p>
                   <strong>Thank you for registering with AdvocateKhoj!</strong>
                 </p>
-                <p className="mb-3">
+                <p>
                   Your application has been submitted and is now under review by
                   our admin team.
                 </p>
-                <div className="space-y-2 mt-4">
+                <div className="space-y-2">
                   <p className="font-semibold">What happens next?</p>
                   <ol className="list-decimal list-inside space-y-2 ml-2">
+                    <li>The admin team verifies your details and checks for duplicates.</li>
+                    <li>You receive your username and temporary password via email.</li>
                     <li>
-                      Our admin team will verify your details and check for
-                      duplicate records
+                      Complete your profile with contact, practice areas, languages, and BAR
+                      affiliations.
                     </li>
-                    <li>
-                      You will receive an email notification with your username
-                      and temporary password
-                    </li>
-                    <li>
-                      Complete your profile by adding contact information,
-                      practice areas, languages, and BAR Council affiliations
-                    </li>
-                    <li>
-                      Your profile will be reviewed within 15 days for final
-                      approval
-                    </li>
+                    <li>Your profile is approved within 15 days.</li>
                   </ol>
                 </div>
-                <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
+                <div className="p-3 bg-yellow-50 border border-yellow-200 rounded">
                   <p className="text-sm">
-                    <strong>Important:</strong> Please check your email inbox
-                    (and spam folder) for login credentials. The email will be
-                    sent from{" "}
-                    <span className="font-mono text-xs">
-                      customer_service@advocatekhoj.in
-                    </span>
+                    <strong>Important:</strong> Watch for an email from{" "}
+                    <span className="font-mono text-xs">customer_service@advocatekhoj.in</span>.
+                    Check your spam folder if you do not see it in your inbox.
                   </p>
                 </div>
               </AlertDescription>
             </Alert>
 
             <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="text-sm font-semibold text-gray-700 mb-2">
-                Registered Email:
-              </p>
+              <p className="text-sm font-semibold text-gray-700 mb-2">Registered Email</p>
               <p className="text-base text-gray-900">{formData.email}</p>
             </div>
 
@@ -186,7 +191,9 @@ export default function AdvocateRegister() {
                 <Link href="/">Return to Home</Link>
               </Button>
               <Button asChild variant="outline" className="w-full">
-                <Link href="/auth">Login (After receiving credentials)</Link>
+                <Link href="/login?userType=advocate">
+                  Login (After receiving credentials)
+                </Link>
               </Button>
             </div>
           </CardContent>
@@ -201,195 +208,327 @@ export default function AdvocateRegister() {
         <CardHeader className="space-y-4">
           <div className="flex items-center justify-between">
             <Badge variant="secondary" className="text-sm">
-              Step 1 of 2
+              Step {currentStep} of 2
             </Badge>
-            <Badge variant="outline" className="text-xs">
-              New Application
-            </Badge>
+            <Badge variant="outline" className="text-xs">New Application</Badge>
           </div>
           <CardTitle className="text-2xl font-bold text-gray-900">
             Advocate Registration
           </CardTitle>
           <p className="text-sm text-gray-600">
-            Register your details to create a new advocate account. Once
-            verified, you'll receive login credentials to complete your profile.
+            Register basic details so we can verify your credentials. After approval you
+            will receive login details to complete your profile.
           </p>
-
-          {/* Progress indicator */}
           <div className="flex items-center gap-2">
-            <div className="flex-1 h-2 bg-primary rounded"></div>
-            <div className="flex-1 h-2 bg-gray-200 rounded"></div>
+            <div className={`flex-1 h-2 rounded ${currentStep >= 1 ? "bg-primary" : "bg-gray-200"}`} />
+            <div className={`flex-1 h-2 rounded ${currentStep === 2 ? "bg-primary" : "bg-gray-200"}`} />
           </div>
         </CardHeader>
 
         <CardContent>
-          <form onSubmit={handleStep1Submit} className="space-y-5">
-            <Alert className="bg-yellow-50 border-yellow-200">
-              <AlertDescription className="text-sm text-gray-700">
-                <strong>Note:</strong> Once your application is submitted, the
-                name cannot be changed or updated. Please ensure all details are
-                correct.
-              </AlertDescription>
-            </Alert>
+          <form
+            onSubmit={currentStep === 1 ? handleNext : handleSubmit}
+            className="space-y-5"
+          >
+            {currentStep === 1 ? (
+              <>
+                <Alert className="bg-yellow-50 border-yellow-200">
+                  <AlertDescription className="text-sm text-gray-700">
+                    <strong>Note:</strong> Once your application is submitted, the displayed
+                    advocate name cannot be changed. Please double-check spelling.
+                  </AlertDescription>
+                </Alert>
 
-            {/* Name Fields */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="firstName" className="text-sm font-semibold">
-                  First Name <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="firstName"
-                  placeholder="Enter first name"
-                  value={formData.firstName}
-                  onChange={(e) => updateFormData("firstName", e.target.value)}
-                  className={errors.firstName ? "border-red-500" : ""}
-                />
-                {errors.firstName && (
-                  <p className="text-xs text-red-500">{errors.firstName}</p>
-                )}
-              </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">
+                      First Name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="firstName"
+                      value={formData.firstName}
+                      onChange={(e) => updateFormData("firstName", e.target.value)}
+                      className={errors.firstName ? "border-red-500" : ""}
+                      placeholder="Enter first name"
+                    />
+                    {errors.firstName && (
+                      <p className="text-xs text-red-500">{errors.firstName}</p>
+                    )}
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="middleName">Middle Name</Label>
+                    <Input
+                      id="middleName"
+                      value={formData.middleName}
+                      onChange={(e) => updateFormData("middleName", e.target.value)}
+                      placeholder="Optional"
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">
+                      Last Name / Surname <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="lastName"
+                      value={formData.lastName}
+                      onChange={(e) => updateFormData("lastName", e.target.value)}
+                      className={errors.lastName ? "border-red-500" : ""}
+                      placeholder="Enter last name"
+                    />
+                    {errors.lastName && (
+                      <p className="text-xs text-red-500">{errors.lastName}</p>
+                    )}
+                  </div>
+                </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="middleName" className="text-sm font-semibold">
-                  Middle Name
-                </Label>
-                <Input
-                  id="middleName"
-                  placeholder="Enter middle name"
-                  value={formData.middleName}
-                  onChange={(e) => updateFormData("middleName", e.target.value)}
-                />
-              </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="email">
+                      Email <span className="text-red-500">*</span>
+                    </Label>
+                    <div className="relative">
+                      <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <Input
+                        id="email"
+                        type="email"
+                        value={formData.email}
+                        onChange={(e) => updateFormData("email", e.target.value)}
+                        className={`pl-10 ${errors.email ? "border-red-500" : ""}`}
+                        placeholder="your.email@example.com"
+                      />
+                    </div>
+                    {errors.email && (
+                      <p className="text-xs text-red-500">{errors.email}</p>
+                    )}
+                  </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="lastName" className="text-sm font-semibold">
-                  Last Name / Surname <span className="text-red-500">*</span>
-                </Label>
-                <Input
-                  id="lastName"
-                  placeholder="Enter last name"
-                  value={formData.lastName}
-                  onChange={(e) => updateFormData("lastName", e.target.value)}
-                  className={errors.lastName ? "border-red-500" : ""}
-                />
-                {errors.lastName && (
-                  <p className="text-xs text-red-500">{errors.lastName}</p>
-                )}
-              </div>
-            </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="mobile">
+                      Mobile Number <span className="text-red-500">*</span>
+                    </Label>
+                    <div className="relative">
+                      <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                      <Input
+                        id="mobile"
+                        inputMode="numeric"
+                        value={formData.mobile}
+                        onChange={(e) =>
+                          updateFormData(
+                            "mobile",
+                            e.target.value.replace(/\D/g, "").slice(0, 10)
+                          )
+                        }
+                        className={`pl-10 ${errors.mobile ? "border-red-500" : ""}`}
+                        placeholder="10 digit mobile number"
+                      />
+                    </div>
+                    {errors.mobile && (
+                      <p className="text-xs text-red-500">{errors.mobile}</p>
+                    )}
+                  </div>
+                </div>
 
-            {/* Contact Fields */}
-            <div className="space-y-2">
-              <Label htmlFor="email" className="text-sm font-semibold">
-                Email <span className="text-red-500">*</span>
-              </Label>
-              <div className="relative">
-                <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="your.email@example.com"
-                  value={formData.email}
-                  onChange={(e) => updateFormData("email", e.target.value)}
-                  className={`pl-10 ${errors.email ? "border-red-500" : ""}`}
-                />
-              </div>
-              {errors.email && (
-                <p className="text-xs text-red-500">{errors.email}</p>
-              )}
-            </div>
-
-            <div className="space-y-2">
-              <Label htmlFor="phone" className="text-sm font-semibold">
-                Office Phone <span className="text-red-500">*</span>
-              </Label>
-              <div className="flex gap-2">
-                <Input
-                  id="stdCode"
-                  placeholder="STD"
-                  value={formData.primaryPhoneSTD}
-                  onChange={(e) =>
-                    updateFormData("primaryPhoneSTD", e.target.value)
-                  }
-                  className="w-24"
-                />
-                <div className="relative flex-1">
-                  <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <div className="space-y-2">
+                  <Label htmlFor="alternatePhone">Alternate Phone (optional)</Label>
                   <Input
-                    id="phone"
-                    type="tel"
-                    placeholder="Enter 10-digit number"
-                    value={formData.primaryPhone}
+                    id="alternatePhone"
+                    inputMode="numeric"
+                    value={formData.alternatePhone}
                     onChange={(e) =>
                       updateFormData(
-                        "primaryPhone",
+                        "alternatePhone",
                         e.target.value.replace(/\D/g, "").slice(0, 10)
                       )
                     }
-                    className={`pl-10 ${
-                      errors.primaryPhone ? "border-red-500" : ""
-                    }`}
+                    placeholder="Provide another reachable number"
                   />
                 </div>
-              </div>
-              {errors.primaryPhone && (
-                <p className="text-xs text-red-500">{errors.primaryPhone}</p>
-              )}
-            </div>
+              </>
+            ) : (
+              <>
+                <Alert className="bg-blue-50 border-blue-200">
+                  <AlertDescription className="text-sm text-gray-700">
+                    Provide BAR council information so we can verify your credentials.
+                  </AlertDescription>
+                </Alert>
 
-            {/* Important Info Box */}
-            <Alert className="bg-blue-50 border-blue-200">
-              <AlertDescription className="text-sm text-gray-700 space-y-2">
-                <p className="font-semibold">Registration Process:</p>
-                <ol className="list-decimal list-inside space-y-1 ml-2">
-                  <li>Submit this form with your basic details</li>
-                  <li>Admin will verify and check for duplicate records</li>
-                  <li>You'll receive username and password via email</li>
-                  <li>
-                    Login and complete your full profile (contact, practice
-                    areas, BAR affiliations)
-                  </li>
-                  <li>
-                    Admin reviews and approves your profile within 15 days
-                  </li>
-                </ol>
-              </AlertDescription>
-            </Alert>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="stateBarCouncil">
+                      State BAR Council <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="stateBarCouncil"
+                      value={formData.stateBarCouncil}
+                      onChange={(e) =>
+                        updateFormData("stateBarCouncil", e.target.value)
+                      }
+                      className={errors.stateBarCouncil ? "border-red-500" : ""}
+                      placeholder="e.g., Bar Council of Delhi"
+                    />
+                    {errors.stateBarCouncil && (
+                      <p className="text-xs text-red-500">{errors.stateBarCouncil}</p>
+                    )}
+                  </div>
 
-            {/* Submit Button */}
+                  <div className="space-y-2">
+                    <Label htmlFor="barCouncilNumber">
+                      BAR Council Number <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="barCouncilNumber"
+                      value={formData.barCouncilNumber}
+                      onChange={(e) =>
+                        updateFormData("barCouncilNumber", e.target.value)
+                      }
+                      className={errors.barCouncilNumber ? "border-red-500" : ""}
+                      placeholder="Enter registration number"
+                    />
+                    {errors.barCouncilNumber && (
+                      <p className="text-xs text-red-500">{errors.barCouncilNumber}</p>
+                    )}
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="yearOfEnrollment">
+                      Year of Enrollment <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="yearOfEnrollment"
+                      inputMode="numeric"
+                      value={formData.yearOfEnrollment}
+                      onChange={(e) =>
+                        updateFormData(
+                          "yearOfEnrollment",
+                          e.target.value.replace(/\D/g, "").slice(0, 4)
+                        )
+                      }
+                      className={errors.yearOfEnrollment ? "border-red-500" : ""}
+                      placeholder="YYYY"
+                    />
+                    {errors.yearOfEnrollment && (
+                      <p className="text-xs text-red-500">{errors.yearOfEnrollment}</p>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="localBarAssociation">
+                      Member of Local Bar Association?
+                    </Label>
+                    <Select
+                      value={formData.localBarAssociation}
+                      onValueChange={(value) =>
+                        updateFormData("localBarAssociation", value)
+                      }
+                    >
+                      <SelectTrigger id="localBarAssociation">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="No">No</SelectItem>
+                        <SelectItem value="Yes">Yes</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                {formData.localBarAssociation === "Yes" && (
+                  <div className="space-y-2">
+                    <Label htmlFor="localBarAssociationName">
+                      Local Bar Association Name <span className="text-red-500">*</span>
+                    </Label>
+                    <Input
+                      id="localBarAssociationName"
+                      value={formData.localBarAssociationName}
+                      onChange={(e) =>
+                        updateFormData("localBarAssociationName", e.target.value)
+                      }
+                      className={errors.localBarAssociationName ? "border-red-500" : ""}
+                      placeholder="Enter association name"
+                    />
+                    {errors.localBarAssociationName && (
+                      <p className="text-xs text-red-500">
+                        {errors.localBarAssociationName}
+                      </p>
+                    )}
+                  </div>
+                )}
+
+                <div className="space-y-2">
+                  <Label htmlFor="referralAdvocateId">Referral Advocate ID (optional)</Label>
+                  <Input
+                    id="referralAdvocateId"
+                    value={formData.referralAdvocateId}
+                    onChange={(e) =>
+                      updateFormData("referralAdvocateId", e.target.value)
+                    }
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="additionalComments">Additional Comments</Label>
+                  <Textarea
+                    id="additionalComments"
+                    value={formData.additionalComments}
+                    onChange={(e) =>
+                      updateFormData("additionalComments", e.target.value)
+                    }
+                    placeholder="Share any extra details for the admin review"
+                    rows={4}
+                  />
+                </div>
+              </>
+            )}
+
             <div className="flex flex-col sm:flex-row gap-3 pt-4">
-              <Button
-                type="button"
-                variant="outline"
-                className="flex-1"
-                asChild
-              >
-                <Link href="/auth">
+              {currentStep === 1 ? (
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="flex-1"
+                  asChild
+                >
+                  <Link href="/login?userType=advocate">
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back to Login
+                  </Link>
+                </Button>
+              ) : (
+                <Button
+                  type="button"
+                  variant="outline"
+                  className="flex-1"
+                  onClick={() => setCurrentStep(1)}
+                >
                   <ArrowLeft className="w-4 h-4 mr-2" />
-                  Back to Login
-                </Link>
-              </Button>
+                  Back
+                </Button>
+              )}
+
               <Button
                 type="submit"
                 className="flex-1 bg-primary hover:bg-primary/90"
                 disabled={isSubmitting}
               >
-                {isSubmitting ? (
-                  "Submitting..."
-                ) : (
-                  <>
-                    Register
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </>
-                )}
+                {currentStep === 1
+                  ? "Continue"
+                  : isSubmitting
+                  ? "Submitting..."
+                  : (
+                      <>
+                        Submit Application
+                        <ArrowRight className="w-4 h-4 ml-2" />
+                      </>
+                    )}
               </Button>
             </div>
 
             <p className="text-xs text-center text-gray-500 pt-2">
               Already have an account?{" "}
               <Link
-                href="/auth"
+                href="/login?userType=advocate"
                 className="text-primary font-semibold hover:underline"
               >
                 Login here

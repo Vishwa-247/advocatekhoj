@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -49,6 +49,15 @@ export function EnhancedCasesModule({ onNavigate }: EnhancedCasesModuleProps) {
   const [filterCategory, setFilterCategory] = useState("all");
   const [filterPriority, setFilterPriority] = useState("all");
   const [showPostCase, setShowPostCase] = useState(false);
+
+  useEffect(() => {
+    const eventName = "client-dashboard:post-new-case";
+    const handler = () => setShowPostCase(true);
+    window.addEventListener(eventName, handler);
+    return () => {
+      window.removeEventListener(eventName, handler);
+    };
+  }, []);
   const [selectedCases, setSelectedCases] = useState<string[]>([]);
 
   // Mock data - replace with actual data from backend

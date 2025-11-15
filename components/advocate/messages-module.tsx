@@ -161,7 +161,7 @@ export function AdvocateMessagesModule({
         </Card>
 
         {/* Chat Window */}
-        <Card className="lg:col-span-2 flex flex-col h-[600px]">
+        <Card className="lg:col-span-2 flex flex-col min-h-[500px]">
           {selectedChat ? (
             <>
               {/* Chat Header */}

@@ -20,8 +20,9 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Mail, Phone, MapPin, MessageSquare } from "lucide-react";
+import { Mail, MapPin, MessageSquare } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import ReCaptcha from "@/components/ui/recaptcha";
 
 export default function ContactPage() {
   const { toast } = useToast();
@@ -29,7 +30,6 @@ export default function ContactPage() {
   const [form, setForm] = useState({
     contactName: "",
     email: "",
-    phone: "",
     userType: "",
     category: "",
     subject: "",
@@ -51,7 +51,6 @@ export default function ContactPage() {
       setForm({
         contactName: "",
         email: "",
-        phone: "",
         userType: "",
         category: "",
         subject: "",
@@ -122,27 +121,6 @@ export default function ContactPage() {
                         required
                         className="border-gray-300"
                       />
-                    </div>
-
-                    {/* Phone */}
-                    <div className="space-y-2">
-                      <Label htmlFor="phone">
-                        Phone <span className="text-red-500">*</span>
-                      </Label>
-                      <Input
-                        id="phone"
-                        type="tel"
-                        placeholder="Enter your phone number"
-                        value={form.phone}
-                        onChange={(e) =>
-                          setForm({ ...form, phone: e.target.value })
-                        }
-                        required
-                        className="border-gray-300"
-                      />
-                      <p className="text-xs text-gray-500">
-                        (with STD code if calling from India)
-                      </p>
                     </div>
 
                     {/* You are a */}
@@ -284,6 +262,10 @@ export default function ContactPage() {
                       />
                     </div>
 
+                    <div className="flex justify-center">
+                      <ReCaptcha />
+                    </div>
+
                     {/* Submit Button */}
                     <Button
                       type="submit"
@@ -330,24 +312,10 @@ export default function ContactPage() {
                     <div>
                       <h3 className="font-semibold mb-1">Email</h3>
                       <a
-                        href="mailto:support@advocatekhoj.com"
+                        href="mailto:customer_service@advocatekhoj.in"
                         className="text-sm text-primary hover:underline"
                       >
-                        support@advocatekhoj.com
-                      </a>
-                    </div>
-                  </div>
-
-                  {/* Phone */}
-                  <div className="flex items-start gap-3">
-                    <Phone className="h-5 w-5 text-primary mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="font-semibold mb-1">Phone</h3>
-                      <a
-                        href="tel:+919876543210"
-                        className="text-sm text-primary hover:underline"
-                      >
-                        +91 98765 43210
+                        customer_service@advocatekhoj.in
                       </a>
                     </div>
                   </div>
@@ -387,13 +355,6 @@ export default function ContactPage() {
                       <span className="text-primary mt-1">•</span>
                       <span>
                         We typically respond within 24-48 business hours
-                      </span>
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-primary mt-1">•</span>
-                      <span>
-                        For urgent matters, please call us directly during
-                        business hours
                       </span>
                     </li>
                   </ul>

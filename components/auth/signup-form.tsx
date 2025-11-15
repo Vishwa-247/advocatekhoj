@@ -35,6 +35,9 @@ export function SignupForm({ userType }: SignupFormProps) {
   if (userType === "advocate") {
     return <AdvocateRegistrationWorkflow userType={userType} />;
   }
+
+  const primaryActionClasses =
+    "bg-gradient-to-r from-[#00377b] to-[#1453a3] hover:from-[#1453a3] hover:to-[#1f64c7] text-white shadow-md border border-[#001944]/70 transition-[background] duration-200";
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -734,7 +737,11 @@ export function SignupForm({ userType }: SignupFormProps) {
           {/* Google reCAPTCHA */}
           <ReCaptcha />
 
-          <Button type="submit" className="w-full" size="lg">
+          <Button
+            type="submit"
+            className={`w-full ${primaryActionClasses}`}
+            size="lg"
+          >
             Create {userType === "client" ? "Client" : "Advocate"} Account
           </Button>
 
@@ -742,7 +749,7 @@ export function SignupForm({ userType }: SignupFormProps) {
             <span className="text-muted-foreground">
               Already have an account?{" "}
             </span>
-            <a href="/auth" className="text-primary hover:underline">
+            <a href="/login" className="text-primary hover:underline">
               Log in here
             </a>
           </div>

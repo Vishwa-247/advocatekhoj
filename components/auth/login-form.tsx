@@ -33,6 +33,10 @@ export function LoginForm({ userType }: LoginFormProps) {
     password: "",
   });
 
+  const primaryActionClasses =
+    "bg-gradient-to-r from-[#00377b] to-[#1453a3] hover:from-[#1453a3] hover:to-[#1f64c7] text-white shadow-md border border-[#001944]/70 transition-[background] duration-200";
+  const AUTH_EVENT_NAME = "advocatekhoj-auth-change";
+
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
@@ -50,6 +54,7 @@ export function LoginForm({ userType }: LoginFormProps) {
       };
 
       localStorage.setItem("user", JSON.stringify(mockUser));
+      window.dispatchEvent(new Event(AUTH_EVENT_NAME));
 
       toast({
         title: "Login Successful! 🎉",
@@ -85,6 +90,7 @@ export function LoginForm({ userType }: LoginFormProps) {
       };
 
       localStorage.setItem("user", JSON.stringify(mockUser));
+      window.dispatchEvent(new Event(AUTH_EVENT_NAME));
 
       toast({
         title: "Login Successful! 🎉",
@@ -194,7 +200,11 @@ export function LoginForm({ userType }: LoginFormProps) {
             </div>
           </div>
 
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button
+            type="submit"
+            className={`w-full ${primaryActionClasses}`}
+            disabled={isLoading}
+          >
             {isLoading ? "Logging In..." : "Log In"}
           </Button>
 

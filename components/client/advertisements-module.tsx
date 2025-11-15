@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -50,6 +51,7 @@ export function AdvertisementsModule({
   onNavigate,
 }: AdvertisementsModuleProps) {
   const { toast } = useToast();
+  const [isAdvertiser, setIsAdvertiser] = useState(false);
   const [viewMode, setViewMode] = useState<ViewMode>("landing");
   const [businesses, setBusinesses] = useState<any[]>([
     { id: 1, name: "Armada" },
@@ -175,6 +177,75 @@ export function AdvertisementsModule({
     { views: 250000, price: 10000 },
     { views: 500000, price: 22000 },
   ];
+
+  useEffect(() => {
+    const AUTH_STORAGE_KEY = "user";
+    const AUTH_EVENT_NAME = "advocatekhoj-auth-change";
+
+    const readStoredUser = () => {
+      if (typeof window === "undefined") return;
+      const stored = window.localStorage.getItem(AUTH_STORAGE_KEY);
+      if (!stored) {
+        setIsAdvertiser(false);
+        return;
+      }
+      try {
+        const parsed = JSON.parse(stored);
+        setIsAdvertiser(parsed?.userType === "advertiser");
+      } catch {
+        setIsAdvertiser(false);
+      }
+    };
+
+    readStoredUser();
+
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key === AUTH_STORAGE_KEY) {
+        readStoredUser();
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    window.addEventListener(AUTH_EVENT_NAME, readStoredUser);
+
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener(AUTH_EVENT_NAME, readStoredUser);
+    };
+  }, []);
+
+  if (!isAdvertiser) {
+    return (
+      <Card className="border-dashed border-2 border-primary/40 bg-primary/5">
+        <CardHeader>
+          <CardTitle className="text-2xl">Advertise with AdvocateKhoj</CardTitle>
+          <CardDescription>
+            Advertising tools are available only for approved advertiser accounts.
+            Reach out to our team to activate advertising for your organisation.
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <p className="text-sm text-gray-700 leading-relaxed">
+            To run campaigns, please contact our support desk or upgrade your account
+            to an advertiser profile. We will guide you through available inventory,
+            pricing, and approval requirements.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <Button asChild className="sm:w-auto w-full bg-[#00377b] hover:bg-[#1453a3] text-white">
+              <Link href="/contact?context=advertise">Contact Advertising Team</Link>
+            </Button>
+            <Button
+              variant="outline"
+              className="sm:w-auto w-full"
+              onClick={() => onNavigate?.("overview")}
+            >
+              ← Back to Dashboard
+            </Button>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
   const handleSubmitCampaign = (e: React.FormEvent) => {
     e.preventDefault();

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,23 +15,26 @@ import { Badge } from "@/components/ui/badge";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import {
   Search,
-  Filter,
   MapPin,
   Calendar,
   User,
   MessageCircle,
   Eye,
+  BookOpen,
 } from "lucide-react";
+import { INDIAN_STATES, getCitiesByState } from "@/lib/indian-locations";
+import { PRACTICE_AREA_ENTRIES } from "@/lib/legal-data";
 
 interface ClientCase {
   id: string;
   title: string;
-  category: string;
+  practiceCategory: string;
+  practiceArea: string;
   description: string;
-  location: string;
+  state: string;
+  city: string;
   datePosted: string;
   urgency: "low" | "medium" | "high";
-  budget: string;
   clientName: string;
   isAnonymous: boolean;
   responses: number;
@@ -41,22 +44,46 @@ interface ClientCase {
 
 export function CaseBrowser() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedCategory, setSelectedCategory] = useState("all");
-  const [selectedLocation, setSelectedLocation] = useState("all");
+  const [selectedPracticeCategory, setSelectedPracticeCategory] =
+    useState("all");
+  const [selectedPracticeArea, setSelectedPracticeArea] = useState("all");
+  const [selectedState, setSelectedState] = useState("all");
+  const [selectedCity, setSelectedCity] = useState("all");
   const [selectedUrgency, setSelectedUrgency] = useState("all");
+
+  const practiceCategories = useMemo(
+    () =>
+      Array.from(
+        new Set(PRACTICE_AREA_ENTRIES.map((entry) => entry.category))
+      ).sort(),
+    []
+  );
+
+  const practiceAreasForSelectedCategory = useMemo(() => {
+    if (selectedPracticeCategory === "all") return [];
+    return PRACTICE_AREA_ENTRIES.filter(
+      (entry) => entry.category === selectedPracticeCategory
+    ).map((entry) => entry.subCategory);
+  }, [selectedPracticeCategory]);
+
+  const citiesForSelectedState = useMemo(() => {
+    if (selectedState === "all") return [];
+    return getCitiesByState(selectedState);
+  }, [selectedState]);
 
   // Mock data - replace with actual data from backend
   const cases: ClientCase[] = [
     {
       id: "1",
       title: "Property Boundary Dispute with Neighbor",
-      category: "Property Law",
+      practiceCategory: "Property Law",
+      practiceArea: "Boundary Disputes",
       description:
         "I have a boundary dispute with my neighbor regarding a 2-foot strip of land. The neighbor has built a wall that encroaches on my property according to the survey documents I have. Need legal assistance to resolve this matter through proper legal channels.",
-      location: "Mumbai, Maharashtra",
+      state: "Maharashtra",
+      city: "Mumbai",
       datePosted: "2 hours ago",
       urgency: "medium",
-      budget: "₹25,000 - ₹50,000",
       clientName: "Rajesh S.",
       isAnonymous: false,
       responses: 3,
@@ -66,13 +93,14 @@ export function CaseBrowser() {
     {
       id: "2",
       title: "Employment Contract Dispute",
-      category: "Employment Law",
+      practiceCategory: "Employment Law",
+      practiceArea: "Employment Contracts",
       description:
         "Facing issues with my employment contract terms and potential wrongful termination. The company is not following proper procedures and I need legal guidance on my rights and next steps.",
-      location: "Bangalore, Karnataka",
+      state: "Karnataka",
+      city: "Bengaluru",
       datePosted: "4 hours ago",
       urgency: "high",
-      budget: "₹15,000 - ₹30,000",
       clientName: "Anonymous",
       isAnonymous: true,
       responses: 7,
@@ -82,13 +110,14 @@ export function CaseBrowser() {
     {
       id: "3",
       title: "Divorce and Child Custody Case",
-      category: "Family Law",
+      practiceCategory: "Family Law",
+      practiceArea: "Child Custody",
       description:
         "Seeking legal assistance for divorce proceedings and child custody arrangements. Looking for guidance on mutual consent divorce process and ensuring fair custody rights for both parents.",
-      location: "Delhi, NCR",
+      state: "Delhi",
+      city: "New Delhi",
       datePosted: "1 day ago",
       urgency: "low",
-      budget: "₹40,000 - ₹75,000",
       clientName: "Priya M.",
       isAnonymous: false,
       responses: 12,
@@ -128,15 +157,25 @@ export function CaseBrowser() {
       caseItem.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       caseItem.description.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesCategory =
-      selectedCategory === "all" || caseItem.category === selectedCategory;
-    const matchesLocation =
-      selectedLocation === "all" ||
-      caseItem.location.includes(selectedLocation);
+      selectedPracticeCategory === "all" ||
+      caseItem.practiceCategory === selectedPracticeCategory;
+    const matchesArea =
+      selectedPracticeArea === "all" ||
+      caseItem.practiceArea === selectedPracticeArea;
+    const matchesState =
+      selectedState === "all" || caseItem.state === selectedState;
+    const matchesCity =
+      selectedCity === "all" || caseItem.city === selectedCity;
     const matchesUrgency =
       selectedUrgency === "all" || caseItem.urgency === selectedUrgency;
 
     return (
-      matchesSearch && matchesCategory && matchesLocation && matchesUrgency
+      matchesSearch &&
+      matchesCategory &&
+      matchesArea &&
+      matchesState &&
+      matchesCity &&
+      matchesUrgency
     );
   });
 
@@ -165,38 +204,83 @@ export function CaseBrowser() {
               />
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+            <div className="grid grid-cols-1 lg:grid-cols-5 gap-4">
               <Select
-                value={selectedCategory}
-                onValueChange={setSelectedCategory}
+                value={selectedPracticeCategory}
+                onValueChange={(value) => {
+                  setSelectedPracticeCategory(value);
+                  setSelectedPracticeArea("all");
+                }}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="All Categories" />
+                  <SelectValue placeholder="Practice category" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent className="max-h-[280px]">
                   <SelectItem value="all">All Categories</SelectItem>
-                  <SelectItem value="Property Law">Property Law</SelectItem>
-                  <SelectItem value="Employment Law">Employment Law</SelectItem>
-                  <SelectItem value="Family Law">Family Law</SelectItem>
-                  <SelectItem value="Corporate Law">Corporate Law</SelectItem>
-                  <SelectItem value="Criminal Law">Criminal Law</SelectItem>
+                  {practiceCategories.map((category) => (
+                    <SelectItem key={category} value={category}>
+                      {category}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
               <Select
-                value={selectedLocation}
-                onValueChange={setSelectedLocation}
+                value={selectedPracticeArea}
+                onValueChange={setSelectedPracticeArea}
+                disabled={
+                  selectedPracticeCategory === "all" ||
+                  practiceAreasForSelectedCategory.length === 0
+                }
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="All Locations" />
+                  <SelectValue placeholder="Practice area" />
                 </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="all">All Locations</SelectItem>
-                  <SelectItem value="Mumbai">Mumbai</SelectItem>
-                  <SelectItem value="Delhi">Delhi</SelectItem>
-                  <SelectItem value="Bangalore">Bangalore</SelectItem>
-                  <SelectItem value="Chennai">Chennai</SelectItem>
-                  <SelectItem value="Kolkata">Kolkata</SelectItem>
+                <SelectContent className="max-h-[280px]">
+                  <SelectItem value="all">All Practice Areas</SelectItem>
+                  {practiceAreasForSelectedCategory.map((area) => (
+                    <SelectItem key={area} value={area}>
+                      {area}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select
+                value={selectedState}
+                onValueChange={(value) => {
+                  setSelectedState(value);
+                  setSelectedCity("all");
+                }}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="All States" />
+                </SelectTrigger>
+                <SelectContent className="max-h-[280px]">
+                  <SelectItem value="all">All States</SelectItem>
+                  {INDIAN_STATES.map((state) => (
+                    <SelectItem key={state} value={state}>
+                      {state}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+
+              <Select
+                value={selectedCity}
+                onValueChange={setSelectedCity}
+                disabled={selectedState === "all"}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder="All Cities" />
+                </SelectTrigger>
+                <SelectContent className="max-h-[280px]">
+                  <SelectItem value="all">All Cities</SelectItem>
+                  {citiesForSelectedState.map((city) => (
+                    <SelectItem key={city} value={city}>
+                      {city}
+                    </SelectItem>
+                  ))}
                 </SelectContent>
               </Select>
 
@@ -205,20 +289,15 @@ export function CaseBrowser() {
                 onValueChange={setSelectedUrgency}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="All Urgency" />
+                  <SelectValue placeholder="All Urgencies" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Urgency</SelectItem>
-                  <SelectItem value="high">High Priority</SelectItem>
-                  <SelectItem value="medium">Medium Priority</SelectItem>
-                  <SelectItem value="low">Low Priority</SelectItem>
+                  <SelectItem value="all">All Urgencies</SelectItem>
+                  <SelectItem value="high">High</SelectItem>
+                  <SelectItem value="medium">Medium</SelectItem>
+                  <SelectItem value="low">Low</SelectItem>
                 </SelectContent>
               </Select>
-
-              <Button variant="outline">
-                <Filter className="h-4 w-4 mr-2" />
-                More Filters
-              </Button>
             </div>
           </div>
         </CardContent>
@@ -239,9 +318,17 @@ export function CaseBrowser() {
                       <Calendar className="h-4 w-4" />
                       {caseItem.datePosted}
                     </div>
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
                       <MapPin className="h-4 w-4" />
-                      {caseItem.location}
+                      <span>
+                        {caseItem.city}, {caseItem.state}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <BookOpen className="h-4 w-4" />
+                      <span>
+                        {caseItem.practiceCategory} • {caseItem.practiceArea}
+                      </span>
                     </div>
                     <div className="flex items-center gap-1">
                       <User className="h-4 w-4" />
@@ -249,12 +336,9 @@ export function CaseBrowser() {
                     </div>
                   </div>
                   <div className="flex items-center gap-2 mb-3">
-                    <Badge variant="outline">{caseItem.category}</Badge>
                     <Badge className={getUrgencyColor(caseItem.urgency)}>
-                      {getUrgencyIcon(caseItem.urgency)} {caseItem.urgency}{" "}
-                      priority
+                      {getUrgencyIcon(caseItem.urgency)} {caseItem.urgency} priority
                     </Badge>
-                    <Badge variant="secondary">{caseItem.budget}</Badge>
                   </div>
                 </div>
               </div>

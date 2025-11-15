@@ -16,8 +16,11 @@ export default function PageLayout({
 }: PageLayoutProps) {
   const pathname = usePathname();
 
-  // Hide banner on login/auth pages
-  const shouldShowBanner = showBanner && !pathname?.includes("/auth");
+  // Optionally hide banners on dedicated auth routes
+  const shouldShowBanner =
+    showBanner &&
+    !pathname?.startsWith("/login") &&
+    !pathname?.startsWith("/register");
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -27,11 +30,20 @@ export default function PageLayout({
       {shouldShowBanner && (
         <GlobalTopBanner
           rotationInterval={8000} // 8 seconds rotation
-          className="border-b border-gray-200"
+          className="border-b border-[#001944]/20"
+          placement="top"
         />
       )}
 
       <main className="flex-1">{children}</main>
+
+      {shouldShowBanner && (
+        <GlobalTopBanner
+          rotationInterval={8000}
+          className="border-t border-[#001944]/20"
+          placement="bottom"
+        />
+      )}
 
       <Footer />
     </div>

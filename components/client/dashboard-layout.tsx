@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -21,10 +22,12 @@ import {
   ChevronDown,
   Megaphone,
   GraduationCap,
+  Plus,
 } from "lucide-react";
 import Link from "next/link";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import GlobalTopBanner from "@/components/global/global-top-banner";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -92,15 +95,91 @@ export function DashboardLayout({
 }: DashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [userType, setUserType] = useState<string | null>(null);
+  const router = useRouter();
 
-  const currentNavItem = navigationItems.find(
+  const AUTH_STORAGE_KEY = "user";
+  const AUTH_EVENT_NAME = "advocatekhoj-auth-change";
+  const POST_NEW_CASE_EVENT = "client-dashboard:post-new-case";
+
+  useEffect(() => {
+    const readStoredUser = () => {
+      if (typeof window === "undefined") return;
+      const stored = window.localStorage.getItem(AUTH_STORAGE_KEY);
+      if (!stored) {
+        setUserType(null);
+        return;
+      }
+      try {
+        const parsed = JSON.parse(stored);
+        setUserType(parsed?.userType ?? null);
+      } catch {
+        setUserType(null);
+      }
+    };
+
+    readStoredUser();
+
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key === AUTH_STORAGE_KEY) {
+        readStoredUser();
+      }
+    };
+
+    window.addEventListener("storage", handleStorage);
+    window.addEventListener(AUTH_EVENT_NAME, readStoredUser);
+
+    return () => {
+      window.removeEventListener("storage", handleStorage);
+      window.removeEventListener(AUTH_EVENT_NAME, readStoredUser);
+    };
+  }, []);
+
+  const isAdvertiser = userType === "advertiser";
+
+  const filteredNavigationItems = useMemo(() => {
+    if (isAdvertiser) return navigationItems;
+    return navigationItems.filter((item) => item.id !== "advertising");
+  }, [isAdvertiser]);
+
+  useEffect(() => {
+    if (!isAdvertiser && activeSection === "advertising") {
+      onSectionChange("overview");
+    }
+  }, [isAdvertiser, activeSection, onSectionChange]);
+
+  const currentNavItem = filteredNavigationItems.find(
     (item) => item.id === activeSection
   );
+
+  const handlePostNewCase = () => {
+    onSectionChange("cases");
+    setSidebarOpen(false);
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new Event(POST_NEW_CASE_EVENT));
+    }
+  };
+
+  const handleLogout = () => {
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.removeItem(AUTH_STORAGE_KEY);
+      window.dispatchEvent(new Event(AUTH_EVENT_NAME));
+    } catch {
+      // ignore storage errors
+    }
+    router.push("/");
+  };
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Global Navigation */}
       <Header />
+      <GlobalTopBanner
+        rotationInterval={8000}
+        className="border-b border-[#001944]/20 bg-white"
+        placement="top"
+      />
 
       {/* Mobile Header */}
       <div className="lg:hidden flex items-center justify-between p-4 bg-white border-b">
@@ -120,7 +199,7 @@ export function DashboardLayout({
         </Button>
       </div>
 
-      <div className="flex">
+      <div className="flex flex-1">
         {/* Sidebar */}
         <div
           className={cn(
@@ -165,6 +244,13 @@ export function DashboardLayout({
                 {userInfo.membershipType} Member
               </Badge>
             )}
+            <Button
+              className="mt-4 w-full bg-[#00377b] text-white hover:bg-[#1453a3] transition-colors"
+              onClick={handlePostNewCase}
+            >
+              <Plus className="h-4 w-4 mr-2" />
+              Post New Case
+            </Button>
           </div>
 
           {/* Navigation */}
@@ -224,6 +310,7 @@ export function DashboardLayout({
             <Button
               variant="ghost"
               className="w-full justify-start text-red-600 transition-all duration-200 hover:translate-x-1 hover:opacity-80"
+              onClick={handleLogout}
             >
               <LogOut className="h-4 w-4 mr-3" />
               Sign Out
@@ -286,6 +373,7 @@ export function DashboardLayout({
                       <Button
                         variant="ghost"
                         className="w-full justify-start text-sm text-red-600"
+                        onClick={handleLogout}
                       >
                         <LogOut className="h-4 w-4 mr-2" />
                         Sign Out
@@ -309,6 +397,12 @@ export function DashboardLayout({
           onClick={() => setSidebarOpen(false)}
         />
       )}
+
+      <GlobalTopBanner
+        rotationInterval={8000}
+        className="border-t border-[#001944]/20 bg-white"
+        placement="bottom"
+      />
 
       {/* Footer */}
       <Footer />

@@ -17,6 +17,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
+import { INDIAN_STATES, getCitiesByState } from "@/lib/indian-locations";
 
 export function PostCaseForm() {
   const [formData, setFormData] = useState({
@@ -24,7 +25,8 @@ export function PostCaseForm() {
     category: "",
     legalIssue: "",
     description: "",
-    location: "",
+    state: "",
+    city: "",
     urgency: "",
     budget: "",
     isAnonymous: false,
@@ -65,6 +67,10 @@ export function PostCaseForm() {
     "Service Tax",
     "Value Added Tax",
   ];
+
+  const selectedCities = formData.state
+    ? getCitiesByState(formData.state)
+    : [];
 
   return (
     <Card className="w-full max-w-4xl mx-auto">
@@ -161,16 +167,53 @@ export function PostCaseForm() {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="location">Location *</Label>
-                <Input
-                  id="location"
-                  placeholder="City, State"
-                  value={formData.location}
-                  onChange={(e) =>
-                    setFormData({ ...formData, location: e.target.value })
+                <Label htmlFor="state">State *</Label>
+                <Select
+                  value={formData.state}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, state: value, city: "" })
                   }
-                  required
-                />
+                >
+                  <SelectTrigger id="state">
+                    <SelectValue placeholder="Select state" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {INDIAN_STATES.map((state) => (
+                      <SelectItem key={state} value={state}>
+                        {state}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="city">City / Town *</Label>
+                <Select
+                  value={formData.city}
+                  onValueChange={(value) =>
+                    setFormData({ ...formData, city: value })
+                  }
+                  disabled={!formData.state}
+                >
+                  <SelectTrigger id="city">
+                    <SelectValue
+                      placeholder={
+                        formData.state
+                          ? "Select city or town"
+                          : "Select state first"
+                      }
+                    />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {selectedCities.map((city) => (
+                      <SelectItem key={city} value={city}>
+                        {city}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
               </div>
 
               <div className="space-y-2">
@@ -193,7 +236,6 @@ export function PostCaseForm() {
                     <SelectItem value="Marathi">Marathi</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
             </div>
 
             <div className="space-y-3">

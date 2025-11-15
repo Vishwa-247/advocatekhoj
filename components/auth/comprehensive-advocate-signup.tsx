@@ -215,7 +215,7 @@ export function ComprehensiveAdvocateSignup({
         <CardContent className="text-center">
           {registrationStatus === "approved" && (
             <Button
-              onClick={() => (window.location.href = "/auth")}
+              onClick={() => (window.location.href = "/login?userType=advocate")}
               className="mt-4"
             >
               Login to Your Account

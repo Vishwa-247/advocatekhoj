@@ -7,11 +7,13 @@ import { getBannersByPosition, type Banner } from "@/lib/banner-data";
 interface GlobalTopBannerProps {
   rotationInterval?: number; // in milliseconds, default 5000 (5 seconds)
   className?: string;
+  placement?: "top" | "bottom";
 }
 
 export default function GlobalTopBanner({
   rotationInterval = 5000,
   className = "",
+  placement = "top",
 }: GlobalTopBannerProps) {
   const [leftBanners, setLeftBanners] = useState<Banner[]>([]);
   const [rightBanners, setRightBanners] = useState<Banner[]>([]);
@@ -146,7 +148,10 @@ export default function GlobalTopBanner({
   };
 
   return (
-    <div className={`w-full bg-white/80 backdrop-blur-sm ${className}`}>
+    <div
+      className={`w-full bg-white/80 backdrop-blur-sm ${className}`}
+      data-placement={placement}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
         <div className="flex flex-col lg:flex-row gap-4">
           <BannerSlot banner={currentLeftBanner} position="left" />

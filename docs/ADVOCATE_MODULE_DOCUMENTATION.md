@@ -292,7 +292,7 @@ components/
 ### For Advocates:
 
 1. Visit `/advocate/register` for new registration
-2. After receiving credentials, login at `/auth`
+2. After receiving credentials, login at `/login?userType=advocate`
 3. Access dashboard at `/advocate/dashboard`
 4. Navigate between sections using sidebar
 

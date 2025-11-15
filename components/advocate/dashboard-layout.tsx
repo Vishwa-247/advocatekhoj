@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -24,6 +25,7 @@ import {
 import Link from "next/link";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import GlobalTopBanner from "@/components/global/global-top-banner";
 
 interface AdvocateDashboardLayoutProps {
   children: React.ReactNode;
@@ -94,15 +96,34 @@ export function AdvocateDashboardLayout({
 }: AdvocateDashboardLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const router = useRouter();
 
   const currentNavItem = navigationItems.find(
     (item) => item.id === activeSection
   );
 
+  const AUTH_STORAGE_KEY = "user";
+  const AUTH_EVENT_NAME = "advocatekhoj-auth-change";
+  const handleLogout = () => {
+    if (typeof window === "undefined") return;
+    try {
+      window.localStorage.removeItem(AUTH_STORAGE_KEY);
+      window.dispatchEvent(new Event(AUTH_EVENT_NAME));
+    } catch {
+      // ignore storage errors
+    }
+    router.push("/");
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
       {/* Global Navigation */}
       <Header />
+      <GlobalTopBanner
+        rotationInterval={8000}
+        className="border-b border-[#001944]/20 bg-white"
+        placement="top"
+      />
 
       {/* Mobile Header */}
       <div className="lg:hidden flex items-center justify-between p-4 bg-white border-b">
@@ -122,11 +143,11 @@ export function AdvocateDashboardLayout({
         </Button>
       </div>
 
-      <div className="flex">
+      <div className="flex flex-1">
         {/* Sidebar */}
         <div
           className={cn(
-            "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
+            "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-0 min-h-screen",
             sidebarOpen ? "translate-x-0" : "-translate-x-full"
           )}
         >
@@ -182,7 +203,7 @@ export function AdvocateDashboardLayout({
           </div>
 
           {/* Navigation */}
-          <nav className="p-4 space-y-2">
+          <nav className="p-4 space-y-2 pb-32">
             {navigationItems.map((item) => (
               <Button
                 key={item.id}
@@ -250,6 +271,7 @@ export function AdvocateDashboardLayout({
             <Button
               variant="ghost"
               className="w-full justify-start text-red-600 transition-all duration-200 hover:translate-x-1 hover:opacity-80"
+              onClick={handleLogout}
             >
               <LogOut className="h-4 w-4 mr-3" />
               Sign Out
@@ -314,6 +336,7 @@ export function AdvocateDashboardLayout({
                       <Button
                         variant="ghost"
                         className="w-full justify-start text-sm text-red-600"
+                        onClick={handleLogout}
                       >
                         <LogOut className="h-4 w-4 mr-2" />
                         Sign Out
@@ -337,6 +360,12 @@ export function AdvocateDashboardLayout({
           onClick={() => setSidebarOpen(false)}
         />
       )}
+
+      <GlobalTopBanner
+        rotationInterval={8000}
+        className="border-t border-[#001944]/20 bg-white"
+        placement="bottom"
+      />
 
       {/* Global Footer */}
       <Footer />

@@ -42,7 +42,6 @@ export function AdvocateRegistrationWorkflow({
     lastName: "",
     address: "",
     pincode: "",
-    primaryPhone: "",
     secondaryPhone: "",
     mobile: "",
     fax: "",
@@ -162,8 +161,7 @@ export function AdvocateRegistrationWorkflow({
           {registrationStatus === "approved" && (
             <Button
               onClick={() =>
-                (window.location.href =
-                  "/auth?userType=advocate&authMode=login")
+                (window.location.href = "/login?userType=advocate")
               }
               className="mt-4"
             >
@@ -274,6 +272,7 @@ export function AdvocateRegistrationWorkflow({
               </div>
             </div>
 
+
             <div className="space-y-2">
               <Label htmlFor="address">
                 Address *{" "}
@@ -308,49 +307,32 @@ export function AdvocateRegistrationWorkflow({
 
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="primaryPhone">
-                  Primary Phone *{" "}
-                  <span className="text-xs text-red-500">
-                    (with STD code if applicable)
-                  </span>
+                <Label htmlFor="mobile">
+                  Mobile Number *
                 </Label>
-                <Input
-                  id="primaryPhone"
-                  value={formData.primaryPhone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, primaryPhone: e.target.value })
-                  }
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="secondaryPhone">
-                  Secondary Phone{" "}
-                  <span className="text-xs text-red-500">
-                    (with STD code if applicable)
-                  </span>
-                </Label>
-                <Input
-                  id="secondaryPhone"
-                  value={formData.secondaryPhone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, secondaryPhone: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="mobile">Mobile</Label>
                 <Input
                   id="mobile"
                   value={formData.mobile}
                   onChange={(e) =>
                     setFormData({ ...formData, mobile: e.target.value })
                   }
+                  required
                 />
               </div>
+              <div className="space-y-2">
+                <Label htmlFor="secondaryPhone">Alternate Phone</Label>
+                <Input
+                  id="secondaryPhone"
+                  value={formData.secondaryPhone}
+                  onChange={(e) =>
+                    setFormData({ ...formData, secondaryPhone: e.target.value })
+                  }
+                  placeholder="Optional"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="fax">Fax</Label>
                 <Input
@@ -601,7 +583,7 @@ export function AdvocateRegistrationWorkflow({
             Already have an account?{" "}
           </span>
           <a
-            href="/auth?userType=advocate&authMode=login"
+            href="/login?userType=advocate"
             className="text-primary hover:underline"
           >
             Log in here

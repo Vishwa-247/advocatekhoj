@@ -372,7 +372,7 @@ export default function AdvocateAreaPage() {
                 <Link href="/advocate/register">
                   <Button size="lg">Register Now</Button>
                 </Link>
-                <Link href="/auth?userType=advocate&authMode=login">
+                <Link href="/login?userType=advocate">
                   <Button size="lg" variant="secondary">
                     Advocate Log In
                   </Button>
@@ -808,7 +808,7 @@ export default function AdvocateAreaPage() {
               </p>
             </div>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Link href="/auth?type=advocate&mode=register">
+              <Link href="/register?userType=advocate">
                 <Button
                   size="lg"
                   variant="secondary"

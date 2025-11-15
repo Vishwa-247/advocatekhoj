@@ -1,15 +1,24 @@
 "use client";
 
-import { useState } from "react";
-import Link from "next/link";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LoginForm } from "@/components/auth/login-form";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { X } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { useSearchParams } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function LoginPage() {
   const [userType, setUserType] = useState<"client" | "advocate">("client");
+  const searchParams = useSearchParams();
+
+  useEffect(() => {
+    const urlUserType = searchParams.get("userType");
+    if (urlUserType === "advocate" || urlUserType === "client") {
+      setUserType(urlUserType);
+    }
+  }, [searchParams]);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 flex items-center justify-center p-4">
@@ -53,13 +62,13 @@ export default function LoginPage() {
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger
                 value="client"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-transparent cursor-pointer"
               >
                 Client
               </TabsTrigger>
               <TabsTrigger
                 value="advocate"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-transparent cursor-pointer"
               >
                 Advocate
               </TabsTrigger>
@@ -70,19 +79,6 @@ export default function LoginPage() {
         {/* Login Form */}
         <div className="flex justify-center">
           <LoginForm userType={userType} />
-        </div>
-
-        {/* Register link */}
-        <div className="text-center mt-6">
-          <p className="text-sm text-muted-foreground">
-            Don't have an account?{" "}
-            <Link
-              href="/register"
-              className="text-primary font-medium hover:underline"
-            >
-              Register here
-            </Link>
-          </p>
         </div>
       </div>
     </div>
