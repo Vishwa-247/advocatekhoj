@@ -10,12 +10,18 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function LoginPage() {
-  const [userType, setUserType] = useState<"client" | "advocate">("client");
+  const [userType, setUserType] = useState<
+    "client" | "advocate" | "advertiser"
+  >("client");
   const searchParams = useSearchParams();
 
   useEffect(() => {
     const urlUserType = searchParams.get("userType");
-    if (urlUserType === "advocate" || urlUserType === "client") {
+    if (
+      urlUserType === "advocate" ||
+      urlUserType === "client" ||
+      urlUserType === "advertiser"
+    ) {
       setUserType(urlUserType);
     }
   }, [searchParams]);
@@ -59,7 +65,7 @@ export default function LoginPage() {
             onValueChange={(value) => setUserType(value as any)}
             className="w-full max-w-md"
           >
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger
                 value="client"
                 className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-transparent cursor-pointer"
@@ -71,6 +77,12 @@ export default function LoginPage() {
                 className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-transparent cursor-pointer"
               >
                 Advocate
+              </TabsTrigger>
+              <TabsTrigger
+                value="advertiser"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
+              >
+                Advertiser
               </TabsTrigger>
             </TabsList>
           </Tabs>

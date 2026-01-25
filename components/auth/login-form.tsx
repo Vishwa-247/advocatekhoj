@@ -15,11 +15,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Eye, EyeOff, Scale, Users, Shield } from "lucide-react";
+import { Eye, EyeOff, Scale, Users, Shield, Building2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 interface LoginFormProps {
-  userType: "client" | "advocate" | "admin";
+  userType: "client" | "advocate" | "admin" | "advertiser";
 }
 
 export function LoginForm({ userType }: LoginFormProps) {
@@ -67,6 +67,8 @@ export function LoginForm({ userType }: LoginFormProps) {
           router.push("/advocate/dashboard");
         } else if (userType === "client") {
           router.push("/client/dashboard");
+        } else if (userType === "advertiser") {
+          router.push("/advertiser/dashboard");
         } else {
           router.push("/admin/dashboard");
         }
@@ -99,7 +101,11 @@ export function LoginForm({ userType }: LoginFormProps) {
 
       setTimeout(() => {
         router.push(
-          userType === "advocate" ? "/advocate/dashboard" : "/client/dashboard"
+          userType === "advocate"
+            ? "/advocate/dashboard"
+            : userType === "advertiser"
+            ? "/advertiser/dashboard"
+            : "/client/dashboard"
         );
       }, 1000);
     }, 1000);
@@ -111,6 +117,8 @@ export function LoginForm({ userType }: LoginFormProps) {
         return <Users className="h-6 w-6" />;
       case "advocate":
         return <Scale className="h-6 w-6" />;
+      case "advertiser":
+        return <Building2 className="h-6 w-6" />;
       case "admin":
         return <Shield className="h-6 w-6" />;
     }
@@ -122,6 +130,8 @@ export function LoginForm({ userType }: LoginFormProps) {
         return "Client Log In";
       case "advocate":
         return "Advocate Log In";
+      case "advertiser":
+        return "Advertiser Log In";
       case "admin":
         return "Admin Log In";
     }
@@ -133,6 +143,8 @@ export function LoginForm({ userType }: LoginFormProps) {
         return "Access your legal cases and connect with advocates";
       case "advocate":
         return "Manage your practice and client cases";
+      case "advertiser":
+        return "Manage your advertising campaigns and reach legal professionals";
       case "admin":
         return "Administrative access to the platform";
     }
@@ -216,7 +228,7 @@ export function LoginForm({ userType }: LoginFormProps) {
           </div>
         </form>
 
-        {userType === "client" && (
+        {(userType === "client" || userType === "advertiser") && (
           <>
             <div className="relative">
               <div className="absolute inset-0 flex items-center">

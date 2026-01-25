@@ -1,6 +1,7 @@
 "use client";
 
 import { SignupForm } from "@/components/auth/signup-form";
+import { AdvertiserRegistrationForm } from "@/components/auth/advertiser-registration-form";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { X } from "lucide-react";
@@ -10,12 +11,18 @@ import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function RegisterPage() {
-  const [userType, setUserType] = useState<"client" | "advocate">("client");
+  const [userType, setUserType] = useState<
+    "client" | "advocate" | "advertiser"
+  >("client");
   const searchParams = useSearchParams();
 
   useEffect(() => {
     const urlUserType = searchParams.get("userType");
-    if (urlUserType === "advocate" || urlUserType === "client") {
+    if (
+      urlUserType === "advocate" ||
+      urlUserType === "client" ||
+      urlUserType === "advertiser"
+    ) {
       setUserType(urlUserType);
     }
   }, [searchParams]);
@@ -61,7 +68,7 @@ export default function RegisterPage() {
             onValueChange={(value) => setUserType(value as any)}
             className="w-full max-w-md"
           >
-            <TabsList className="grid w-full grid-cols-2">
+            <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger
                 value="client"
                 className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-transparent cursor-pointer"
@@ -74,13 +81,23 @@ export default function RegisterPage() {
               >
                 Advocate
               </TabsTrigger>
+              <TabsTrigger
+                value="advertiser"
+                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
+              >
+                Advertiser
+              </TabsTrigger>
             </TabsList>
           </Tabs>
         </div>
 
         {/* Register Form */}
         <div className="flex justify-center">
-          <SignupForm userType={userType} />
+          {userType === "advertiser" ? (
+            <AdvertiserRegistrationForm userType={userType} />
+          ) : (
+            <SignupForm userType={userType} />
+          )}
         </div>
       </div>
     </div>

@@ -7,6 +7,8 @@ import { ProfileManagement } from "@/components/advocate/profile-management";
 import { CaseBrowser } from "@/components/advocate/case-browser";
 import { MembershipPayment } from "@/components/advocate/membership-payment";
 import { FirstTimeLoginDialog } from "@/components/advocate/first-time-login-dialog";
+import { AdvocateMessagesModule } from "@/components/advocate/messages-module";
+import { BlogManagement } from "@/components/advocate/blog-management";
 
 export default function AdvocateDashboard() {
   const [activeSection, setActiveSection] = useState("overview");
@@ -36,11 +38,9 @@ export default function AdvocateDashboard() {
       case "cases":
         return <CaseBrowser />;
       case "messages":
-        return (
-          <div className="text-center p-8">Messages Module Coming Soon</div>
-        );
+        return <AdvocateMessagesModule onNavigate={setActiveSection} />;
       case "blogs":
-        return <div className="text-center p-8">Blogs Module Coming Soon</div>;
+        return <BlogManagement onNavigate={setActiveSection} />;
       case "membership":
         return <MembershipPayment />;
       default:
