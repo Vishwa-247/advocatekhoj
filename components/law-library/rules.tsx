@@ -3,210 +3,210 @@ import Link from "next/link";
 export function Rules() {
   const rules = [
     {
-      id: "1",
+      id: "aadhaar-authentication-2020",
       title:
         "Aadhaar Authentication for Good Governance (Social Welfare, Innovation, Knowledge) Rules, 2020",
     },
     {
-      id: "2",
+      id: "air-pollution-1982",
       title: "Air (Prevention and Control of Pollution) Rules, 1982",
     },
     {
-      id: "3",
+      id: "aiims-1958",
       title: "All India Institute of Medical Sciences Rules, 1958",
     },
     {
-      id: "4",
+      id: "anti-hijacking-2017",
       title: "Anti-Hijacking Rules, 2017",
     },
     {
-      id: "5",
+      id: "foreign-companies-1975",
       title: "Application of Sections 108 to Foreign Companies Rules, 1975",
     },
     {
-      id: "6",
+      id: "army-air-force-1963",
       title: "Army and Air Force (Disposal of Private Property) Rules, 1963",
     },
     {
-      id: "7",
+      id: "auroville-1997",
       title: "Auroville Foundation Rules, 1997",
     },
     {
-      id: "8",
+      id: "banking-regulation-1949",
       title: "Banking Regulation (Companies) Rules, 1949",
     },
     {
-      id: "9",
+      id: "unregulated-deposit-2020",
       title: "Banning of Unregulated Deposit Schemes Rules, 2020",
     },
     {
-      id: "10",
+      id: "central-civil-services-classification-1965",
       title:
         "Central Civil Services (Classification, Control and Appeal) Rules, 1965",
     },
     {
-      id: "11",
+      id: "central-civil-services-conduct-1964",
       title: "Central Civil Services (Conduct) Rules, 1964",
     },
     {
-      id: "12",
+      id: "central-civil-services-leave-1972",
       title: "Central Civil Services (Leave) Rules, 1972",
     },
     {
-      id: "13",
+      id: "central-civil-services-pension-2021",
       title: "Central Civil Services (Pension) Rules, 2021",
     },
     {
-      id: "14",
+      id: "central-government-pensioners-welfare-1990",
       title: "Central Government Civil Pensioners' Welfare Fund Rules, 1990",
     },
     {
-      id: "15",
+      id: "central-gst-2017",
       title: "Central Goods and Services Tax Rules, 2017",
     },
     {
-      id: "16",
+      id: "central-motor-vehicles-1989",
       title: "Central Motor Vehicles Rules, 1989",
     },
     {
-      id: "17",
+      id: "chemical-accidents-1996",
       title:
         "Chemical Accidents (Emergency Planning, Preparedness and Response) Rules, 1996",
     },
     {
-      id: "18",
+      id: "child-labour-1988",
       title: "Child Labour (Prohibition and Regulation) Rules, 1988",
     },
     {
-      id: "19",
+      id: "cinematograph-1983",
       title: "Cinematograph Rules, 1983",
     },
     {
-      id: "20",
+      id: "companies-incorporation-2014",
       title: "Companies (Incorporation) Rules, 2014",
     },
     {
-      id: "21",
+      id: "companies-management-2014",
       title: "Companies (Management and Administration) Rules, 2014",
     },
     {
-      id: "22",
+      id: "companies-meetings-2014",
       title: "Companies (Meetings of Board and its Powers) Rules, 2014",
     },
     {
-      id: "23",
+      id: "companies-share-capital-2014",
       title: "Companies (Share Capital and Debentures) Rules, 2014",
     },
     {
-      id: "24",
+      id: "consumer-protection-2020",
       title: "Consumer Protection Rules, 2020",
     },
     {
-      id: "25",
+      id: "copyright-2013",
       title: "Copyright Rules, 2013",
     },
     {
-      id: "26",
+      id: "criminal-rules-practice-2019",
       title: "Criminal Rules of Practice, 2019",
     },
     {
-      id: "27",
+      id: "customs-concessional-duty-2017",
       title:
         "Customs (Import of Goods at Concessional Rate of Duty) Rules, 2017",
     },
     {
-      id: "28",
+      id: "delimitation-2002",
       title: "Delimitation Rules, 2002",
     },
     {
-      id: "29",
+      id: "disaster-management-2008",
       title: "Disaster Management Rules, 2008",
     },
     {
-      id: "30",
+      id: "drugs-cosmetics-1945",
       title: "Drugs and Cosmetics Rules, 1945",
     },
     {
-      id: "31",
+      id: "election-symbols-1968",
       title: "Election Symbols (Reservation and Allotment) Rules, 1968",
     },
     {
-      id: "32",
+      id: "electricity-2005",
       title: "Electricity Rules, 2005",
     },
     {
-      id: "33",
+      id: "environment-impact-2006",
       title: "Environment Impact Assessment Rules, 2006",
     },
     {
-      id: "34",
+      id: "factories-1950",
       title: "Factories Rules, 1950",
     },
     {
-      id: "35",
+      id: "family-courts-1987",
       title: "Family Courts Rules, 1987",
     },
     {
-      id: "36",
+      id: "foreign-exchange-non-debt-2019",
       title: "Foreign Exchange Management (Non-debt Instruments) Rules, 2019",
     },
     {
-      id: "37",
+      id: "forest-conservation-2003",
       title: "Forest (Conservation) Rules, 2003",
     },
     {
-      id: "38",
+      id: "gst-compensation-2017",
       title: "Goods and Services Tax (Compensation to States) Rules, 2017",
     },
     {
-      id: "39",
+      id: "income-tax-1962",
       title: "Income Tax Rules, 1962",
     },
     {
-      id: "40",
+      id: "medical-council-ethics-2002",
       title:
         "Indian Medical Council (Professional Conduct, Etiquette and Ethics) Rules, 2002",
     },
     {
-      id: "41",
+      id: "it-intermediary-guidelines-2021",
       title:
         "Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021",
     },
     {
-      id: "42",
+      id: "insolvency-bankruptcy-2016",
       title:
         "Insolvency and Bankruptcy (Application to Adjudicating Authority) Rules, 2016",
     },
     {
-      id: "43",
+      id: "insurance-1939",
       title: "Insurance Rules, 1939",
     },
     {
-      id: "44",
+      id: "legal-services-1995",
       title: "Legal Services Authorities Rules, 1995",
     },
     {
-      id: "45",
+      id: "maternity-benefit-1963",
       title: "Maternity Benefit Rules, 1963",
     },
     {
-      id: "46",
+      id: "medical-termination-pregnancy-2003",
       title: "Medical Termination of Pregnancy Rules, 2003",
     },
     {
-      id: "47",
+      id: "minimum-wages-1950",
       title: "Minimum Wages Rules, 1950",
     },
     {
-      id: "48",
+      id: "national-green-tribunal-2011",
       title: "National Green Tribunal Rules, 2011",
     },
     {
-      id: "49",
+      id: "patents-2003",
       title: "Patents Rules, 2003",
     },
     {
-      id: "50",
+      id: "prevention-corruption-1988",
       title: "Prevention of Corruption Rules, 1988",
     },
   ];

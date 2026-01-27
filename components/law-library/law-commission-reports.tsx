@@ -4,76 +4,76 @@ import Link from "next/link";
 
 const lawCommissionReports = [
   {
-    id: "1",
+    id: "liability-state-tort",
     title: "Liability of the State in Tort",
   },
   {
-    id: "2",
+    id: "parliamentary-legislation-sales-tax",
     title: "Parliamentary Legislation relating to Sales Tax",
   },
   {
-    id: "3",
+    id: "limitation-act-1908",
     title: "Limitation Act, 1908",
   },
   {
-    id: "4",
+    id: "high-courts-benches-proposal",
     title:
       "On the Proposal that High Courts should Sit in Benches at Different Places in a State",
   },
   {
-    id: "5",
+    id: "british-statutes-india",
     title: "British Statutes Applicable to India",
   },
   {
-    id: "6",
+    id: "registration-act-1908",
     title: "Registration Act, 1908",
   },
   {
-    id: "7",
+    id: "partnership-act-1932",
     title: "Partnership Act, 1932",
   },
   {
-    id: "8",
+    id: "sale-goods-act-1930",
     title: "Sale of Goods Act, 1930",
   },
   {
-    id: "9",
+    id: "specific-relief-act-1877",
     title: "Specific Relief Act, 1877",
   },
   {
-    id: "10",
+    id: "acquisition-requisitioning-land",
     title: "Law of Acquisition and Requisitioning of Land",
   },
   {
-    id: "11",
+    id: "negotiable-instruments-1881",
     title: "Negotiable Instruments Act, 1881",
   },
   {
-    id: "12",
+    id: "income-tax-act-1922",
     title: "Income-Tax Act, 1922",
   },
   {
-    id: "13",
+    id: "indian-contract-act-1872",
     title: "Indian Contract Act, 1872",
   },
   {
-    id: "14",
+    id: "reform-judicial-administration",
     title: "Reform of Judicial Administration",
   },
   {
-    id: "15",
+    id: "christian-marriage-divorce",
     title: "Report on the Law of Christian Marriage and Divorce",
   },
   {
-    id: "16",
+    id: "official-trustees-act-1913",
     title: "Report on the Official Trustees Act, 1913",
   },
   {
-    id: "17",
+    id: "contempt-courts-act-1971",
     title: "Contempt of Courts Act, 1971",
   },
   {
-    id: "18",
+    id: "converts-marriage-dissolution-1866",
     title: "Converts Marriage Dissolution Act, 1866",
   },
   {

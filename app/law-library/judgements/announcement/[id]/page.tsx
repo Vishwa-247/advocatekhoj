@@ -1,18 +1,28 @@
+"use client";
+
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import {
+  ArrowLeft,
+  Download,
+  Printer,
+  Share2,
+  BookOpen,
+  Scale,
+} from "lucide-react";
+import { getJudgmentById } from "@/lib/sc-judgments-content";
+import { useParams } from "next/navigation";
 
-interface JudgementDetailPageProps {
-  params: {
-    id: string;
-  };
-}
+export default function JudgementDetailPage() {
+  const params = useParams();
+  const id = params.id as string;
 
-export default function JudgementDetailPage({
-  params,
-}: JudgementDetailPageProps) {
-  // Extended judgement data based on the screenshot
-  const judgementData: {
+  const judgment = getJudgmentById(id);
+
+  // Fallback legacy data structure for compatibility
+  const legacyData: {
     [key: string]: {
       title: string;
       caseNumber: string;
@@ -113,7 +123,10 @@ export default function JudgementDetailPage({
     },
   };
 
-  const judgement = judgementData[params.id];
+  const legacyJudgment = legacyData[id];
+
+  // Use judgment from new system or fallback to legacy
+  const judgement = judgment || legacyJudgment;
 
   if (!judgement) {
     return (
@@ -181,7 +194,7 @@ export default function JudgementDetailPage({
                     >
                       {year}
                     </Link>
-                  )
+                  ),
                 )}
               </div>
             </div>
@@ -236,23 +249,41 @@ export default function JudgementDetailPage({
               {judgement.caseNumber}
             </div>
             <div className="text-sm text-gray-600 mb-4">
-              <strong>Judge:</strong> {judgement.judges}
+              <strong>Judge:</strong>{" "}
+              {Array.isArray(judgement.judges)
+                ? judgement.judges.join(", ")
+                : judgement.judges}
             </div>
             <div className="text-sm text-gray-600 mb-6">
               <strong>Date:</strong> {judgement.date}
             </div>
 
             <div className="prose max-w-none">
-              {judgement.content
-                .split("\n\n")
-                .map((paragraph: string, index: number) => (
-                  <p
-                    key={index}
-                    className="mb-4 text-gray-700 leading-relaxed text-justify"
-                  >
-                    {paragraph}
-                  </p>
-                ))}
+              {judgement.paragraphs
+                ? // New structure with paragraphs array
+                  judgement.paragraphs.map(
+                    (paragraph: string, index: number) => (
+                      <p
+                        key={index}
+                        className="mb-4 text-gray-700 leading-relaxed text-justify"
+                      >
+                        {paragraph}
+                      </p>
+                    ),
+                  )
+                : judgement.content
+                  ? // Legacy structure with content string
+                    judgement.content
+                      .split("\n\n")
+                      .map((paragraph: string, index: number) => (
+                        <p
+                          key={index}
+                          className="mb-4 text-gray-700 leading-relaxed text-justify"
+                        >
+                          {paragraph}
+                        </p>
+                      ))
+                  : null}
             </div>
 
             {/* Download Options */}

@@ -3,54 +3,54 @@ import Link from "next/link";
 export function BareActs() {
   const bareActs = [
     {
-      id: "1",
+      id: "aadhaar-2016",
       title:
         "Aadhaar (Targeted Delivery of Financial and other Subsidies, Benefits and Services) Act, 2016",
     },
     {
-      id: "2",
+      id: "abducted-persons-1955",
       title:
         "Abducted Persons (Recovery and Restoration) Continuance Act, 1955",
     },
     {
-      id: "3",
+      id: "absorbed-areas-1954",
       title: "Absorbed Areas (Laws) Act, 1954",
     },
     {
-      id: "4",
+      id: "academy-scientific-2011",
       title: "Academy of Scientific and Innovative Research, 2011",
     },
     {
-      id: "5",
+      id: "acquired-territories-1960",
       title: "Acquired Territories (Merger) Act, 1960",
     },
     {
-      id: "6",
+      id: "acquisition-ayodhya-1993",
       title: "Acquisition of Certain Area at Ayodhya Act, 1993",
     },
     {
-      id: "7",
+      id: "actuaries-2006",
       title: "Actuaries Act, 2006",
     },
     {
-      id: "8",
+      id: "additional-duties-textiles-1978",
       title:
         "Additional Duties of Excise (Textiles and Textile Articles) Act, 1978",
     },
     {
-      id: "9",
+      id: "administrative-tribunals-1986",
       title: "Administrative Tribunals (Amendment) Act, 1986",
     },
     {
-      id: "10",
+      id: "advocates-1961",
       title: "Advocates Act, 1961",
     },
     {
-      id: "11",
+      id: "airports-authority-1994",
       title: "Airports Authority of India Act, 1994",
     },
     {
-      id: "12",
+      id: "aiims-1956",
       title: "All India Institute of Medical Sciences Act, 1956",
     },
     {

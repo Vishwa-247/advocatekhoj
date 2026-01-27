@@ -123,6 +123,11 @@ export function SCJudgements() {
 
   const latestJudgements = [
     {
+      id: "19935",
+      date: "27/01/26",
+      title: "Bernard Lyngdoh Phawa Vs. State of Meghalaya",
+    },
+    {
       id: "19424",
       date: "12/09/25",
       title:
@@ -302,7 +307,7 @@ export function SCJudgements() {
                         <div className="flex-1">
                           <div className="flex justify-between items-start mb-1">
                             <Link
-                              href={`/law-library/sc-judgements/judgement/${judgement.id}`}
+                              href={`/law-library/judgements/announcement/${judgement.id}`}
                               className="text-blue-600 hover:text-blue-800 hover:underline text-sm font-medium"
                             >
                               {judgement.title}
