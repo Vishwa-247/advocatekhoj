@@ -7,10 +7,10 @@ const linkClasses =
 export default function Footer() {
   return (
     <footer className="bg-[#00377b] text-white border-t-4 border-[#001944]">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-6">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+        <div className="grid gap-6 sm:gap-8 grid-cols-2 sm:grid-cols-2 lg:grid-cols-6">
           <div>
-            <h3 className="text-base font-bold text-white border-b-2 border-[#001944] pb-2 mb-4">
+            <h3 className="text-sm sm:text-base font-bold text-white border-b-2 border-[#001944] pb-2 mb-3 sm:mb-4">
               Company
             </h3>
             <ul className="space-y-2">
@@ -43,7 +43,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-base font-bold text-white border-b-2 border-[#001944] pb-2 mb-4">
+            <h3 className="text-sm sm:text-base font-bold text-white border-b-2 border-[#001944] pb-2 mb-3 sm:mb-4">
               Client Area
             </h3>
             <ul className="space-y-2">
@@ -71,7 +71,7 @@ export default function Footer() {
           </div>
 
           <div>
-            <h3 className="text-base font-bold text-white border-b-2 border-[#001944] pb-2 mb-4">
+            <h3 className="text-sm sm:text-base font-bold text-white border-b-2 border-[#001944] pb-2 mb-3 sm:mb-4">
               Advocate Area
             </h3>
             <ul className="space-y-2">
@@ -91,7 +91,10 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/advocate-area#how-it-works" className={linkClasses}>
+                <Link
+                  href="/advocate-area#how-it-works"
+                  className={linkClasses}
+                >
                   How It Works
                 </Link>
               </li>
@@ -125,7 +128,10 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/advocate/dashboard?section=blogs" className={linkClasses}>
+                <Link
+                  href="/advocate/dashboard?section=blogs"
+                  className={linkClasses}
+                >
                   Post a Blog
                 </Link>
               </li>
@@ -216,8 +222,7 @@ export default function Footer() {
                   className="flex items-center gap-2 text-white/90 hover:text-white transition-colors duration-200 text-sm"
                   aria-label="Visit AdvocateKhoj on X"
                 >
-                  <Twitter className="h-4 w-4" />
-                  X (Twitter)
+                  <Twitter className="h-4 w-4" />X (Twitter)
                 </a>
               </li>
               <li>
@@ -239,11 +244,14 @@ export default function Footer() {
         <div className="border-t border-[#001944] mt-10 pt-6">
           <div className="text-center text-xs text-white/80 leading-relaxed">
             <p className="mb-2">
-              Information provided on advocatekhoj.com is solely available at your
-              request for informational purposes only and should not be interpreted as
-              soliciting or advertisement.
+              Information provided on advocatekhoj.com is solely available at
+              your request for informational purposes only and should not be
+              interpreted as soliciting or advertisement.
             </p>
-            <p>&copy; {new Date().getFullYear()} AdvocateKhoj. All Rights Reserved.</p>
+            <p>
+              &copy; {new Date().getFullYear()} AdvocateKhoj. All Rights
+              Reserved.
+            </p>
           </div>
         </div>
       </div>

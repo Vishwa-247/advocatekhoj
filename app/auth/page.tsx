@@ -39,7 +39,7 @@ export default function AuthPage() {
   }, [searchParams]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 flex items-center justify-center p-4 overflow-y-auto">
       {/* Close button */}
       <div className="fixed top-4 right-4 z-50">
         <Button variant="ghost" size="sm" asChild>
@@ -49,9 +49,9 @@ export default function AuthPage() {
         </Button>
       </div>
 
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-4xl py-8">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           <Link
             href="/"
             className="inline-block mb-4 hover:opacity-80 transition-opacity"
@@ -61,19 +61,19 @@ export default function AuthPage() {
               alt="AdvocateKhoj"
               width={120}
               height={60}
-              className="h-12 w-auto"
+              className="h-10 sm:h-12 w-auto"
             />
           </Link>
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
             Welcome to AdvocateKhoj
           </h1>
-          <p className="text-muted-foreground">
+          <p className="text-sm sm:text-base text-muted-foreground">
             Your trusted platform for legal services and consultation
           </p>
         </div>
 
         {/* User Type Selection */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-6 sm:mb-8 px-2">
           <Tabs
             value={userType}
             onValueChange={(value) => setUserType(value as any)}
@@ -82,19 +82,19 @@ export default function AuthPage() {
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger
                 value="client"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
+                className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
               >
                 Client
               </TabsTrigger>
               <TabsTrigger
                 value="advocate"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
+                className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
               >
                 Advocate
               </TabsTrigger>
               <TabsTrigger
                 value="advertiser"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
+                className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
               >
                 Advertiser
               </TabsTrigger>
@@ -103,7 +103,7 @@ export default function AuthPage() {
         </div>
 
         {/* Auth Mode Selection */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-6 sm:mb-8 px-2">
           <Tabs
             value={authMode}
             onValueChange={(value) => setAuthMode(value as any)}
@@ -112,13 +112,13 @@ export default function AuthPage() {
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger
                 value="login"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground hover:bg-secondary/90 hover:text-white transition-colors duration-200"
+                className="text-xs sm:text-sm data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground hover:bg-secondary/90 hover:text-white transition-colors duration-200"
               >
                 Log In
               </TabsTrigger>
               <TabsTrigger
                 value="signup"
-                className="data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground hover:bg-secondary/90 hover:text-white transition-colors duration-200"
+                className="text-xs sm:text-sm data-[state=active]:bg-secondary data-[state=active]:text-secondary-foreground hover:bg-secondary/90 hover:text-white transition-colors duration-200"
               >
                 Register
               </TabsTrigger>

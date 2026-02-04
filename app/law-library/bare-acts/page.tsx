@@ -4,7 +4,7 @@ import { BareActs } from "@/components/law-library/bare-acts";
 
 export default function BareActsPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       <Header />
       <BareActs />
       <Footer />

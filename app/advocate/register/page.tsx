@@ -2,24 +2,13 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import {
-  CheckCircle,
-  ArrowRight,
-  ArrowLeft,
-  Mail,
-  Phone,
-} from "lucide-react";
+import { CheckCircle, ArrowRight, ArrowLeft, Mail, Phone } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
@@ -78,8 +67,10 @@ export default function AdvocateRegister() {
 
   const validateStep1 = () => {
     const nextErrors: Record<string, string> = {};
-    if (!formData.firstName.trim()) nextErrors.firstName = "First name is required";
-    if (!formData.lastName.trim()) nextErrors.lastName = "Last name is required";
+    if (!formData.firstName.trim())
+      nextErrors.firstName = "First name is required";
+    if (!formData.lastName.trim())
+      nextErrors.lastName = "Last name is required";
     if (!formData.email.trim()) {
       nextErrors.email = "Email is required";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
@@ -111,7 +102,8 @@ export default function AdvocateRegister() {
       formData.localBarAssociation === "Yes" &&
       !formData.localBarAssociationName.trim()
     ) {
-      nextErrors.localBarAssociationName = "Please mention the association name";
+      nextErrors.localBarAssociationName =
+        "Please mention the association name";
     }
     setErrors(nextErrors);
     return Object.keys(nextErrors).length === 0;
@@ -162,11 +154,17 @@ export default function AdvocateRegister() {
                 <div className="space-y-2">
                   <p className="font-semibold">What happens next?</p>
                   <ol className="list-decimal list-inside space-y-2 ml-2">
-                    <li>The admin team verifies your details and checks for duplicates.</li>
-                    <li>You receive your username and temporary password via email.</li>
                     <li>
-                      Complete your profile with contact, practice areas, languages, and BAR
-                      affiliations.
+                      The admin team verifies your details and checks for
+                      duplicates.
+                    </li>
+                    <li>
+                      You receive your username and temporary password via
+                      email.
+                    </li>
+                    <li>
+                      Complete your profile with contact, practice areas,
+                      languages, and BAR affiliations.
                     </li>
                     <li>Your profile is approved within 15 days.</li>
                   </ol>
@@ -174,15 +172,19 @@ export default function AdvocateRegister() {
                 <div className="p-3 bg-yellow-50 border border-yellow-200 rounded">
                   <p className="text-sm">
                     <strong>Important:</strong> Watch for an email from{" "}
-                    <span className="font-mono text-xs">customer_service@advocatekhoj.in</span>.
-                    Check your spam folder if you do not see it in your inbox.
+                    <span className="font-mono text-xs">
+                      customer_service@advocatekhoj.in
+                    </span>
+                    . Check your spam folder if you do not see it in your inbox.
                   </p>
                 </div>
               </AlertDescription>
             </Alert>
 
             <div className="bg-gray-50 p-4 rounded-lg">
-              <p className="text-sm font-semibold text-gray-700 mb-2">Registered Email</p>
+              <p className="text-sm font-semibold text-gray-700 mb-2">
+                Registered Email
+              </p>
               <p className="text-base text-gray-900">{formData.email}</p>
             </div>
 
@@ -203,39 +205,46 @@ export default function AdvocateRegister() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 flex items-center justify-center p-4">
-      <Card className="max-w-2xl w-full shadow-xl">
-        <CardHeader className="space-y-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/5 flex items-center justify-center p-4 overflow-y-auto">
+      <Card className="max-w-2xl w-full shadow-xl my-4">
+        <CardHeader className="space-y-3 sm:space-y-4">
           <div className="flex items-center justify-between">
-            <Badge variant="secondary" className="text-sm">
+            <Badge variant="secondary" className="text-xs sm:text-sm">
               Step {currentStep} of 2
             </Badge>
-            <Badge variant="outline" className="text-xs">New Application</Badge>
+            <Badge variant="outline" className="text-xs">
+              New Application
+            </Badge>
           </div>
-          <CardTitle className="text-2xl font-bold text-gray-900">
+          <CardTitle className="text-xl sm:text-2xl font-bold text-gray-900">
             Advocate Registration
           </CardTitle>
-          <p className="text-sm text-gray-600">
-            Register basic details so we can verify your credentials. After approval you
-            will receive login details to complete your profile.
+          <p className="text-xs sm:text-sm text-gray-600">
+            Register basic details so we can verify your credentials. After
+            approval you will receive login details to complete your profile.
           </p>
           <div className="flex items-center gap-2">
-            <div className={`flex-1 h-2 rounded ${currentStep >= 1 ? "bg-primary" : "bg-gray-200"}`} />
-            <div className={`flex-1 h-2 rounded ${currentStep === 2 ? "bg-primary" : "bg-gray-200"}`} />
+            <div
+              className={`flex-1 h-2 rounded ${currentStep >= 1 ? "bg-primary" : "bg-gray-200"}`}
+            />
+            <div
+              className={`flex-1 h-2 rounded ${currentStep === 2 ? "bg-primary" : "bg-gray-200"}`}
+            />
           </div>
         </CardHeader>
 
         <CardContent>
           <form
             onSubmit={currentStep === 1 ? handleNext : handleSubmit}
-            className="space-y-5"
+            className="space-y-4 sm:space-y-5"
           >
             {currentStep === 1 ? (
               <>
                 <Alert className="bg-yellow-50 border-yellow-200">
                   <AlertDescription className="text-sm text-gray-700">
-                    <strong>Note:</strong> Once your application is submitted, the displayed
-                    advocate name cannot be changed. Please double-check spelling.
+                    <strong>Note:</strong> Once your application is submitted,
+                    the displayed advocate name cannot be changed. Please
+                    double-check spelling.
                   </AlertDescription>
                 </Alert>
 
@@ -247,7 +256,9 @@ export default function AdvocateRegister() {
                     <Input
                       id="firstName"
                       value={formData.firstName}
-                      onChange={(e) => updateFormData("firstName", e.target.value)}
+                      onChange={(e) =>
+                        updateFormData("firstName", e.target.value)
+                      }
                       className={errors.firstName ? "border-red-500" : ""}
                       placeholder="Enter first name"
                     />
@@ -260,18 +271,23 @@ export default function AdvocateRegister() {
                     <Input
                       id="middleName"
                       value={formData.middleName}
-                      onChange={(e) => updateFormData("middleName", e.target.value)}
+                      onChange={(e) =>
+                        updateFormData("middleName", e.target.value)
+                      }
                       placeholder="Optional"
                     />
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="lastName">
-                      Last Name / Surname <span className="text-red-500">*</span>
+                      Last Name / Surname{" "}
+                      <span className="text-red-500">*</span>
                     </Label>
                     <Input
                       id="lastName"
                       value={formData.lastName}
-                      onChange={(e) => updateFormData("lastName", e.target.value)}
+                      onChange={(e) =>
+                        updateFormData("lastName", e.target.value)
+                      }
                       className={errors.lastName ? "border-red-500" : ""}
                       placeholder="Enter last name"
                     />
@@ -292,7 +308,9 @@ export default function AdvocateRegister() {
                         id="email"
                         type="email"
                         value={formData.email}
-                        onChange={(e) => updateFormData("email", e.target.value)}
+                        onChange={(e) =>
+                          updateFormData("email", e.target.value)
+                        }
                         className={`pl-10 ${errors.email ? "border-red-500" : ""}`}
                         placeholder="your.email@example.com"
                       />
@@ -315,7 +333,7 @@ export default function AdvocateRegister() {
                         onChange={(e) =>
                           updateFormData(
                             "mobile",
-                            e.target.value.replace(/\D/g, "").slice(0, 10)
+                            e.target.value.replace(/\D/g, "").slice(0, 10),
                           )
                         }
                         className={`pl-10 ${errors.mobile ? "border-red-500" : ""}`}
@@ -329,7 +347,9 @@ export default function AdvocateRegister() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="alternatePhone">Alternate Phone (optional)</Label>
+                  <Label htmlFor="alternatePhone">
+                    Alternate Phone (optional)
+                  </Label>
                   <Input
                     id="alternatePhone"
                     inputMode="numeric"
@@ -337,7 +357,7 @@ export default function AdvocateRegister() {
                     onChange={(e) =>
                       updateFormData(
                         "alternatePhone",
-                        e.target.value.replace(/\D/g, "").slice(0, 10)
+                        e.target.value.replace(/\D/g, "").slice(0, 10),
                       )
                     }
                     placeholder="Provide another reachable number"
@@ -348,7 +368,8 @@ export default function AdvocateRegister() {
               <>
                 <Alert className="bg-blue-50 border-blue-200">
                   <AlertDescription className="text-sm text-gray-700">
-                    Provide BAR council information so we can verify your credentials.
+                    Provide BAR council information so we can verify your
+                    credentials.
                   </AlertDescription>
                 </Alert>
 
@@ -367,7 +388,9 @@ export default function AdvocateRegister() {
                       placeholder="e.g., Bar Council of Delhi"
                     />
                     {errors.stateBarCouncil && (
-                      <p className="text-xs text-red-500">{errors.stateBarCouncil}</p>
+                      <p className="text-xs text-red-500">
+                        {errors.stateBarCouncil}
+                      </p>
                     )}
                   </div>
 
@@ -381,11 +404,15 @@ export default function AdvocateRegister() {
                       onChange={(e) =>
                         updateFormData("barCouncilNumber", e.target.value)
                       }
-                      className={errors.barCouncilNumber ? "border-red-500" : ""}
+                      className={
+                        errors.barCouncilNumber ? "border-red-500" : ""
+                      }
                       placeholder="Enter registration number"
                     />
                     {errors.barCouncilNumber && (
-                      <p className="text-xs text-red-500">{errors.barCouncilNumber}</p>
+                      <p className="text-xs text-red-500">
+                        {errors.barCouncilNumber}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -402,14 +429,18 @@ export default function AdvocateRegister() {
                       onChange={(e) =>
                         updateFormData(
                           "yearOfEnrollment",
-                          e.target.value.replace(/\D/g, "").slice(0, 4)
+                          e.target.value.replace(/\D/g, "").slice(0, 4),
                         )
                       }
-                      className={errors.yearOfEnrollment ? "border-red-500" : ""}
+                      className={
+                        errors.yearOfEnrollment ? "border-red-500" : ""
+                      }
                       placeholder="YYYY"
                     />
                     {errors.yearOfEnrollment && (
-                      <p className="text-xs text-red-500">{errors.yearOfEnrollment}</p>
+                      <p className="text-xs text-red-500">
+                        {errors.yearOfEnrollment}
+                      </p>
                     )}
                   </div>
 
@@ -437,15 +468,21 @@ export default function AdvocateRegister() {
                 {formData.localBarAssociation === "Yes" && (
                   <div className="space-y-2">
                     <Label htmlFor="localBarAssociationName">
-                      Local Bar Association Name <span className="text-red-500">*</span>
+                      Local Bar Association Name{" "}
+                      <span className="text-red-500">*</span>
                     </Label>
                     <Input
                       id="localBarAssociationName"
                       value={formData.localBarAssociationName}
                       onChange={(e) =>
-                        updateFormData("localBarAssociationName", e.target.value)
+                        updateFormData(
+                          "localBarAssociationName",
+                          e.target.value,
+                        )
                       }
-                      className={errors.localBarAssociationName ? "border-red-500" : ""}
+                      className={
+                        errors.localBarAssociationName ? "border-red-500" : ""
+                      }
                       placeholder="Enter association name"
                     />
                     {errors.localBarAssociationName && (
@@ -457,7 +494,9 @@ export default function AdvocateRegister() {
                 )}
 
                 <div className="space-y-2">
-                  <Label htmlFor="referralAdvocateId">Referral Advocate ID (optional)</Label>
+                  <Label htmlFor="referralAdvocateId">
+                    Referral Advocate ID (optional)
+                  </Label>
                   <Input
                     id="referralAdvocateId"
                     value={formData.referralAdvocateId}
@@ -468,7 +507,9 @@ export default function AdvocateRegister() {
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="additionalComments">Additional Comments</Label>
+                  <Label htmlFor="additionalComments">
+                    Additional Comments
+                  </Label>
                   <Textarea
                     id="additionalComments"
                     value={formData.additionalComments}
@@ -512,16 +553,16 @@ export default function AdvocateRegister() {
                 className="flex-1 bg-primary hover:bg-primary/90"
                 disabled={isSubmitting}
               >
-                {currentStep === 1
-                  ? "Continue"
-                  : isSubmitting
-                  ? "Submitting..."
-                  : (
-                      <>
-                        Submit Application
-                        <ArrowRight className="w-4 h-4 ml-2" />
-                      </>
-                    )}
+                {currentStep === 1 ? (
+                  "Continue"
+                ) : isSubmitting ? (
+                  "Submitting..."
+                ) : (
+                  <>
+                    Submit Application
+                    <ArrowRight className="w-4 h-4 ml-2" />
+                  </>
+                )}
               </Button>
             </div>
 

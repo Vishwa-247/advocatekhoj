@@ -23,7 +23,7 @@ export default function PageLayout({
     !pathname?.startsWith("/register");
 
   return (
-    <div className="min-h-screen flex flex-col">
+    <div className="min-h-screen flex flex-col overflow-x-hidden">
       <Header />
 
       {/* Global Top Banner */}
@@ -35,7 +35,7 @@ export default function PageLayout({
         />
       )}
 
-      <main className="flex-1">{children}</main>
+      <main className="flex-1 overflow-x-hidden">{children}</main>
 
       {shouldShowBanner && (
         <GlobalTopBanner

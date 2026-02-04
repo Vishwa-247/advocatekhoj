@@ -5,18 +5,18 @@ export default function PrivacyPolicyPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-12 max-w-4xl">
-          <h1 className="text-4xl font-bold text-primary mb-8">
+      <main className="min-h-screen bg-gray-50 overflow-x-hidden">
+        <div className="container mx-auto px-4 py-8 sm:py-12 max-w-4xl">
+          <h1 className="text-2xl sm:text-4xl font-bold text-primary mb-6 sm:mb-8">
             Privacy Policy
           </h1>
 
-          <div className="bg-white rounded-lg shadow-md p-8 space-y-8">
+          <div className="bg-white rounded-lg shadow-md p-4 sm:p-8 space-y-6 sm:space-y-8">
             <section>
-              <h2 className="text-2xl font-semibold text-primary mb-4">
+              <h2 className="text-xl sm:text-2xl font-semibold text-primary mb-3 sm:mb-4">
                 We Secure Your Personal Information
               </h2>
-              <p className="text-gray-700 leading-relaxed">
+              <p className="text-sm sm:text-base text-gray-700 leading-relaxed">
                 AdvocatKhoj considers all information submitted to this site as
                 "sensitive & confidential". Hence, we take immense measure to
                 secure all information submitted and viewed on our site. All

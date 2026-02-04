@@ -352,28 +352,37 @@ export default function AdvocateAreaPage() {
 
   return (
     <PageLayout>
-      <div className="min-h-screen bg-gray-50">
+      <div className="min-h-screen bg-gray-50 overflow-x-hidden">
         {/* Hero Section */}
-        <section className="bg-gradient-to-br from-primary/10 to-secondary/10 py-16">
+        <section className="bg-gradient-to-br from-primary/10 to-secondary/10 py-8 sm:py-16">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center">
               <Badge className="mb-4" variant="secondary">
                 Advocate Area
               </Badge>
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6">
                 Grow Your Legal Practice Online
               </h1>
-              <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+              <p className="text-base sm:text-xl text-gray-600 mb-6 sm:mb-8 max-w-3xl mx-auto">
                 Join AdvocateKhoj to connect with clients seeking legal
                 representation. Showcase your expertise, respond to cases, and
                 build your professional reputation.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Link href="/advocate/register">
-                  <Button size="lg">Register Now</Button>
+              <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center">
+                <Link href="/advocate/register" className="w-full sm:w-auto">
+                  <Button size="lg" className="w-full sm:w-auto">
+                    Register Now
+                  </Button>
                 </Link>
-                <Link href="/login?userType=advocate">
-                  <Button size="lg" variant="secondary">
+                <Link
+                  href="/login?userType=advocate"
+                  className="w-full sm:w-auto"
+                >
+                  <Button
+                    size="lg"
+                    variant="secondary"
+                    className="w-full sm:w-auto"
+                  >
                     Advocate Log In
                   </Button>
                 </Link>
@@ -383,36 +392,36 @@ export default function AdvocateAreaPage() {
         </section>
 
         {/* How It Works Section */}
-        <section className="py-16 bg-white">
+        <section className="py-8 sm:py-16 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <div className="text-center mb-8 sm:mb-12">
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 How It Works
               </h2>
-              <p className="text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
+              <p className="text-sm sm:text-lg text-gray-700 max-w-4xl mx-auto leading-relaxed">
                 {howItWorksDescription}
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8 max-w-6xl mx-auto">
               {howItWorksSteps.map((step, index) => (
                 <div key={index} className="relative">
                   <Card className="h-full hover:shadow-lg transition-shadow border-2 hover:border-primary/20">
-                    <CardHeader>
-                      <div className="flex items-center justify-between mb-4">
-                        <div className="h-14 w-14 rounded-full bg-primary text-white flex items-center justify-center text-xl font-bold">
+                    <CardHeader className="pb-2 sm:pb-4">
+                      <div className="flex items-center justify-between mb-2 sm:mb-4">
+                        <div className="h-10 w-10 sm:h-14 sm:w-14 rounded-full bg-primary text-white flex items-center justify-center text-lg sm:text-xl font-bold">
                           {step.step}
                         </div>
-                        <div className="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center">
-                          <step.icon className="h-6 w-6 text-primary" />
+                        <div className="h-10 w-10 sm:h-12 sm:w-12 rounded-full bg-primary/10 flex items-center justify-center">
+                          <step.icon className="h-5 w-5 sm:h-6 sm:w-6 text-primary" />
                         </div>
                       </div>
-                      <CardTitle className="text-lg font-bold text-gray-900">
+                      <CardTitle className="text-base sm:text-lg font-bold text-gray-900">
                         {step.title}
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
-                      <CardDescription className="text-gray-600 text-sm leading-relaxed">
+                      <CardDescription className="text-gray-600 text-xs sm:text-sm leading-relaxed">
                         {step.description}
                       </CardDescription>
                     </CardContent>
@@ -730,7 +739,7 @@ export default function AdvocateAreaPage() {
                     faq.question
                       .toLowerCase()
                       .includes(faqSearch.toLowerCase()) ||
-                    faq.answer.toLowerCase().includes(faqSearch.toLowerCase())
+                    faq.answer.toLowerCase().includes(faqSearch.toLowerCase()),
                 );
 
                 // Don't render section if no matching FAQs
@@ -758,7 +767,7 @@ export default function AdvocateAreaPage() {
                               {faq.answer}
                             </AccordionContent>
                           </AccordionItem>
-                        )
+                        ),
                       )}
                     </Accordion>
                   </div>
@@ -775,8 +784,8 @@ export default function AdvocateAreaPage() {
                         .includes(faqSearch.toLowerCase()) &&
                       !faq.answer
                         .toLowerCase()
-                        .includes(faqSearch.toLowerCase())
-                  )
+                        .includes(faqSearch.toLowerCase()),
+                  ),
                 ) && (
                   <div className="text-center py-12">
                     <p className="text-gray-600 mb-4">

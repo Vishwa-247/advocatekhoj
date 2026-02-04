@@ -4,7 +4,7 @@ import Glossary from "@/components/law-library/glossary";
 
 export default function GlossaryPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Header />
       <Glossary />
       <Footer />

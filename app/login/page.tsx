@@ -27,7 +27,7 @@ export default function LoginPage() {
   }, [searchParams]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 flex items-center justify-center p-4 overflow-y-auto">
       {/* Close button */}
       <div className="fixed top-4 right-4 z-50">
         <Button variant="ghost" size="sm" asChild>
@@ -37,9 +37,9 @@ export default function LoginPage() {
         </Button>
       </div>
 
-      <div className="w-full max-w-4xl">
+      <div className="w-full max-w-4xl py-8">
         {/* Header */}
-        <div className="text-center mb-8">
+        <div className="text-center mb-6 sm:mb-8">
           <Link
             href="/"
             className="inline-block mb-4 hover:opacity-80 transition-opacity"
@@ -49,17 +49,19 @@ export default function LoginPage() {
               alt="AdvocateKhoj"
               width={120}
               height={60}
-              className="h-12 w-auto"
+              className="h-10 sm:h-12 w-auto"
             />
           </Link>
-          <h1 className="text-3xl font-bold text-foreground mb-2">
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground mb-2">
             Welcome Back to AdvocateKhoj
           </h1>
-          <p className="text-muted-foreground">Login to access your account</p>
+          <p className="text-sm sm:text-base text-muted-foreground">
+            Login to access your account
+          </p>
         </div>
 
         {/* User Type Selection */}
-        <div className="flex justify-center mb-8">
+        <div className="flex justify-center mb-6 sm:mb-8 px-2">
           <Tabs
             value={userType}
             onValueChange={(value) => setUserType(value as any)}
@@ -68,19 +70,19 @@ export default function LoginPage() {
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger
                 value="client"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-transparent cursor-pointer"
+                className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-transparent cursor-pointer"
               >
                 Client
               </TabsTrigger>
               <TabsTrigger
                 value="advocate"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-transparent cursor-pointer"
+                className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-transparent cursor-pointer"
               >
                 Advocate
               </TabsTrigger>
               <TabsTrigger
                 value="advertiser"
-                className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
+                className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
               >
                 Advertiser
               </TabsTrigger>

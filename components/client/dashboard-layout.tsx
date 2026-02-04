@@ -142,7 +142,7 @@ export function DashboardLayout({
   }, [isAdvertiser, activeSection, onSectionChange]);
 
   const currentNavItem = filteredNavigationItems.find(
-    (item) => item.id === activeSection
+    (item) => item.id === activeSection,
   );
 
   const handlePostNewCase = () => {
@@ -192,12 +192,12 @@ export function DashboardLayout({
         </Button>
       </div>
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
         <div
           className={cn(
-            "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-0",
-            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-0 flex flex-col overflow-hidden",
+            sidebarOpen ? "translate-x-0" : "-translate-x-full",
           )}
         >
           {/* Mobile Close Button */}
@@ -247,7 +247,7 @@ export function DashboardLayout({
           </div>
 
           {/* Navigation */}
-          <nav className="p-4 space-y-2">
+          <nav className="flex-1 p-4 space-y-2 overflow-y-auto -webkit-overflow-scrolling-touch">
             {navigationItems.map((item) => (
               <Button
                 key={item.id}
@@ -256,7 +256,7 @@ export function DashboardLayout({
                   "w-full justify-start h-auto p-4 text-left transition-all duration-200",
                   activeSection === item.id
                     ? "bg-primary text-primary-foreground"
-                    : "hover:translate-x-1 hover:opacity-80"
+                    : "hover:translate-x-1 hover:opacity-80",
                 )}
                 onClick={() => {
                   onSectionChange(item.id);
@@ -312,7 +312,7 @@ export function DashboardLayout({
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 lg:ml-0">
+        <div className="flex-1 lg:ml-0 overflow-y-auto">
           {/* Desktop Header */}
           <div className="hidden lg:flex items-center justify-between p-6 bg-white border-b">
             <div>

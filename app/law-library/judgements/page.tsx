@@ -4,7 +4,7 @@ import { SCJudgements } from "@/components/law-library/sc-judgements";
 
 export default function JudgementsPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <Header />
       <SCJudgements />
       <Footer />

@@ -193,87 +193,100 @@ export default function LawCollegesPage() {
   return (
     <PageLayout>
       {/* Hero Section */}
-      <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-12">
+      <div className="bg-gradient-to-r from-primary to-primary/80 text-white py-8 sm:py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h1 className="text-4xl font-bold mb-4">Legal Education Hub</h1>
-          <p className="text-xl opacity-90 max-w-3xl mx-auto">
+          <h1 className="text-2xl sm:text-4xl font-bold mb-4">
+            Legal Education Hub
+          </h1>
+          <p className="text-base sm:text-xl opacity-90 max-w-3xl mx-auto">
             Discover top law colleges, admissions, conferences, and career
             opportunities in legal education
           </p>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mt-8">
-          <Tabs defaultValue="colleges" className="space-y-8">
-            <TabsList className="grid w-full grid-cols-4 h-12">
-              <TabsTrigger value="colleges" className="text-base">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8 overflow-x-hidden">
+        <div className="mt-4 sm:mt-8">
+          <Tabs defaultValue="colleges" className="space-y-6 sm:space-y-8">
+            <TabsList className="grid w-full grid-cols-2 sm:grid-cols-4 h-auto sm:h-12">
+              <TabsTrigger
+                value="colleges"
+                className="text-xs sm:text-base py-2"
+              >
                 Law Colleges
               </TabsTrigger>
-              <TabsTrigger value="announcements" className="text-base">
+              <TabsTrigger
+                value="announcements"
+                className="text-xs sm:text-base py-2"
+              >
                 Announcements
               </TabsTrigger>
-              <TabsTrigger value="internships" className="text-base">
+              <TabsTrigger
+                value="internships"
+                className="text-xs sm:text-base py-2"
+              >
                 Internships
               </TabsTrigger>
-              <TabsTrigger value="submit" className="text-base">
+              <TabsTrigger value="submit" className="text-xs sm:text-base py-2">
                 Submit Content
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="colleges" className="space-y-8">
+            <TabsContent value="colleges" className="space-y-6 sm:space-y-8">
               {/* Search and Filter Section */}
-              <Card className="p-6">
-                <div className="flex flex-col lg:flex-row gap-4">
+              <Card className="p-4 sm:p-6">
+                <div className="flex flex-col gap-3 sm:gap-4">
                   <div className="flex-1">
                     <Input
-                      placeholder="Search law colleges by name or location..."
+                      placeholder="Search law colleges..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
-                      className="h-12 text-base"
+                      className="h-10 sm:h-12 text-sm sm:text-base"
                     />
                   </div>
-                  <Select
-                    value={selectedLocation}
-                    onValueChange={setSelectedLocation}
-                  >
-                    <SelectTrigger className="w-full lg:w-48 h-12">
-                      <SelectValue placeholder="Select Location" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all-locations">
-                        All Locations
-                      </SelectItem>
-                      <SelectItem value="Delhi">Delhi</SelectItem>
-                      <SelectItem value="Mumbai">Mumbai</SelectItem>
-                      <SelectItem value="Bangalore">Bangalore</SelectItem>
-                      <SelectItem value="Pune">Pune</SelectItem>
-                      <SelectItem value="Kolkata">Kolkata</SelectItem>
-                      <SelectItem value="Hyderabad">Hyderabad</SelectItem>
-                      <SelectItem value="Chennai">Chennai</SelectItem>
-                      <SelectItem value="Ahmedabad">Ahmedabad</SelectItem>
-                    </SelectContent>
-                  </Select>
-                  <Select
-                    value={selectedCourse}
-                    onValueChange={setSelectedCourse}
-                  >
-                    <SelectTrigger className="w-full lg:w-48 h-12">
-                      <SelectValue placeholder="Select Course" />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="all-courses">All Courses</SelectItem>
-                      <SelectItem value="BA LLB">BA LLB</SelectItem>
-                      <SelectItem value="LLB">LLB</SelectItem>
-                      <SelectItem value="LLM">LLM</SelectItem>
-                      <SelectItem value="PhD">PhD</SelectItem>
-                    </SelectContent>
-                  </Select>
+                  <div className="grid grid-cols-2 lg:flex gap-3 sm:gap-4">
+                    <Select
+                      value={selectedLocation}
+                      onValueChange={setSelectedLocation}
+                    >
+                      <SelectTrigger className="w-full lg:w-48 h-10 sm:h-12">
+                        <SelectValue placeholder="Location" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all-locations">
+                          All Locations
+                        </SelectItem>
+                        <SelectItem value="Delhi">Delhi</SelectItem>
+                        <SelectItem value="Mumbai">Mumbai</SelectItem>
+                        <SelectItem value="Bangalore">Bangalore</SelectItem>
+                        <SelectItem value="Pune">Pune</SelectItem>
+                        <SelectItem value="Kolkata">Kolkata</SelectItem>
+                        <SelectItem value="Hyderabad">Hyderabad</SelectItem>
+                        <SelectItem value="Chennai">Chennai</SelectItem>
+                        <SelectItem value="Ahmedabad">Ahmedabad</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <Select
+                      value={selectedCourse}
+                      onValueChange={setSelectedCourse}
+                    >
+                      <SelectTrigger className="w-full lg:w-48 h-10 sm:h-12">
+                        <SelectValue placeholder="Course" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="all-courses">All Courses</SelectItem>
+                        <SelectItem value="BA LLB">BA LLB</SelectItem>
+                        <SelectItem value="LLB">LLB</SelectItem>
+                        <SelectItem value="LLM">LLM</SelectItem>
+                        <SelectItem value="PhD">PhD</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
                 </div>
               </Card>
 
-              <div className="grid grid-cols-1 xl:grid-cols-4 gap-8">
-                <div className="xl:col-span-3 space-y-6">
+              <div className="grid grid-cols-1 xl:grid-cols-4 gap-4 sm:gap-8">
+                <div className="xl:col-span-3 space-y-4 sm:space-y-6">
                   {colleges.map((college) => (
                     <Card
                       key={college.id}
@@ -561,11 +574,11 @@ export default function LawCollegesPage() {
                             <span>
                               {announcement.date &&
                                 new Date(
-                                  announcement.date
+                                  announcement.date,
                                 ).toLocaleDateString()}
                               {announcement.deadline &&
                                 `Deadline: ${new Date(
-                                  announcement.deadline
+                                  announcement.deadline,
                                 ).toLocaleDateString()}`}
                               {announcement.venue && (
                                 <div className="flex items-center gap-1 mt-1">

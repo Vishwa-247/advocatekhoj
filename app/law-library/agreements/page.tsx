@@ -4,7 +4,7 @@ import { Agreements } from "@/components/law-library/agreements";
 
 export default function AgreementsPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <Header />
       <Agreements />
       <Footer />

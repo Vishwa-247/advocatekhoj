@@ -190,7 +190,7 @@ const Header = () => {
       </div>
 
       {isMenuOpen && (
-        <div className="md:hidden border-t border-[#001944]/10 bg-white/95 backdrop-blur">
+        <div className="md:hidden border-t border-[#001944]/10 bg-white/95 backdrop-blur max-h-[calc(100vh-64px)] overflow-y-auto">
           <nav className="container mx-auto px-4 py-4 space-y-3">
             {menuItems.map((item) => (
               <Link

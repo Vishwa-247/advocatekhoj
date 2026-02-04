@@ -4,7 +4,7 @@ import LawCommissionReports from "@/components/law-library/law-commission-report
 
 export default function LawCommissionReportsPage() {
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background overflow-x-hidden">
       <Header />
       <LawCommissionReports />
       <Footer />

@@ -99,7 +99,7 @@ export function AdvocateDashboardLayout({
   const router = useRouter();
 
   const currentNavItem = navigationItems.find(
-    (item) => item.id === activeSection
+    (item) => item.id === activeSection,
   );
 
   const AUTH_STORAGE_KEY = "user";
@@ -143,12 +143,12 @@ export function AdvocateDashboardLayout({
         </Button>
       </div>
 
-      <div className="flex flex-1">
+      <div className="flex flex-1 overflow-hidden">
         {/* Sidebar */}
         <div
           className={cn(
-            "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-0 min-h-screen",
-            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+            "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-0 flex flex-col overflow-hidden",
+            sidebarOpen ? "translate-x-0" : "-translate-x-full",
           )}
         >
           {/* Mobile Close Button */}
@@ -203,7 +203,7 @@ export function AdvocateDashboardLayout({
           </div>
 
           {/* Navigation */}
-          <nav className="p-4 space-y-2 pb-32">
+          <nav className="flex-1 p-4 space-y-2 overflow-y-auto -webkit-overflow-scrolling-touch pb-32">
             {navigationItems.map((item) => (
               <Button
                 key={item.id}
@@ -212,7 +212,7 @@ export function AdvocateDashboardLayout({
                   "w-full justify-start h-auto p-4 text-left transition-all duration-200",
                   activeSection === item.id
                     ? "bg-primary text-primary-foreground"
-                    : "text-gray-900 hover:translate-x-1 hover:opacity-80"
+                    : "text-gray-900 hover:translate-x-1 hover:opacity-80",
                 )}
                 onClick={() => {
                   onSectionChange(item.id);
@@ -233,7 +233,7 @@ export function AdvocateDashboardLayout({
                             "text-xs ml-2",
                             activeSection === item.id
                               ? "bg-white text-primary"
-                              : ""
+                              : "",
                           )}
                         >
                           {item.badge}
@@ -245,7 +245,7 @@ export function AdvocateDashboardLayout({
                         "text-xs mt-1",
                         activeSection === item.id
                           ? "text-primary-foreground/80"
-                          : "text-gray-500"
+                          : "text-gray-500",
                       )}
                     >
                       {item.description}
@@ -280,7 +280,7 @@ export function AdvocateDashboardLayout({
         </div>
 
         {/* Main Content */}
-        <div className="flex-1 lg:ml-0">
+        <div className="flex-1 lg:ml-0 overflow-y-auto">
           {/* Desktop Header */}
           <div className="hidden lg:flex items-center justify-between p-6 bg-white border-b">
             <div>

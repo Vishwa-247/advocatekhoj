@@ -149,13 +149,15 @@ export default function GlobalTopBanner({
 
   return (
     <div
-      className={`w-full bg-white/80 backdrop-blur-sm ${className}`}
+      className={`w-full bg-white/80 backdrop-blur-sm overflow-x-hidden ${className}`}
       data-placement={placement}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="flex flex-col lg:flex-row gap-4">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2 sm:py-4">
+        <div className="flex flex-col sm:flex-row gap-2 sm:gap-4">
           <BannerSlot banner={currentLeftBanner} position="left" />
-          <BannerSlot banner={currentRightBanner} position="right" />
+          <div className="hidden sm:block">
+            <BannerSlot banner={currentRightBanner} position="right" />
+          </div>
         </div>
       </div>
     </div>

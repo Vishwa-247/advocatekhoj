@@ -62,28 +62,28 @@ export default function SawalJawabPage() {
 
   return (
     <PageLayout>
-      <div className="min-h-screen bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-          <div className="mt-8">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
+      <div className="min-h-screen bg-gray-50 overflow-x-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
+          <div className="mt-4 sm:mt-8">
+            <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 sm:mb-8 gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-gray-900 mb-2">
+                <h1 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">
                   Sawal Jawab
                 </h1>
-                <p className="text-gray-600">
+                <p className="text-sm sm:text-base text-gray-600">
                   Ask legal questions and get answers from experts and community
                 </p>
               </div>
               <Button
                 onClick={() => setShowQuestionForm(!showQuestionForm)}
-                className="mt-4 md:mt-0"
+                className="w-full sm:w-auto"
               >
                 <Plus className="w-4 h-4 mr-2" />
                 Ask Question
               </Button>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 sm:gap-8">
               {/* Main Content */}
               <div className="lg:col-span-2 space-y-6">
                 {/* Question Form */}

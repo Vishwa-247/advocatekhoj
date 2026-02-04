@@ -4,7 +4,7 @@ import { AreasOfLaw } from "@/components/law-library/areas-of-law-new";
 
 export default function AreasOfLawPage() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 overflow-x-hidden">
       <Header />
       <AreasOfLaw />
       <Footer />

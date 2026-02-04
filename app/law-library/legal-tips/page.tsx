@@ -4,7 +4,7 @@ import { LegalTips } from "@/components/law-library/legal-tips";
 
 export default function LegalTipsPage() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <Header />
       <LegalTips />
       <Footer />

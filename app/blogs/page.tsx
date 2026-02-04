@@ -116,22 +116,24 @@ export default function BlogsPage() {
   return (
     <>
       <Header />
-      <main className="min-h-screen bg-gray-50">
-        <div className="container mx-auto px-4 py-8">
+      <main className="min-h-screen bg-gray-50 overflow-x-hidden">
+        <div className="container mx-auto px-4 py-4 sm:py-8">
           {/* Header Section */}
-          <div className="bg-gradient-to-r from-blue-100 to-blue-50 rounded-lg p-8 mb-8">
+          <div className="bg-gradient-to-r from-blue-100 to-blue-50 rounded-lg p-4 sm:p-8 mb-6 sm:mb-8">
             <div className="flex items-center gap-3 mb-4">
-              <BookOpen className="w-10 h-10 text-primary" />
-              <h1 className="text-4xl font-bold text-primary">Blogs</h1>
+              <BookOpen className="w-8 h-8 sm:w-10 sm:h-10 text-primary" />
+              <h1 className="text-2xl sm:text-4xl font-bold text-primary">
+                Blogs
+              </h1>
             </div>
-            <p className="text-gray-700 mb-6 max-w-3xl">
+            <p className="text-sm sm:text-base text-gray-700 mb-4 sm:mb-6 max-w-3xl">
               Explore insightful articles on various areas of law written by
               legal professionals, students, and experts. Share your knowledge
               by publishing your own blog.
             </p>
             <Button
               onClick={() => setShowPublishForm(!showPublishForm)}
-              className="bg-secondary hover:bg-secondary/90"
+              className="bg-secondary hover:bg-secondary/90 w-full sm:w-auto"
             >
               <PlusCircle className="w-4 h-4 mr-2" />
               {showPublishForm ? "Cancel" : "Create Your Blog in 3 Steps"}
