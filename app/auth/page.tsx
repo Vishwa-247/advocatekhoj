@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LoginForm } from "@/components/auth/login-form";
@@ -12,31 +11,34 @@ import { X } from "lucide-react";
 import Image from "next/image";
 
 export default function AuthPage() {
-  const searchParams = useSearchParams();
+  // Avoid using next/navigation's useSearchParams during prerender; read
+  // query params from the browser URL inside a client effect instead.
   const [userType, setUserType] = useState<
     "client" | "advocate" | "advertiser"
   >("client");
   const [authMode, setAuthMode] = useState<"login" | "signup">("login");
 
   useEffect(() => {
-    // Get URL parameters
-    const urlUserType = searchParams.get("userType");
-    const urlAuthMode = searchParams.get("authMode");
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlUserType = params.get("userType");
+      const urlAuthMode = params.get("authMode");
 
-    // Set user type from URL
-    if (
-      urlUserType === "advocate" ||
-      urlUserType === "client" ||
-      urlUserType === "advertiser"
-    ) {
-      setUserType(urlUserType);
-    }
+      if (
+        urlUserType === "advocate" ||
+        urlUserType === "client" ||
+        urlUserType === "advertiser"
+      ) {
+        setUserType(urlUserType as any);
+      }
 
-    // Set auth mode from URL
-    if (urlAuthMode === "login" || urlAuthMode === "signup") {
-      setAuthMode(urlAuthMode);
+      if (urlAuthMode === "login" || urlAuthMode === "signup") {
+        setAuthMode(urlAuthMode as any);
+      }
+    } catch (e) {
+      // ignore server-side
     }
-  }, [searchParams]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 flex items-center justify-center p-4 overflow-y-auto">
