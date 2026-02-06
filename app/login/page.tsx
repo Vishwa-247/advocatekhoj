@@ -6,25 +6,29 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { X } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import { useSearchParams } from "next/navigation";
 import { useEffect, useState } from "react";
 
 export default function LoginPage() {
   const [userType, setUserType] = useState<
     "client" | "advocate" | "advertiser"
   >("client");
-  const searchParams = useSearchParams();
-
   useEffect(() => {
-    const urlUserType = searchParams.get("userType");
-    if (
-      urlUserType === "advocate" ||
-      urlUserType === "client" ||
-      urlUserType === "advertiser"
-    ) {
-      setUserType(urlUserType);
+    // Read query param from the browser URL to avoid using next/navigation
+    // hooks which can cause prerender-time errors during static build.
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const urlUserType = params.get("userType");
+      if (
+        urlUserType === "advocate" ||
+        urlUserType === "client" ||
+        urlUserType === "advertiser"
+      ) {
+        setUserType(urlUserType as any);
+      }
+    } catch (e) {
+      // window not available during SSR — ignore
     }
-  }, [searchParams]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 flex items-center justify-center p-4 overflow-y-auto">
