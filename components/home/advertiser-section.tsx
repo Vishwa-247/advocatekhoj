@@ -59,7 +59,7 @@ export default function AdvertiserSection() {
             {advertisers.map((advertiser) => (
               <div
                 key={advertiser.id}
-                className="flex-[0_0_25%] min-w-0 pl-4"
+                className="flex-[0_0_50%] sm:flex-[0_0_25%] min-w-0 pl-4"
               >
                 <div className="flex flex-col items-center justify-center transition-transform duration-300 hover:scale-105">
                   <div className="w-full aspect-[144/99] flex items-center justify-center p-2">
