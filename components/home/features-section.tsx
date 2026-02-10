@@ -24,7 +24,8 @@ export default function FeaturesSection() {
       description:
         "Connect with qualified and experienced advocates across India for your legal needs.",
       link: "/client-area",
-      linkText: "Find Lawyers",
+      linkText: "Find Advocates",
+      color: "blue",
     },
     {
       icon: BookOpen,
@@ -33,6 +34,7 @@ export default function FeaturesSection() {
         "Access Supreme Court judgments, bare acts, legal forms, and extensive legal resources.",
       link: "/law-library",
       linkText: "Explore Library",
+      color: "orange",
     },
     {
       icon: GraduationCap,
@@ -41,6 +43,7 @@ export default function FeaturesSection() {
         "Discover law colleges, admissions, conferences, and career opportunities in legal field.",
       link: "/law-colleges",
       linkText: "View Colleges",
+      color: "blue",
     },
     {
       icon: MessageCircle,
@@ -49,14 +52,16 @@ export default function FeaturesSection() {
         "Ask legal questions and get answers from legal experts and community members.",
       link: "/sawal-jawab",
       linkText: "Ask Questions",
+      color: "orange",
     },
     {
       icon: Scale,
-      title: "Case Management",
+      title: "Advocate Area",
       description:
         "Efficiently manage your legal cases with our comprehensive case tracking system.",
-      link: "/client-area",
+      link: "/advocate/dashboard",
       linkText: "Manage Cases",
+      color: "blue",
     },
     {
       icon: FileText,
@@ -65,6 +70,7 @@ export default function FeaturesSection() {
         "Download legal forms, agreements, and templates for various legal requirements.",
       link: "/law-library",
       linkText: "Get Documents",
+      color: "orange",
     },
   ];
 
@@ -93,7 +99,12 @@ export default function FeaturesSection() {
               </CardHeader>
               <CardContent>
                 <Link href={feature.link}>
-                  <Button variant="outline" className="w-full bg-transparent">
+                  <Button
+                    className={`w-full transition-all duration-200 hover:brightness-90 shadow-md ${feature.color === "blue"
+                        ? "bg-gradient-to-r from-[#00377b] to-[#1453a3] hover:from-[#1453a3] hover:to-[#1f64c7] text-white border border-[#001944]/80"
+                        : "bg-[#d67c40] hover:bg-[#c26a36] text-white font-semibold border border-[#d67c40]/70"
+                      }`}
+                  >
                     {feature.linkText}
                   </Button>
                 </Link>
