@@ -55,26 +55,21 @@ export default function AdvertiserSection() {
         </div>
 
         <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex">
+          <div className="flex -ml-4">
             {advertisers.map((advertiser) => (
               <div
                 key={advertiser.id}
-                className="flex-[0_0_20%] min-w-0 pl-4 md:flex-[0_0_16.666%] lg:flex-[0_0_14.28%]"
+                className="flex-[0_0_25%] min-w-0 pl-4"
               >
-                <Card className="border-none shadow-none bg-transparent hover:scale-105 transition-transform duration-300">
-                  <CardContent className="p-2 flex flex-col items-center justify-center transition-all duration-300">
-                    <div className="w-full aspect-[144/99] flex items-center justify-center p-2 mb-2">
-                      <img
-                        src={advertiser.logo}
-                        alt={advertiser.name}
-                        className="max-w-full max-h-full object-contain"
-                      />
-                    </div>
-                    <span className="text-xs font-medium text-gray-700 text-center line-clamp-1">
-                      {advertiser.name}
-                    </span>
-                  </CardContent>
-                </Card>
+                <div className="flex flex-col items-center justify-center transition-transform duration-300 hover:scale-105">
+                  <div className="w-full aspect-[144/99] flex items-center justify-center p-2">
+                    <img
+                      src={advertiser.logo}
+                      alt={advertiser.name}
+                      className="max-w-full max-h-full object-contain"
+                    />
+                  </div>
+                </div>
               </div>
             ))}
           </div>
