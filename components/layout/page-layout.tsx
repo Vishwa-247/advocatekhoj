@@ -24,6 +24,8 @@ export default function PageLayout({
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Header />
+
       {/* Global Top Banner */}
       {shouldShowBanner && (
         <GlobalTopBanner
@@ -32,8 +34,6 @@ export default function PageLayout({
           placement="top"
         />
       )}
-
-      <Header />
 
       <main className="flex-1">{children}</main>
 
