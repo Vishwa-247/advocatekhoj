@@ -24,9 +24,9 @@ const menuItems = [
 ];
 
 const loginButtonClasses =
-  "bg-gradient-to-r from-[#00377b] to-[#1453a3] hover:from-[#1453a3] hover:to-[#1f64c7] text-white shadow-md border border-[#001944]/80 transition-[background] duration-200";
+  "bg-gradient-to-r from-[#00377b] to-[#1453a3] hover:from-[#1453a3] hover:to-[#1f64c7] hover:brightness-90 text-white shadow-md border border-[#001944]/80 transition-all duration-200";
 const registerButtonClasses =
-  "bg-[#d67c40] hover:bg-[#c26a36] text-white font-semibold shadow-md border border-[#d67c40]/70 transition-[background] duration-200";
+  "bg-[#d67c40] hover:bg-[#c26a36] hover:brightness-90 text-white font-semibold shadow-md border border-[#d67c40]/70 transition-all duration-200";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
