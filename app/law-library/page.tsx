@@ -1,261 +1,142 @@
-"use client";
-
 import Link from "next/link";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-import {
-  BookOpen,
-  FileText,
-  Scale,
-  Gavel,
-  ScrollText,
-  Hash,
-  FileCheck,
-  BookMarked,
-} from "lucide-react";
+import { Search, ChevronRight } from "lucide-react";
+import { Input } from "@/components/ui/input";
+
+const libraryCategories = [
+  {
+    title: "Bare Acts",
+    description: "Access all Indian acts passed by Parliament.",
+    link: "/law-library/bare-acts",
+    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    title: "Supreme Court Judgments",
+    description: "Find judgments passed by the Supreme Court of India.",
+    link: "/law-library/judgements",
+    image: "https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    title: "Forms",
+    description: "Free downloads of formats of legal forms and documents.",
+    link: "/law-library/forms",
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    title: "Areas of Law",
+    description: "Learn about different areas of Indian law and practice.",
+    link: "/law-library/areas-of-law",
+    image: "https://images.unsplash.com/photo-1489533119213-66a5cd877091?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    title: "Agreements",
+    description: "Understand the essentials of contract agreements.",
+    link: "/law-library/agreements",
+    image: "https://images.unsplash.com/photo-1575505586569-646b2ca09c78?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    title: "Rules",
+    description: "Access latest rules laid down to give effect to law.",
+    link: "/law-library/rules",
+    image: "https://images.unsplash.com/photo-1521587760476-6c12a7ba20a1?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    title: "Law Commission Reports",
+    description: "Read reports published by the Law Commission of India.",
+    link: "/law-library/law-commission-reports",
+    image: "https://images.unsplash.com/photo-1543165796-5426273ea458?auto=format&fit=crop&q=80&w=800",
+  },
+  {
+    title: "Glossary",
+    description: "Look up legal terms and their definitions easily.",
+    link: "/law-library/glossary",
+    image: "https://images.unsplash.com/photo-1513001900722-370f803f498d?auto=format&fit=crop&q=80&w=800",
+  },
+];
 
 export default function LawLibrary() {
   return (
-    <div className="min-h-screen bg-background overflow-x-hidden">
+    <div className="min-h-screen bg-[#fcfbf7] font-sans">
       <Header />
-      <div className="container mx-auto p-4 sm:p-6">
-        <div className="mb-8 text-center">
-          <h1 className="text-2xl sm:text-4xl font-bold mb-4">Law Library</h1>
-          <p className="text-base sm:text-xl text-muted-foreground mb-6">
-            Your comprehensive resource for legal knowledge and documentation
+
+      {/* Hero Section */}
+      <section className="relative pt-16 pb-24 px-4 overflow-hidden bg-[url('https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center">
+        <div className="absolute inset-0 bg-white/90 backdrop-blur-[2px]"></div>
+        <div className="relative max-w-4xl mx-auto text-center">
+          <h1 className="text-5xl md:text-6xl font-serif text-[#1e293b] tracking-wide mb-4">
+            LAW LIBRARY
+          </h1>
+          <p className="text-lg md:text-xl text-gray-600 mb-10 font-medium">
+            Free & Authoritative Legal Resources of India
           </p>
-        </div>
 
-        {/* Law Library Sections */}
-        <div className="space-y-4 sm:space-y-8">
-          {/* Legal Tips */}
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6 bg-white rounded-lg shadow-sm border">
-            <div className="w-16 h-16 sm:w-24 sm:h-24 bg-yellow-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <BookOpen className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-600" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-lg sm:text-xl font-bold text-primary mb-2">
-                Legal Tips
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-4">
-                Do you have questions about hiring an advocate or do you need
-                some tips on what to say when you do meet an advocate? We
-                provide some pointers on everything from hiring an advocate to
-                negotiating the best deal! This information here helps you to
-                prepare in the process of finding the best possible advocate for
-                your legal problems.
-              </p>
-              <Link
-                href="/law-library/legal-tips"
-                className="text-primary hover:text-primary/80 font-medium"
+          <div className="relative max-w-2xl mx-auto mb-6">
+            <div className="flex items-center bg-white rounded-full shadow-lg border border-gray-200 overflow-hidden p-1 pr-1 pl-4 group transition-all hover:border-[#1e293b]/30">
+              <Search className="w-5 h-5 text-gray-400 group-focus-within:text-primary" />
+              <Input
+                placeholder="Search by Act, Case, or Topic..."
+                className="border-none focus-visible:ring-0 text-lg placeholder:text-gray-400 h-12 w-full bg-transparent"
+              />
+              <button
+                className="bg-[#1e293b] text-white p-3 rounded-full hover:bg-black transition-colors"
+                aria-label="Search"
               >
-                Read Legal Tips →
-              </Link>
+                <Search className="w-5 h-5" />
+              </button>
             </div>
           </div>
 
-          {/* Agreements */}
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6 bg-white rounded-lg shadow-sm border">
-            <div className="w-16 h-16 sm:w-24 sm:h-24 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <FileText className="w-6 h-6 sm:w-8 sm:h-8 text-blue-600" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-lg sm:text-xl font-bold text-primary mb-2">
-                Agreements
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-4">
-                Agreement is a contract, and is based on the outcome of a
-                process of an offer by one party, accepted by the other under
-                the provisions of Indian Contract Act. We offer convenient and
-                small business owners an easy and convenient way to create a
-                last will, sale of property deeds, partnership deed and many
-                more!
-              </p>
-              <Link
-                href="/law-library/agreements"
-                className="text-primary hover:text-primary/80 font-medium"
-              >
-                View Agreements →
+          <div className="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-sm text-gray-500">
+            <span className="font-semibold text-gray-700">Popular:</span>
+            {["IPC", "CrPC", "Consumer Law", "Property Law"].map((tag) => (
+              <Link key={tag} href={`/search?q=${tag}`} className="hover:text-primary transition-colors border-b border-transparent hover:border-primary">
+                {tag}
               </Link>
-            </div>
-          </div>
-
-          {/* Forms */}
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6 bg-white rounded-lg shadow-sm border">
-            <div className="w-16 h-16 sm:w-24 sm:h-24 bg-green-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <ScrollText className="w-6 h-6 sm:w-8 sm:h-8 text-green-600" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-lg sm:text-xl font-bold text-primary mb-2">
-                Forms
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-4">
-                Save time and money on common legal forms! We offer a mammoth
-                collection of over 5000 forms for download. This consists of
-                various central and state forms issued by the government of
-                India. The list, however, is not exhaustive and we are committed
-                to adding more forms. Keep visiting this section for new
-                updates!
-              </p>
-              <Link
-                href="/law-library/forms"
-                className="text-primary hover:text-primary/80 font-medium"
-              >
-                Download Forms →
-              </Link>
-            </div>
-          </div>
-
-          {/* Areas of Law */}
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6 bg-white rounded-lg shadow-sm border">
-            <div className="w-16 h-16 sm:w-24 sm:h-24 bg-purple-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Scale className="w-6 h-6 sm:w-8 sm:h-8 text-purple-600" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-lg sm:text-xl font-bold text-primary mb-2">
-                Areas of Law
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-4">
-                Need quick, up-to-date information on a specific legal area? Our
-                easy-to-navigate law library has information on 110 legal
-                categories, each filled with general guidance expressed in clear
-                terms so that you are able to understand the law better.
-              </p>
-              <Link
-                href="/law-library/areas-of-law"
-                className="text-primary hover:text-primary/80 font-medium"
-              >
-                Explore Areas →
-              </Link>
-            </div>
-          </div>
-
-          {/* Supreme Court Judgements */}
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6 bg-white rounded-lg shadow-sm border">
-            <div className="w-16 h-16 sm:w-24 sm:h-24 bg-red-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Gavel className="w-6 h-6 sm:w-8 sm:h-8 text-red-600" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-lg sm:text-xl font-bold text-primary mb-2">
-                Supreme Court Judgements
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-4">
-                We provide free access to the judgments of the Supreme Court of
-                India which contains the full text of the judgments with case
-                numbers, parties name, judges' names and headnotes. The data is
-                based on the Supreme Court of India's database as published by
-                the Court's Justice Information System. Keep visiting this
-                section for new updates!
-              </p>
-              <Link
-                href="/law-library/judgements"
-                className="text-primary hover:text-primary/80 font-medium"
-              >
-                Browse Judgements →
-              </Link>
-            </div>
-          </div>
-
-          {/* Bare Acts */}
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6 bg-white rounded-lg shadow-sm border">
-            <div className="w-16 h-16 sm:w-24 sm:h-24 bg-indigo-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <BookMarked className="w-6 h-6 sm:w-8 sm:h-8 text-indigo-600" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-lg sm:text-xl font-bold text-primary mb-2">
-                Bare Acts
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-4">
-                An online collection of bare acts passed by the Indian
-                Parliament ever since 1834 is listed here with free access to
-                the full text. This compilation consists of over 1000 acts which
-                are listed in alphabetical order and contains all the amendments
-                made to these acts.
-              </p>
-              <Link
-                href="/law-library/bare-acts"
-                className="text-primary hover:text-primary/80 font-medium"
-              >
-                Read Bare Acts →
-              </Link>
-            </div>
-          </div>
-
-          {/* Rules */}
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6 bg-white rounded-lg shadow-sm border">
-            <div className="w-16 h-16 sm:w-24 sm:h-24 bg-orange-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <FileCheck className="w-6 h-6 sm:w-8 sm:h-8 text-orange-600" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-lg sm:text-xl font-bold text-primary mb-2">
-                Rules
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-4">
-                An online digest of the major rules framed under the acts is
-                listed here with free access to the full text. This compilation
-                consists of over 170 rules which are listed in the alphabetical
-                order and are frequently updated.
-              </p>
-              <Link
-                href="/law-library/rules"
-                className="text-primary hover:text-primary/80 font-medium"
-              >
-                View Rules →
-              </Link>
-            </div>
-          </div>
-
-          {/* Law Commissions of India Reports */}
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6 bg-white rounded-lg shadow-sm border">
-            <div className="w-16 h-16 sm:w-24 sm:h-24 bg-teal-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <ScrollText className="w-6 h-6 sm:w-8 sm:h-8 text-teal-600" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-lg sm:text-xl font-bold text-primary mb-2">
-                Law Commissions of India Reports
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-4">
-                The Law Commission of India is a non-statutory body constituted
-                by the Government of India from time to time. The various Law
-                Commissions have been able to make important contributions
-                towards the progressive development and codification of Law of
-                the country. The Law Commission has so far submitted 277
-                reports.
-              </p>
-              <Link
-                href="/law-library/law-commission-reports"
-                className="text-primary hover:text-primary/80 font-medium"
-              >
-                Read Reports →
-              </Link>
-            </div>
-          </div>
-
-          {/* Glossary */}
-          <div className="flex flex-col sm:flex-row items-start gap-4 sm:gap-6 p-4 sm:p-6 bg-white rounded-lg shadow-sm border">
-            <div className="w-16 h-16 sm:w-24 sm:h-24 bg-pink-100 rounded-lg flex items-center justify-center flex-shrink-0">
-              <Hash className="w-6 h-6 sm:w-8 sm:h-8 text-pink-600" />
-            </div>
-            <div className="flex-1 min-w-0">
-              <h2 className="text-lg sm:text-xl font-bold text-primary mb-2">
-                Glossary
-              </h2>
-              <p className="text-sm sm:text-base text-gray-600 mb-4">
-                Look up a word or term in our law glossary to find a brief
-                description related to law or legal matters. This free access to
-                our database of words, terms, names, and acronyms are frequently
-                updated and presently there are over 2300 entries in it.
-              </p>
-              <Link
-                href="/law-library/glossary"
-                className="text-primary hover:text-primary/80 font-medium"
-              >
-                Browse Glossary →
-              </Link>
-            </div>
+            ))}
           </div>
         </div>
-      </div>
+      </section>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <div className="flex items-center gap-6 mb-12">
+          <h2 className="text-2xl font-serif text-[#1e293b] whitespace-nowrap">
+            Explore the Law Library
+          </h2>
+          <div className="h-[1px] bg-gray-200 w-full"></div>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+          {libraryCategories.map((category) => (
+            <Link
+              key={category.title}
+              href={category.link}
+              className="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 flex flex-col overflow-hidden"
+            >
+              <div className="aspect-[4/3] overflow-hidden">
+                <img
+                  src={category.image}
+                  alt={category.title}
+                  className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 grayscale-[0.2] group-hover:grayscale-0"
+                />
+              </div>
+              <div className="p-6 flex flex-col flex-1">
+                <h3 className="text-xl font-bold text-[#1e293b] mb-3 group-hover:text-primary transition-colors">
+                  {category.title}
+                </h3>
+                <p className="text-gray-600 text-sm leading-relaxed mb-6">
+                  {category.description}
+                </p>
+                <div className="mt-auto flex items-center text-sm font-semibold text-primary/80 group-hover:text-primary group-hover:translate-x-1 transition-all">
+                  Explore <ChevronRight className="w-4 h-4 ml-1" />
+                </div>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </main>
+
       <Footer />
     </div>
   );

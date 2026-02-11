@@ -35,13 +35,13 @@ export default function NewsTicker() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Latest Judgments Card */}
           <div className="bg-white rounded-2xl shadow-xl border border-primary/10 overflow-hidden flex flex-col">
-            <div className="bg-gradient-to-r from-[#00377b] to-[#1453a3] p-6 text-white">
-              <div className="flex items-center gap-3">
-                <Scale className="w-6 h-6" />
-                <h3 className="text-xl font-bold">Latest Supreme Court Judgments</h3>
+            <div className="p-10 flex flex-col items-center text-center">
+              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
+                <Scale className="w-6 h-6 text-primary" />
               </div>
+              <h3 className="text-3xl font-bold text-gray-900">Latest Supreme Court Judgments</h3>
             </div>
-            <div className="p-6 flex-1 space-y-6">
+            <div className="px-10 pb-10 flex-1 space-y-6">
               {judgments.slice(0, 3).map((item) => (
                 <div key={item.id} className="group cursor-pointer">
                   <p className="text-foreground group-hover:text-primary transition-colors font-medium line-clamp-2 text-sm md:text-base">
@@ -54,7 +54,7 @@ export default function NewsTicker() {
                 </div>
               ))}
             </div>
-            <div className="p-6 pt-0 mt-auto">
+            <div className="p-10 pt-0 mt-auto">
               <Link href="/law-library" className="w-full">
                 <Button className="w-full bg-gradient-to-r from-[#00377b] to-[#1453a3] hover:brightness-90 text-white border border-[#001944]/80 shadow-md transition-all duration-200">
                   View All Judgments
@@ -65,13 +65,13 @@ export default function NewsTicker() {
 
           {/* Forthcoming Events Card */}
           <div className="bg-white rounded-2xl shadow-xl border border-secondary/10 overflow-hidden flex flex-col">
-            <div className="bg-[#d67c40] p-6 text-white">
-              <div className="flex items-center gap-3">
-                <Calendar className="w-6 h-6" />
-                <h3 className="text-xl font-bold">Forthcoming Legal Events</h3>
+            <div className="p-10 flex flex-col items-center text-center">
+              <div className="w-12 h-12 bg-[#d67c40]/10 rounded-lg flex items-center justify-center mb-6">
+                <Calendar className="w-6 h-6 text-[#d67c40]" />
               </div>
+              <h3 className="text-3xl font-bold text-gray-900">Forthcoming Legal Events</h3>
             </div>
-            <div className="p-6 flex-1 space-y-6">
+            <div className="px-10 pb-10 flex-1 space-y-6">
               {events.slice(0, 3).map((item) => (
                 <div key={item.id} className="group cursor-pointer">
                   <p className="text-foreground group-hover:text-secondary transition-colors font-medium line-clamp-2 text-sm md:text-base">
@@ -84,7 +84,7 @@ export default function NewsTicker() {
                 </div>
               ))}
             </div>
-            <div className="p-6 pt-0 mt-auto">
+            <div className="p-10 pt-0 mt-auto">
               <Link href="/sawal-jawab" className="w-full">
                 <Button className="w-full bg-[#d67c40] hover:bg-[#c26a36] hover:brightness-90 text-white font-semibold shadow-md border border-[#d67c40]/70 transition-all duration-200">
                   Explore Events
