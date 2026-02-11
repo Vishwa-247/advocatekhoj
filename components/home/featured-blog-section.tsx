@@ -7,14 +7,9 @@ export default function FeaturedBlogSection() {
     <section className="py-16 bg-gradient-to-br from-primary/5 to-secondary/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center">
-          <div className="flex items-center justify-center mb-4">
-            <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mr-3">
-              <BookOpen className="w-6 h-6 text-primary" />
-            </div>
-            <h2 className="text-2xl md:text-3xl font-bold text-gray-900">
-              Featured Legal Blog
-            </h2>
-          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-8">
+            Featured Legal Blog
+          </h2>
 
           <div className="bg-white/80 backdrop-blur-sm rounded-xl p-6 shadow-lg border border-primary/10 max-w-4xl mx-auto">
             <Link
