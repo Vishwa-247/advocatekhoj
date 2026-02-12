@@ -36,9 +36,6 @@ export default function NewsTicker() {
           {/* Latest Judgments Card */}
           <div className="bg-white rounded-2xl shadow-xl border border-primary/10 overflow-hidden flex flex-col">
             <div className="p-10 flex flex-col items-center text-center">
-              <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-6">
-                <Scale className="w-6 h-6 text-primary" />
-              </div>
               <h3 className="text-3xl font-bold text-gray-900">Latest Supreme Court Judgments</h3>
             </div>
             <div className="px-10 pb-10 flex-1 space-y-6">
@@ -66,9 +63,6 @@ export default function NewsTicker() {
           {/* Forthcoming Events Card */}
           <div className="bg-white rounded-2xl shadow-xl border border-secondary/10 overflow-hidden flex flex-col">
             <div className="p-10 flex flex-col items-center text-center">
-              <div className="w-12 h-12 bg-[#d67c40]/10 rounded-lg flex items-center justify-center mb-6">
-                <Calendar className="w-6 h-6 text-[#d67c40]" />
-              </div>
               <h3 className="text-3xl font-bold text-gray-900">Forthcoming Legal Events</h3>
             </div>
             <div className="px-10 pb-10 flex-1 space-y-6">

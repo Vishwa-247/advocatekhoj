@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,13 +20,16 @@ import {
 } from "lucide-react";
 
 export default function FeaturesSection() {
+  // Mock auth state for demonstration
+  const [isLoggedIn] = useState(false);
+
   const features = [
     {
       icon: Users,
       title: "Find Expert Advocates",
       description:
         "Connect with qualified and experienced advocates across India for your legal needs.",
-      link: "/client-area",
+      link: isLoggedIn ? "/client-area" : "/login?redirect=/client-area",
       linkText: "Find Advocates",
       color: "blue",
     },
@@ -59,7 +65,7 @@ export default function FeaturesSection() {
       title: "Grow Your Legal Practice",
       description:
         "Are you energetic & passionate? Join India's unique 'case post system' today!",
-      link: "/advocate/dashboard",
+      link: isLoggedIn ? "/advocate/dashboard" : "/login?redirect=/advocate/dashboard",
       linkText: "Manage Cases",
       color: "blue",
     },
@@ -90,8 +96,10 @@ export default function FeaturesSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => (
             <Card key={index} className="hover:shadow-lg transition-shadow">
-              <CardHeader>
-                <feature.icon className="w-12 h-12 text-primary mb-4" />
+              <CardHeader className="flex flex-col items-center text-center">
+                <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center mb-4">
+                  <feature.icon className="w-6 h-6 text-primary" />
+                </div>
                 <CardTitle className="text-xl">{feature.title}</CardTitle>
                 <CardDescription className="text-gray-600">
                   {feature.description}

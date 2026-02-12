@@ -1,7 +1,13 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 
 export default function HeroSection() {
+  // Mock auth state
+  const [isLoggedIn] = useState(false);
+
   return (
     <section className="bg-gradient-to-br from-primary/5 to-secondary/5 py-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -17,7 +23,7 @@ export default function HeroSection() {
           </p>
 
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-            <Link href="/client-area">
+            <Link href={isLoggedIn ? "/client-area" : "/login?redirect=/client-area"}>
               <Button
                 size="lg"
                 className="w-full sm:w-auto bg-gradient-to-r from-[#00377b] to-[#1453a3] hover:from-[#1453a3] hover:to-[#1f64c7] hover:brightness-90 text-white shadow-md border border-[#001944]/80 transition-all duration-200"
@@ -25,7 +31,7 @@ export default function HeroSection() {
                 Post a Case
               </Button>
             </Link>
-            <Link href="/advocate-area">
+            <Link href={isLoggedIn ? "/advocate-area" : "/login?redirect=/advocate/dashboard"}>
               <Button
                 size="lg"
                 className="w-full sm:w-auto bg-[#d67c40] hover:bg-[#c26a36] hover:brightness-90 text-white font-semibold shadow-md border border-[#d67c40]/70 transition-all duration-200"
