@@ -12,43 +12,43 @@ const libraryCategories = [
     title: "Bare Acts",
     description: "Access all Indian acts passed by Parliament.",
     link: "/law-library/bare-acts",
-    image: "https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1544640808-32ca72ac7f37?auto=format&fit=crop&q=80&w=800",
   },
   {
     title: "Supreme Court Judgments",
     description: "Find judgments passed by the Supreme Court of India.",
     link: "/law-library/judgements",
-    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1589391886645-d51941baf7fb?auto=format&fit=crop&q=80&w=800",
   },
   {
     title: "Forms",
     description: "Free downloads of formats of legal forms and documents.",
     link: "/law-library/forms",
-    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?auto=format&fit=crop&q=80&w=800",
   },
   {
     title: "Areas of Law",
     description: "Learn about different areas of Indian law and practice.",
     link: "/law-library/areas-of-law",
-    image: "https://images.unsplash.com/photo-1489533119213-66a5cd877091?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1450101499163-c8848c66ca85?auto=format&fit=crop&q=80&w=800",
   },
   {
     title: "Agreements",
     description: "Understand the essentials of contract agreements.",
     link: "/law-library/agreements",
-    image: "https://images.unsplash.com/photo-1575505586569-646b2ca09c78?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1589210339056-eb30fe1bb7c5?auto=format&fit=crop&q=80&w=800",
   },
   {
     title: "Rules",
     description: "Access latest rules laid down to give effect to law.",
     link: "/law-library/rules",
-    image: "https://images.unsplash.com/photo-1453945619913-79ec89a82c51?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1589829545856-d10d557cf95f?auto=format&fit=crop&q=80&w=800",
   },
   {
     title: "Law Commission Reports",
     description: "Read reports published by the Law Commission of India.",
     link: "/law-library/law-commission-reports",
-    image: "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1521587760476-6c12a4b040da?auto=format&fit=crop&q=80&w=800",
   },
   {
     title: "Glossary",
@@ -105,32 +105,32 @@ export default function LawLibrary() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
         {/* Legal Tips Restoration */}
-        <div className="mb-16">
-          <div className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden group hover:shadow-lg transition-all">
+        <div className="mb-12">
+          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-all">
             <div className="flex flex-col md:flex-row items-stretch">
-              <div className="md:w-1/3 relative min-h-[200px]">
+              <div className="md:w-1/4 relative min-h-[180px]">
                 <img
-                  src="https://images.unsplash.com/photo-1589210339056-eb30fe1bb7c5?auto=format&fit=crop&q=80&w=800"
+                  src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&q=80&w=800"
                   alt="Legal Tips"
                   className="absolute inset-0 w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-500"
                 />
-                <div className="absolute inset-0 bg-yellow-600/10 mix-blend-multiply"></div>
+                <div className="absolute inset-0 bg-yellow-600/5 mix-blend-multiply"></div>
                 <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-16 h-16 bg-white/90 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-xl">
-                    <BookOpen className="w-8 h-8 text-yellow-600" />
+                  <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg">
+                    <BookOpen className="w-6 h-6 text-yellow-600" />
                   </div>
                 </div>
               </div>
-              <div className="flex-1 p-8 lg:p-12">
-                <h2 className="text-3xl font-bold text-[#1e293b] mb-4">Legal Tips</h2>
-                <p className="text-gray-600 leading-relaxed text-lg mb-8">
+              <div className="flex-1 p-6 lg:p-8">
+                <h2 className="text-2xl font-bold text-[#1e293b] mb-3">Legal Tips</h2>
+                <p className="text-gray-600 leading-relaxed text-base mb-6">
                   Do you have questions about hiring an advocate or do you need some tips on what to say when you do meet an advocate?
                   We provide some pointers on everything from hiring an advocate to negotiating the best deal!
                   Find the best possible advocate for your legal problems.
                 </p>
                 <Link
                   href="/law-library/legal-tips"
-                  className="inline-flex items-center font-bold text-primary hover:text-primary/80 transition-colors bg-primary/5 px-6 py-3 rounded-xl"
+                  className="inline-flex items-center font-bold text-primary hover:text-primary/80 transition-colors bg-primary/5 px-5 py-2.5 rounded-lg text-sm"
                 >
                   Read Legal Tips <ChevronRight className="w-4 h-4 ml-1" />
                 </Link>
