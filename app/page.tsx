@@ -11,11 +11,6 @@ export default function HomePage() {
     <PageLayout>
       <HeroSection />
 
-      {/* Middle Advertisement Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <AdBanner size="medium" position="middle" />
-      </div>
-
       <FeaturesSection />
 
       {/* News Ticker */}
@@ -26,11 +21,6 @@ export default function HomePage() {
 
       {/* Advertiser Section */}
       <AdvertiserSection />
-
-      {/* Bottom Advertisement Banner */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <AdBanner size="large" position="bottom" />
-      </div>
     </PageLayout>
   );
 }

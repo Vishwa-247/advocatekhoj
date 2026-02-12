@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import PageLayout from "@/components/layout/page-layout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -35,8 +36,18 @@ import {
 } from "lucide-react";
 
 export default function ClientAreaPage() {
+  const router = useRouter();
   const [faqSearch, setFaqSearch] = useState("");
   const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Mock auth state
+  const [isLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      router.push("/login?redirect=/client-area");
+    }
+  }, [isLoggedIn, router]);
 
   useEffect(() => {
     const handleScroll = () => {

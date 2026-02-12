@@ -36,7 +36,7 @@ const libraryCategories = [
     title: "Agreements",
     description: "Understand the essentials of contract agreements.",
     link: "/law-library/agreements",
-    image: "https://images.unsplash.com/photo-1589210339056-eb30fe1bb7c5?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1575505586569-646b2ca09c78?auto=format&fit=crop&q=80&w=800",
   },
   {
     title: "Rules",
@@ -108,21 +108,29 @@ export default function LawLibrary() {
         <div className="mb-16">
           <div className="bg-white rounded-2xl shadow-md border border-gray-100 overflow-hidden group hover:shadow-lg transition-all">
             <div className="flex flex-col md:flex-row items-stretch">
-              <div className="md:w-1/4 bg-yellow-50 flex items-center justify-center p-8">
-                <div className="w-16 h-16 bg-yellow-100 rounded-2xl flex items-center justify-center">
-                  <BookOpen className="w-8 h-8 text-yellow-600" />
+              <div className="md:w-1/3 relative min-h-[200px]">
+                <img
+                  src="https://images.unsplash.com/photo-1589210339056-eb30fe1bb7c5?auto=format&fit=crop&q=80&w=800"
+                  alt="Legal Tips"
+                  className="absolute inset-0 w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-yellow-600/10 mix-blend-multiply"></div>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <div className="w-16 h-16 bg-white/90 backdrop-blur-sm rounded-2xl flex items-center justify-center shadow-xl">
+                    <BookOpen className="w-8 h-8 text-yellow-600" />
+                  </div>
                 </div>
               </div>
-              <div className="flex-1 p-8">
-                <h2 className="text-2xl font-bold text-[#1e293b] mb-4">Legal Tips</h2>
-                <p className="text-gray-600 leading-relaxed mb-6">
+              <div className="flex-1 p-8 lg:p-12">
+                <h2 className="text-3xl font-bold text-[#1e293b] mb-4">Legal Tips</h2>
+                <p className="text-gray-600 leading-relaxed text-lg mb-8">
                   Do you have questions about hiring an advocate or do you need some tips on what to say when you do meet an advocate?
                   We provide some pointers on everything from hiring an advocate to negotiating the best deal!
                   Find the best possible advocate for your legal problems.
                 </p>
                 <Link
                   href="/law-library/legal-tips"
-                  className="inline-flex items-center font-bold text-primary hover:text-primary/80 transition-colors"
+                  className="inline-flex items-center font-bold text-primary hover:text-primary/80 transition-colors bg-primary/5 px-6 py-3 rounded-xl"
                 >
                   Read Legal Tips <ChevronRight className="w-4 h-4 ml-1" />
                 </Link>
