@@ -36,13 +36,13 @@ const libraryCategories = [
     title: "Agreements",
     description: "Understand the essentials of contract agreements.",
     link: "/law-library/agreements",
-    image: "https://images.unsplash.com/photo-1575505586569-646b2ca09c78?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1589210339056-eb30fe1bb7c5?auto=format&fit=crop&q=80&w=800",
   },
   {
     title: "Rules",
     description: "Access latest rules laid down to give effect to law.",
     link: "/law-library/rules",
-    image: "https://images.unsplash.com/photo-1521587760476-6c12a7ba20a1?auto=format&fit=crop&q=80&w=800",
+    image: "https://images.unsplash.com/photo-1453945619913-79ec89a82c51?auto=format&fit=crop&q=80&w=800",
   },
   {
     title: "Law Commission Reports",
