@@ -71,7 +71,7 @@ export default function LawLibrary() {
       <Header />
 
       {/* Hero Section */}
-      <section className="relative pt-16 pb-20 px-4 overflow-hidden bg-[url('https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center">
+      <section className="relative pt-16 pb-12 px-4 overflow-hidden bg-[url('https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&q=80&w=2000')] bg-cover bg-center">
         <div className="absolute inset-0 bg-white/90 backdrop-blur-[2px]"></div>
         <div className="relative max-w-4xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-bold text-[#1e293b] tracking-wider mb-4">
@@ -102,7 +102,7 @@ export default function LawLibrary() {
       </section>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
           <div className="flex items-center gap-6 flex-1">
@@ -117,7 +117,7 @@ export default function LawLibrary() {
             className="inline-flex items-center justify-center px-6 py-2.5 rounded-full border border-primary/30 text-primary font-semibold hover:bg-primary/5 transition-all text-sm whitespace-nowrap shadow-sm"
           >
             <BookOpen className="w-4 h-4 mr-2" />
-            Legal Tips
+            Legal tips for hiring an advocate
           </Link>
         </div>
 
