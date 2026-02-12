@@ -104,46 +104,21 @@ export default function LawLibrary() {
       {/* Main Content */}
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
 
-        {/* Legal Tips Restoration */}
-        <div className="mb-12">
-          <div className="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden group hover:shadow-md transition-all">
-            <div className="flex flex-col md:flex-row items-stretch">
-              <div className="md:w-1/4 relative min-h-[180px]">
-                <img
-                  src="https://images.unsplash.com/photo-1505664194779-8beaceb93744?auto=format&fit=crop&q=80&w=800"
-                  alt="Legal Tips"
-                  className="absolute inset-0 w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-500"
-                />
-                <div className="absolute inset-0 bg-yellow-600/5 mix-blend-multiply"></div>
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-12 h-12 bg-white/90 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg">
-                    <BookOpen className="w-6 h-6 text-yellow-600" />
-                  </div>
-                </div>
-              </div>
-              <div className="flex-1 p-6 lg:p-8">
-                <h2 className="text-2xl font-bold text-[#1e293b] mb-3">Legal Tips</h2>
-                <p className="text-gray-600 leading-relaxed text-base mb-6">
-                  Do you have questions about hiring an advocate or do you need some tips on what to say when you do meet an advocate?
-                  We provide some pointers on everything from hiring an advocate to negotiating the best deal!
-                  Find the best possible advocate for your legal problems.
-                </p>
-                <Link
-                  href="/law-library/legal-tips"
-                  className="inline-flex items-center font-bold text-primary hover:text-primary/80 transition-colors bg-primary/5 px-5 py-2.5 rounded-lg text-sm"
-                >
-                  Read Legal Tips <ChevronRight className="w-4 h-4 ml-1" />
-                </Link>
-              </div>
-            </div>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
+          <div className="flex items-center gap-6 flex-1">
+            <h2 className="text-2xl font-bold text-[#1e293b] whitespace-nowrap">
+              Explore the Law Library
+            </h2>
+            <div className="h-[1px] bg-gray-200 w-full hidden sm:block"></div>
           </div>
-        </div>
 
-        <div className="flex items-center gap-6 mb-12">
-          <h2 className="text-2xl font-bold text-[#1e293b] whitespace-nowrap">
-            Explore the Law Library
-          </h2>
-          <div className="h-[1px] bg-gray-200 w-full"></div>
+          <Link
+            href="/law-library/legal-tips"
+            className="inline-flex items-center justify-center px-6 py-2.5 rounded-full border border-primary/30 text-primary font-semibold hover:bg-primary/5 transition-all text-sm whitespace-nowrap shadow-sm"
+          >
+            <BookOpen className="w-4 h-4 mr-2" />
+            Legal Tips
+          </Link>
         </div>
 
         {filteredCategories.length > 0 ? (
