@@ -44,12 +44,6 @@ export default function AdvocateAreaPage() {
   // Mock auth state
   const [isLoggedIn] = useState(false);
 
-  useEffect(() => {
-    if (!isLoggedIn) {
-      router.push("/login?redirect=/advocate-area");
-    }
-  }, [isLoggedIn, router]);
-
   // Back to top button visibility
   useEffect(() => {
     const handleScroll = () => {

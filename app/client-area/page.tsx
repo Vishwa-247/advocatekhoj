@@ -44,12 +44,6 @@ export default function ClientAreaPage() {
   const [isLoggedIn] = useState(false);
 
   useEffect(() => {
-    if (!isLoggedIn) {
-      router.push("/login?redirect=/client-area");
-    }
-  }, [isLoggedIn, router]);
-
-  useEffect(() => {
     const handleScroll = () => {
       setShowBackToTop(window.scrollY > 400);
     };

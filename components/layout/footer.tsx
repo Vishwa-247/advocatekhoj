@@ -192,7 +192,7 @@ export default function Footer() {
             </h3>
             <ul className="space-y-2 mb-6">
               <li>
-                <Link href="/contact?context=advertise" className={linkClasses}>
+                <Link href="/login" className={linkClasses}>
                   Get in Touch
                 </Link>
               </li>
