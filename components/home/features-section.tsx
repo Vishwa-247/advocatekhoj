@@ -29,7 +29,7 @@ export default function FeaturesSection() {
       title: "Find Expert Advocates",
       description:
         "Connect with qualified and experienced advocates across India for your legal needs.",
-      link: isLoggedIn ? "/client-area" : "/login?redirect=/client-area",
+      link: "/login?userType=client",
       linkText: "Find Advocates",
       color: "blue",
     },
@@ -65,7 +65,7 @@ export default function FeaturesSection() {
       title: "Grow Your Legal Practice",
       description:
         "Are you energetic & passionate? Join India's unique 'case post system' today!",
-      link: isLoggedIn ? "/advocate/dashboard" : "/login?redirect=/advocate/dashboard",
+      link: "/login?userType=advocate",
       linkText: "Manage Cases",
       color: "blue",
     },

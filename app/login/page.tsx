@@ -9,9 +9,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function LoginPage() {
-  const [userType, setUserType] = useState<
-    "client" | "advocate" | "advertiser"
-  >("client");
+  const [userType, setUserType] = useState<"client" | "advocate">("client");
   useEffect(() => {
     // Read query param from the browser URL to avoid using next/navigation
     // hooks which can cause prerender-time errors during static build.
@@ -20,8 +18,7 @@ export default function LoginPage() {
       const urlUserType = params.get("userType");
       if (
         urlUserType === "advocate" ||
-        urlUserType === "client" ||
-        urlUserType === "advertiser"
+        urlUserType === "client"
       ) {
         setUserType(urlUserType as any);
       }
@@ -71,7 +68,7 @@ export default function LoginPage() {
             onValueChange={(value) => setUserType(value as any)}
             className="w-full max-w-md"
           >
-            <TabsList className="grid w-full grid-cols-3">
+            <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger
                 value="client"
                 className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-transparent cursor-pointer"
@@ -83,12 +80,6 @@ export default function LoginPage() {
                 className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-transparent cursor-pointer"
               >
                 Advocate
-              </TabsTrigger>
-              <TabsTrigger
-                value="advertiser"
-                className="text-xs sm:text-sm data-[state=active]:bg-primary data-[state=active]:text-primary-foreground hover:bg-primary/90 hover:text-white transition-colors duration-200"
-              >
-                Advertiser
               </TabsTrigger>
             </TabsList>
           </Tabs>
