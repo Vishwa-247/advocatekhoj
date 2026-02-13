@@ -4,6 +4,7 @@ import type React from "react";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,17 +15,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Separator } from "@/components/ui/separator";
-import { Eye, EyeOff, Scale, Users, Shield, Building2 } from "lucide-react";
+import { Eye, EyeOff, Users, Scale } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
-interface LoginFormProps {
-  userType: "client" | "advocate" | "admin" | "advertiser";
-}
-
-export function LoginForm({ userType }: LoginFormProps) {
+export function LoginForm() {
   const router = useRouter();
   const { toast } = useToast();
+  const [userType, setUserType] = useState<"client" | "advocate">("client");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
@@ -34,7 +33,7 @@ export function LoginForm({ userType }: LoginFormProps) {
   });
 
   const primaryActionClasses =
-    "bg-gradient-to-r from-[#00377b] to-[#1453a3] hover:from-[#1453a3] hover:to-[#1f64c7] text-white shadow-md border border-[#001944]/70 transition-[background] duration-200";
+    "bg-[#00377b] hover:bg-[#002d63] text-white shadow-sm border border-[#001944]/20 transition-colors duration-200";
   const AUTH_EVENT_NAME = "advocatekhoj-auth-change";
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -43,7 +42,6 @@ export function LoginForm({ userType }: LoginFormProps) {
 
     // Mock login - accepts any credentials
     setTimeout(() => {
-      // Store mock user data in localStorage
       const mockUser = {
         userType,
         email: formData.email || "demo@example.com",
@@ -61,16 +59,11 @@ export function LoginForm({ userType }: LoginFormProps) {
         description: `Welcome back! Redirecting to your ${userType} dashboard...`,
       });
 
-      // Redirect to appropriate dashboard
       setTimeout(() => {
         if (userType === "advocate") {
           router.push("/advocate/dashboard");
-        } else if (userType === "client") {
-          router.push("/client/dashboard");
-        } else if (userType === "advertiser") {
-          router.push("/advertiser/dashboard");
         } else {
-          router.push("/admin/dashboard");
+          router.push("/client/dashboard");
         }
       }, 1000);
     }, 1000);
@@ -79,10 +72,9 @@ export function LoginForm({ userType }: LoginFormProps) {
   const handleOAuthLogin = (provider: "google" | "facebook") => {
     setIsLoading(true);
 
-    // Mock OAuth login
     setTimeout(() => {
       const mockUser = {
-        userType,
+        userType: "client",
         email: `demo@${provider}.com`,
         username: `${provider}_user`,
         name: `${provider.charAt(0).toUpperCase() + provider.slice(1)} User`,
@@ -100,136 +92,98 @@ export function LoginForm({ userType }: LoginFormProps) {
       });
 
       setTimeout(() => {
-        router.push(
-          userType === "advocate"
-            ? "/advocate/dashboard"
-            : userType === "advertiser"
-            ? "/advertiser/dashboard"
-            : "/client/dashboard"
-        );
+        router.push("/client/dashboard");
       }, 1000);
     }, 1000);
   };
 
-  const getIcon = () => {
-    switch (userType) {
-      case "client":
-        return <Users className="h-6 w-6" />;
-      case "advocate":
-        return <Scale className="h-6 w-6" />;
-      case "advertiser":
-        return <Building2 className="h-6 w-6" />;
-      case "admin":
-        return <Shield className="h-6 w-6" />;
-    }
-  };
-
-  const getTitle = () => {
-    switch (userType) {
-      case "client":
-        return "Client Log In";
-      case "advocate":
-        return "Advocate Log In";
-      case "advertiser":
-        return "Advertiser Log In";
-      case "admin":
-        return "Admin Log In";
-    }
-  };
-
-  const getDescription = () => {
-    switch (userType) {
-      case "client":
-        return "Access your legal cases and connect with advocates";
-      case "advocate":
-        return "Manage your practice and client cases";
-      case "advertiser":
-        return "Manage your advertising campaigns and reach legal professionals";
-      case "admin":
-        return "Administrative access to the platform";
-    }
-  };
-
   return (
-    <Card className="w-full max-w-md">
-      <CardHeader className="text-center">
-        <div className="flex justify-center mb-4">{getIcon()}</div>
-        <CardTitle className="text-2xl font-bold">{getTitle()}</CardTitle>
-        <CardDescription>{getDescription()}</CardDescription>
+    <Card className="w-full border-gray-200 shadow-md">
+      <CardHeader className="text-center pb-4">
+        <CardTitle className="text-2xl font-bold text-gray-900">
+          Sign In
+        </CardTitle>
+        <CardDescription className="text-gray-500">
+          Access your AdvocateKhoj account
+        </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor={userType === "advocate" ? "username" : "email"}>
-              {userType === "advocate" ? "Username" : "Email Address"}
-            </Label>
-            <Input
-              id={userType === "advocate" ? "username" : "email"}
-              type={userType === "advocate" ? "text" : "email"}
-              placeholder={
-                userType === "advocate"
-                  ? "Enter your username"
-                  : "Enter your email"
-              }
-              value={
-                userType === "advocate" ? formData.username : formData.email
-              }
-              onChange={(e) =>
-                userType === "advocate"
-                  ? setFormData({ ...formData, username: e.target.value })
-                  : setFormData({ ...formData, email: e.target.value })
-              }
-              required
-            />
-          </div>
+        {/* Tabs for User Type */}
+        <Tabs
+          value={userType}
+          onValueChange={(value) => setUserType(value as "client" | "advocate")}
+          className="w-full"
+        >
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="client" className="flex items-center space-x-2">
+              <Users className="w-4 h-4" />
+              <span>Client</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="advocate"
+              className="flex items-center space-x-2"
+            >
+              <Scale className="w-4 h-4" />
+              <span>Advocate</span>
+            </TabsTrigger>
+          </TabsList>
 
-          <div className="space-y-2">
-            <Label htmlFor="password">Password</Label>
-            <div className="relative">
-              <Input
-                id="password"
-                type={showPassword ? "text" : "password"}
-                placeholder="Enter your password"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData({ ...formData, password: e.target.value })
-                }
-                required
-              />
+          {/* Client Login Tab */}
+          <TabsContent value="client" className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="email">Email Address</Label>
+                <Input
+                  id="email"
+                  type="email"
+                  placeholder="Enter your email"
+                  value={formData.email}
+                  onChange={(e) =>
+                    setFormData({ ...formData, email: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="password">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
+                    required
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
+              </div>
+
               <Button
-                type="button"
-                variant="ghost"
-                size="sm"
-                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                onClick={() => setShowPassword(!showPassword)}
+                type="submit"
+                className={`w-full ${primaryActionClasses}`}
+                disabled={isLoading}
               >
-                {showPassword ? (
-                  <EyeOff className="h-4 w-4" />
-                ) : (
-                  <Eye className="h-4 w-4" />
-                )}
+                {isLoading ? "Logging In..." : "Log In"}
               </Button>
-            </div>
-          </div>
+            </form>
 
-          <Button
-            type="submit"
-            className={`w-full ${primaryActionClasses}`}
-            disabled={isLoading}
-          >
-            {isLoading ? "Logging In..." : "Log In"}
-          </Button>
-
-          {/* Mock Login Helper */}
-          <div className="text-center">
-            <p className="text-xs text-muted-foreground bg-blue-50 p-2 rounded">
-              💡 Demo Mode: Enter any credentials to log in
-            </p>
-          </div>
-        </form>
-
-        {(userType === "client" || userType === "advertiser") && (
-          <>
+            {/* Social Login for Clients */}
             <div className="relative">
               <div className="absolute inset-0 flex items-center">
                 <Separator className="w-full" />
@@ -282,32 +236,83 @@ export function LoginForm({ userType }: LoginFormProps) {
                 Facebook
               </Button>
             </div>
-          </>
-        )}
 
-        <div className="space-y-3">
-          <div className="text-center text-sm">
-            {userType === "advocate" ? (
-              <a href="#" className="text-primary hover:underline">
-                Forgot username or password?
-              </a>
-            ) : (
+            <div className="text-center text-sm">
               <a href="#" className="text-primary hover:underline">
                 Forgot your password?
               </a>
-            )}
-          </div>
+            </div>
+          </TabsContent>
 
-          {userType !== "admin" && (
+          {/* Advocate Login Tab */}
+          <TabsContent value="advocate" className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="username">Username</Label>
+                <Input
+                  id="username"
+                  type="text"
+                  placeholder="Enter your username"
+                  value={formData.username}
+                  onChange={(e) =>
+                    setFormData({ ...formData, username: e.target.value })
+                  }
+                  required
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="advocate-password">Password</Label>
+                <div className="relative">
+                  <Input
+                    id="advocate-password"
+                    type={showPassword ? "text" : "password"}
+                    placeholder="Enter your password"
+                    value={formData.password}
+                    onChange={(e) =>
+                      setFormData({ ...formData, password: e.target.value })
+                    }
+                    required
+                  />
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                    onClick={() => setShowPassword(!showPassword)}
+                  >
+                    {showPassword ? (
+                      <EyeOff className="h-4 w-4" />
+                    ) : (
+                      <Eye className="h-4 w-4" />
+                    )}
+                  </Button>
+                </div>
+              </div>
+
+              <Button
+                type="submit"
+                className={`w-full ${primaryActionClasses}`}
+                disabled={isLoading}
+              >
+                {isLoading ? "Logging In..." : "Log In"}
+              </Button>
+            </form>
+
             <div className="text-center text-sm">
-              <span className="text-muted-foreground">
-                Don't have an account?{" "}
-              </span>
-              <a href="/register" className="text-primary hover:underline">
-                Register here
+              <a href="#" className="text-primary hover:underline">
+                Forgot username or password?
               </a>
             </div>
-          )}
+          </TabsContent>
+        </Tabs>
+
+        {/* Register Link */}
+        <div className="text-center text-sm pt-4 border-t border-gray-100">
+          <span className="text-muted-foreground">Don't have an account? </span>
+          <Link href="/register" className="text-primary hover:underline font-medium">
+            Register here
+          </Link>
         </div>
       </CardContent>
     </Card>

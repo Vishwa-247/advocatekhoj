@@ -4,6 +4,8 @@ import type React from "react";
 import { AdvocateRegistrationWorkflow } from "./advocate-registration-workflow";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -21,23 +23,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
 import { Eye, EyeOff, Users, Scale } from "lucide-react";
 import ReCaptcha from "@/components/ui/recaptcha";
+import { useToast } from "@/hooks/use-toast";
 
-interface SignupFormProps {
-  userType: "client" | "advocate";
-}
-
-export function SignupForm({ userType }: SignupFormProps) {
-  // If advocate, use the registration workflow
-  if (userType === "advocate") {
-    return <AdvocateRegistrationWorkflow userType={userType} />;
-  }
-
+export function SignupForm() {
+  const router = useRouter();
+  const { toast } = useToast();
+  const [userType, setUserType] = useState<"client" | "advocate">("client");
   const primaryActionClasses =
-    "bg-gradient-to-r from-[#00377b] to-[#1453a3] hover:from-[#1453a3] hover:to-[#1f64c7] text-white shadow-md border border-[#001944]/70 transition-[background] duration-200";
+    "bg-[#00377b] hover:bg-[#002d63] text-white shadow-sm border border-[#001944]/20 transition-colors duration-200";
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
@@ -74,13 +72,20 @@ export function SignupForm({ userType }: SignupFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle signup logic here - will connect to existing backend
-    console.log("Signup attempt:", { userType, ...formData });
+    toast({
+      title: "Registration Successful! 🎉",
+      description: "Your account has been created. Redirecting to login...",
+    });
+    setTimeout(() => {
+      router.push("/login");
+    }, 2000);
   };
 
   const handleOAuthSignup = (provider: "google" | "facebook") => {
-    // Handle OAuth signup - will connect to existing backend
-    console.log(`${provider} OAuth signup for ${userType}`);
+    toast({
+      title: "OAuth Registration",
+      description: `Signing up with ${provider}...`,
+    });
   };
 
   const recoveryQuestions = [
@@ -201,29 +206,39 @@ export function SignupForm({ userType }: SignupFormProps) {
   ];
 
   return (
-    <Card className="w-full max-w-2xl">
-      <CardHeader className="text-center">
-        <div className="flex justify-center mb-4">
-          {userType === "client" ? (
-            <Users className="h-6 w-6" />
-          ) : (
-            <Scale className="h-6 w-6" />
-          )}
-        </div>
-        <CardTitle className="text-2xl font-bold">
-          {userType === "client"
-            ? "Client Registration"
-            : "Advocate Registration"}
+    <Card className="w-full border-gray-200 shadow-md">
+      <CardHeader className="text-center pb-4">
+        <CardTitle className="text-2xl font-bold text-gray-900">
+          Create Account
         </CardTitle>
-        <CardDescription>
-          {userType === "client"
-            ? "Create your account to access legal services"
-            : "Join our network of legal professionals"}
+        <CardDescription className="text-gray-500">
+          Join AdvocateKhoj today
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
-        {userType === "client" && (
-          <>
+        {/* Tabs for User Type */}
+        <Tabs
+          value={userType}
+          onValueChange={(value) => setUserType(value as "client" | "advocate")}
+          className="w-full"
+        >
+          <TabsList className="grid w-full grid-cols-2 mb-6">
+            <TabsTrigger value="client" className="flex items-center space-x-2">
+              <Users className="w-4 h-4" />
+              <span>Client</span>
+            </TabsTrigger>
+            <TabsTrigger
+              value="advocate"
+              className="flex items-center space-x-2"
+            >
+              <Scale className="w-4 h-4" />
+              <span>Advocate</span>
+            </TabsTrigger>
+          </TabsList>
+
+          {/* Client Registration Tab */}
+          <TabsContent value="client" className="space-y-6">
+            {/* Social Signup */}
             <div className="flex flex-col sm:grid sm:grid-cols-2 gap-3 sm:gap-4">
               <Button
                 variant="outline"
@@ -232,7 +247,6 @@ export function SignupForm({ userType }: SignupFormProps) {
               >
                 <div className="relative flex items-center justify-center w-full">
                   <div className="mr-2 relative">
-                    <div className="absolute inset-0 rounded-full bg-white scale-0 group-hover:scale-110 transition-transform duration-200 -m-1"></div>
                     <svg className="relative h-4 w-4 z-10" viewBox="0 0 24 24">
                       <path
                         d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
@@ -252,9 +266,7 @@ export function SignupForm({ userType }: SignupFormProps) {
                       />
                     </svg>
                   </div>
-                  <span className="text-sm sm:text-base">
-                    Continue with Google
-                  </span>
+                  <span className="text-sm sm:text-base">Google</span>
                 </div>
               </Button>
               <Button
@@ -264,7 +276,6 @@ export function SignupForm({ userType }: SignupFormProps) {
               >
                 <div className="relative flex items-center justify-center w-full">
                   <div className="mr-2 relative">
-                    <div className="absolute inset-0 rounded-full bg-white scale-0 group-hover:scale-110 transition-transform duration-200 -m-1"></div>
                     <svg
                       className="relative h-4 w-4 z-10"
                       fill="#1877F2"
@@ -273,9 +284,7 @@ export function SignupForm({ userType }: SignupFormProps) {
                       <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
                     </svg>
                   </div>
-                  <span className="text-sm sm:text-base">
-                    Continue with Facebook
-                  </span>
+                  <span className="text-sm sm:text-base">Facebook</span>
                 </div>
               </Button>
             </div>
@@ -290,470 +299,439 @@ export function SignupForm({ userType }: SignupFormProps) {
                 </span>
               </div>
             </div>
-          </>
-        )}
 
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Login Information */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Login Information</h3>
+            <form onSubmit={handleSubmit} className="space-y-6 max-h-[60vh] overflow-y-auto px-1">
+              {/* Login Information */}
+              <div className="space-y-4">
+                <h3 className="text-base font-semibold">Login Information</h3>
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email Address *</Label>
-              <Input
-                id="email"
-                type="email"
-                placeholder="This will be your username"
-                value={formData.email}
-                onChange={(e) =>
-                  setFormData({ ...formData, email: e.target.value })
-                }
-                required
-              />
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="password">Password * (min 7 characters)</Label>
-                <div className="relative">
+                <div className="space-y-2">
+                  <Label htmlFor="email">Email Address *</Label>
                   <Input
-                    id="password"
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Enter password"
-                    value={formData.password}
+                    id="email"
+                    type="email"
+                    placeholder="This will be your username"
+                    value={formData.email}
                     onChange={(e) =>
-                      setFormData({ ...formData, password: e.target.value })
+                      setFormData({ ...formData, email: e.target.value })
                     }
-                    minLength={7}
                     required
                   />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                    onClick={() => setShowPassword(!showPassword)}
-                  >
-                    {showPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </Button>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="password">
+                      Password * (min 7 characters)
+                    </Label>
+                    <div className="relative">
+                      <Input
+                        id="password"
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Enter password"
+                        value={formData.password}
+                        onChange={(e) =>
+                          setFormData({ ...formData, password: e.target.value })
+                        }
+                        minLength={7}
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        onClick={() => setShowPassword(!showPassword)}
+                      >
+                        {showPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="confirmPassword">Re-Type Password *</Label>
+                    <div className="relative">
+                      <Input
+                        id="confirmPassword"
+                        type={showConfirmPassword ? "text" : "password"}
+                        placeholder="Confirm password"
+                        value={formData.confirmPassword}
+                        onChange={(e) =>
+                          setFormData({
+                            ...formData,
+                            confirmPassword: e.target.value,
+                          })
+                        }
+                        required
+                      />
+                      <Button
+                        type="button"
+                        variant="ghost"
+                        size="sm"
+                        className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                        onClick={() =>
+                          setShowConfirmPassword(!showConfirmPassword)
+                        }
+                      >
+                        {showConfirmPassword ? (
+                          <EyeOff className="h-4 w-4" />
+                        ) : (
+                          <Eye className="h-4 w-4" />
+                        )}
+                      </Button>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="recoveryQuestion">
+                      Password Recovery Question *
+                    </Label>
+                    <Select
+                      value={formData.recoveryQuestion}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, recoveryQuestion: value })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select a question" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {recoveryQuestions.map((question) => (
+                          <SelectItem key={question} value={question}>
+                            {question}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="recoveryAnswer">
+                      Password Recovery Answer *
+                    </Label>
+                    <Input
+                      id="recoveryAnswer"
+                      placeholder="Enter your answer"
+                      value={formData.recoveryAnswer}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          recoveryAnswer: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </div>
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <Label htmlFor="confirmPassword">Re-Type Password *</Label>
-                <div className="relative">
-                  <Input
-                    id="confirmPassword"
-                    type={showConfirmPassword ? "text" : "password"}
-                    placeholder="Confirm password"
-                    value={formData.confirmPassword}
-                    onChange={(e) =>
+              {/* Usage Information */}
+              <div className="space-y-4">
+                <h3 className="text-base font-semibold">
+                  How Will You Use AdvocateKhoj?
+                </h3>
+                <p className="text-sm text-muted-foreground">
+                  Select all that apply (at least one required)
+                </p>
+
+                <div className="space-y-3">
+                  <div className="flex items-start space-x-3 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
+                    <Checkbox
+                      id="legalConsultation"
+                      checked={formData.seekingLegalConsultation}
+                      onCheckedChange={(checked) =>
+                        setFormData({
+                          ...formData,
+                          seekingLegalConsultation: checked as boolean,
+                        })
+                      }
+                      className="mt-1"
+                    />
+                    <div className="flex-1">
+                      <Label
+                        htmlFor="legalConsultation"
+                        className="text-sm font-medium cursor-pointer"
+                      >
+                        Seeking legal consultation
+                      </Label>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Find qualified advocates and post your legal cases
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-3 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
+                    <Checkbox
+                      id="advertising"
+                      checked={formData.advertisingPurpose}
+                      onCheckedChange={(checked) =>
+                        setFormData({
+                          ...formData,
+                          advertisingPurpose: checked as boolean,
+                        })
+                      }
+                      className="mt-1"
+                    />
+                    <div className="flex-1">
+                      <Label
+                        htmlFor="advertising"
+                        className="text-sm font-medium cursor-pointer"
+                      >
+                        Advertising purpose
+                      </Label>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Promote your legal services or products
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start space-x-3 p-3 border rounded-lg hover:bg-accent/50 transition-colors">
+                    <Checkbox
+                      id="lawAspirant"
+                      checked={formData.lawAspirantEducation}
+                      onCheckedChange={(checked) =>
+                        setFormData({
+                          ...formData,
+                          lawAspirantEducation: checked as boolean,
+                        })
+                      }
+                      className="mt-1"
+                    />
+                    <div className="flex-1">
+                      <Label
+                        htmlFor="lawAspirant"
+                        className="text-sm font-medium cursor-pointer"
+                      >
+                        Career guidance and education
+                      </Label>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Access educational resources for law students
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Contact Information - Condensed */}
+              <div className="space-y-4">
+                <h3 className="text-base font-semibold">
+                  Contact Information
+                </h3>
+
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="salutation">Salutation</Label>
+                    <Select
+                      value={formData.salutation}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, salutation: value })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {salutations.map((sal) => (
+                          <SelectItem key={sal} value={sal}>
+                            {sal}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="firstName">First Name *</Label>
+                    <Input
+                      id="firstName"
+                      value={formData.firstName}
+                      onChange={(e) =>
+                        setFormData({ ...formData, firstName: e.target.value })
+                      }
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="middleName">Middle Name</Label>
+                    <Input
+                      id="middleName"
+                      value={formData.middleName}
+                      onChange={(e) =>
+                        setFormData({ ...formData, middleName: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="lastName">Last Name *</Label>
+                    <Input
+                      id="lastName"
+                      value={formData.lastName}
+                      onChange={(e) =>
+                        setFormData({ ...formData, lastName: e.target.value })
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="city">City *</Label>
+                    <Select
+                      value={formData.city}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, city: value })
+                      }
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select city" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[300px]">
+                        {indianCities.map((city) => (
+                          <SelectItem key={city} value={city}>
+                            {city}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="state">State *</Label>
+                    <Select
+                      value={formData.state}
+                      onValueChange={(value) =>
+                        setFormData({ ...formData, state: value })
+                      }
+                      required
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select state" />
+                      </SelectTrigger>
+                      <SelectContent className="max-h-[300px]">
+                        {indianStates.map((state) => (
+                          <SelectItem key={state} value={state}>
+                            {state}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="primaryPhone">Primary Phone *</Label>
+                    <Input
+                      id="primaryPhone"
+                      placeholder="+91 9876543210"
+                      value={formData.primaryPhone}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          primaryPhone: e.target.value,
+                        })
+                      }
+                      required
+                    />
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="pincode">Pincode *</Label>
+                    <Input
+                      id="pincode"
+                      value={formData.pincode}
+                      onChange={(e) =>
+                        setFormData({ ...formData, pincode: e.target.value })
+                      }
+                      required
+                    />
+                  </div>
+                </div>
+              </div>
+
+              {/* Terms and Conditions */}
+              <div className="space-y-4">
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="terms"
+                    checked={formData.acceptTerms}
+                    onCheckedChange={(checked) =>
                       setFormData({
                         ...formData,
-                        confirmPassword: e.target.value,
+                        acceptTerms: checked as boolean,
                       })
                     }
                     required
                   />
-                  <Button
-                    type="button"
-                    variant="ghost"
-                    size="sm"
-                    className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  >
-                    {showConfirmPassword ? (
-                      <EyeOff className="h-4 w-4" />
-                    ) : (
-                      <Eye className="h-4 w-4" />
-                    )}
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="recoveryQuestion">
-                  Password Recovery Question *
-                </Label>
-                <Select
-                  value={formData.recoveryQuestion}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, recoveryQuestion: value })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a question" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {recoveryQuestions.map((question) => (
-                      <SelectItem key={question} value={question}>
-                        {question}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="recoveryAnswer">
-                  Password Recovery Answer *
-                </Label>
-                <Input
-                  id="recoveryAnswer"
-                  placeholder="Enter your answer"
-                  value={formData.recoveryAnswer}
-                  onChange={(e) =>
-                    setFormData({ ...formData, recoveryAnswer: e.target.value })
-                  }
-                  required
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Usage Information */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">
-              How Will You Use AdvocateKhoj?
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              Select all that apply (at least one required)
-            </p>
-
-            <div className="space-y-3">
-              <div className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors">
-                <Checkbox
-                  id="legalConsultation"
-                  checked={formData.seekingLegalConsultation}
-                  onCheckedChange={(checked) =>
-                    setFormData({
-                      ...formData,
-                      seekingLegalConsultation: checked as boolean,
-                    })
-                  }
-                  className="mt-1"
-                />
-                <div className="flex-1">
-                  <Label
-                    htmlFor="legalConsultation"
-                    className="text-sm font-medium cursor-pointer"
-                  >
-                    As a normal person seeking legal consultation
+                  <Label htmlFor="terms" className="text-sm">
+                    I accept the{" "}
+                    <a href="#" className="text-primary hover:underline">
+                      Terms & Conditions
+                    </a>{" "}
+                    *
                   </Label>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Find qualified advocates, post your legal cases, and get
-                    professional legal assistance
-                  </p>
                 </div>
-              </div>
 
-              <div className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors">
-                <Checkbox
-                  id="advertising"
-                  checked={formData.advertisingPurpose}
-                  onCheckedChange={(checked) =>
-                    setFormData({
-                      ...formData,
-                      advertisingPurpose: checked as boolean,
-                    })
-                  }
-                  className="mt-1"
-                />
-                <div className="flex-1">
-                  <Label
-                    htmlFor="advertising"
-                    className="text-sm font-medium cursor-pointer"
-                  >
-                    To advertise
+                <div className="flex items-center space-x-2">
+                  <Checkbox
+                    id="privacy"
+                    checked={formData.acceptPrivacy}
+                    onCheckedChange={(checked) =>
+                      setFormData({
+                        ...formData,
+                        acceptPrivacy: checked as boolean,
+                      })
+                    }
+                    required
+                  />
+                  <Label htmlFor="privacy" className="text-sm">
+                    I accept the{" "}
+                    <a href="#" className="text-primary hover:underline">
+                      Privacy Policy
+                    </a>{" "}
+                    *
                   </Label>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Access our advertising module to promote your legal
-                    services, law firm, or legal products
-                  </p>
                 </div>
               </div>
 
-              <div className="flex items-start space-x-3 p-4 border rounded-lg hover:bg-accent/50 transition-colors">
-                <Checkbox
-                  id="lawAspirant"
-                  checked={formData.lawAspirantEducation}
-                  onCheckedChange={(checked) =>
-                    setFormData({
-                      ...formData,
-                      lawAspirantEducation: checked as boolean,
-                    })
-                  }
-                  className="mt-1"
-                />
-                <div className="flex-1">
-                  <Label
-                    htmlFor="lawAspirant"
-                    className="text-sm font-medium cursor-pointer"
-                  >
-                    Law aspirant here for career guidance and educational
-                    purpose
-                  </Label>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    Access educational resources, career guidance, law college
-                    information, and student-focused content
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
+              {/* Google reCAPTCHA */}
+              <ReCaptcha />
 
-          {/* Contact Information */}
-          <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Contact Information</h3>
+              <Button
+                type="submit"
+                className={`w-full ${primaryActionClasses}`}
+                size="lg"
+              >
+                Create Client Account
+              </Button>
+            </form>
+          </TabsContent>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="salutation">Salutation</Label>
-                <Select
-                  value={formData.salutation}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, salutation: value })
-                  }
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {salutations.map((sal) => (
-                      <SelectItem key={sal} value={sal}>
-                        {sal}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+          {/* Advocate Registration Tab */}
+          <TabsContent value="advocate" className="space-y-4">
+            <AdvocateRegistrationWorkflow userType="advocate" />
+          </TabsContent>
+        </Tabs>
 
-              <div className="space-y-2">
-                <Label htmlFor="firstName">First Name *</Label>
-                <Input
-                  id="firstName"
-                  value={formData.firstName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, firstName: e.target.value })
-                  }
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="middleName">Middle Name</Label>
-                <Input
-                  id="middleName"
-                  value={formData.middleName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, middleName: e.target.value })
-                  }
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name *</Label>
-                <Input
-                  id="lastName"
-                  value={formData.lastName}
-                  onChange={(e) =>
-                    setFormData({ ...formData, lastName: e.target.value })
-                  }
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="address1">Address Line 1</Label>
-                <Input
-                  id="address1"
-                  value={formData.address1}
-                  onChange={(e) =>
-                    setFormData({ ...formData, address1: e.target.value })
-                  }
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="address2">Address Line 2</Label>
-                <Input
-                  id="address2"
-                  value={formData.address2}
-                  onChange={(e) =>
-                    setFormData({ ...formData, address2: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="city">City *</Label>
-                <Select
-                  value={formData.city}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, city: value })
-                  }
-                  required
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select city" />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-[300px]">
-                    {indianCities.map((city) => (
-                      <SelectItem key={city} value={city}>
-                        {city}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="state">State *</Label>
-                <Select
-                  value={formData.state}
-                  onValueChange={(value) =>
-                    setFormData({ ...formData, state: value })
-                  }
-                  required
-                >
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select state" />
-                  </SelectTrigger>
-                  <SelectContent className="max-h-[300px]">
-                    {indianStates.map((state) => (
-                      <SelectItem key={state} value={state}>
-                        {state}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="country">Country *</Label>
-                <Input
-                  id="country"
-                  value={formData.country}
-                  onChange={(e) =>
-                    setFormData({ ...formData, country: e.target.value })
-                  }
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="pincode">Pincode *</Label>
-                <Input
-                  id="pincode"
-                  value={formData.pincode}
-                  onChange={(e) =>
-                    setFormData({ ...formData, pincode: e.target.value })
-                  }
-                  required
-                />
-              </div>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="primaryPhone">Primary Phone *</Label>
-                <Input
-                  id="primaryPhone"
-                  placeholder="Area/STD code - Number"
-                  value={formData.primaryPhone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, primaryPhone: e.target.value })
-                  }
-                  required
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="secondaryPhone">Secondary Phone</Label>
-                <Input
-                  id="secondaryPhone"
-                  placeholder="Area/STD code - Number"
-                  value={formData.secondaryPhone}
-                  onChange={(e) =>
-                    setFormData({ ...formData, secondaryPhone: e.target.value })
-                  }
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Terms and Conditions */}
-          <div className="space-y-4">
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="terms"
-                checked={formData.acceptTerms}
-                onCheckedChange={(checked) =>
-                  setFormData({ ...formData, acceptTerms: checked as boolean })
-                }
-                required
-              />
-              <Label htmlFor="terms" className="text-sm">
-                I accept the{" "}
-                <a href="#" className="text-primary hover:underline">
-                  Terms & Conditions
-                </a>{" "}
-                *
-              </Label>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Checkbox
-                id="privacy"
-                checked={formData.acceptPrivacy}
-                onCheckedChange={(checked) =>
-                  setFormData({
-                    ...formData,
-                    acceptPrivacy: checked as boolean,
-                  })
-                }
-                required
-              />
-              <Label htmlFor="privacy" className="text-sm">
-                I accept the{" "}
-                <a href="#" className="text-primary hover:underline">
-                  Privacy Policy
-                </a>{" "}
-                *
-              </Label>
-            </div>
-          </div>
-
-          {/* Google reCAPTCHA */}
-          <ReCaptcha />
-
-          <Button
-            type="submit"
-            className={`w-full ${primaryActionClasses}`}
-            size="lg"
-          >
-            Create {userType === "client" ? "Client" : "Advocate"} Account
-          </Button>
-
-          <div className="text-center text-sm pt-2">
-            <span className="text-muted-foreground">
-              Already have an account?{" "}
-            </span>
-            <a href="/login" className="text-primary hover:underline">
-              Log in here
-            </a>
-          </div>
-        </form>
+        {/* Login Link */}
+        <div className="text-center text-sm pt-4 border-t border-gray-100">
+          <span className="text-muted-foreground">
+            Already have an account?{" "}
+          </span>
+          <Link href="/login" className="text-primary hover:underline font-medium">
+            Log in here
+          </Link>
+        </div>
       </CardContent>
     </Card>
   );

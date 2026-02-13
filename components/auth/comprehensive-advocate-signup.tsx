@@ -130,13 +130,6 @@ export function ComprehensiveAdvocateSignup({
       "Advocate registration submitted for admin verification:",
       formData
     );
-
-    // In real implementation, this would:
-    // 1. Send data to backend for BAR Council ID verification
-    // 2. Admin reviews and approves/rejects
-    // 3. If approved, system generates username/password
-    // 4. Advocate receives credentials via email
-    // 5. Advocate can then login and complete profile
   };
 
   // Show status screen if registration is submitted
@@ -231,27 +224,27 @@ export function ComprehensiveAdvocateSignup({
           )}
           {(registrationStatus === "submitted" ||
             registrationStatus === "under_review") && (
-            <div className="mt-4 p-4 bg-blue-50 rounded-lg">
-              <h4 className="font-semibold mb-2">What happens next?</h4>
-              <div className="text-sm space-y-1 text-left">
-                <div className="flex items-center">
-                  ✓ Step 1: Application submitted
-                </div>
-                <div className="flex items-center">
-                  ⏳ Step 2: Admin verifies BAR Council ID
-                </div>
-                <div className="flex items-center text-gray-500">
-                  ○ Step 3: Username/Password generated
-                </div>
-                <div className="flex items-center text-gray-500">
-                  ○ Step 4: Complete your profile
-                </div>
-                <div className="flex items-center text-gray-500">
-                  ○ Step 5: Get 15-day free trial
+              <div className="mt-4 p-4 bg-blue-50 rounded-lg">
+                <h4 className="font-semibold mb-2">What happens next?</h4>
+                <div className="text-sm space-y-1 text-left">
+                  <div className="flex items-center">
+                    ✓ Step 1: Application submitted
+                  </div>
+                  <div className="flex items-center">
+                    ⏳ Step 2: Admin verifies BAR Council ID
+                  </div>
+                  <div className="flex items-center text-gray-500">
+                    ○ Step 3: Username/Password generated
+                  </div>
+                  <div className="flex items-center text-gray-500">
+                    ○ Step 4: Complete your profile
+                  </div>
+                  <div className="flex items-center text-gray-500">
+                    ○ Step 5: Get 15-day free trial
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
+            )}
         </CardContent>
       </Card>
     );
@@ -1093,13 +1086,12 @@ export function ComprehensiveAdvocateSignup({
             {[1, 2, 3, 4, 5].map((step) => (
               <div
                 key={step}
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  step === currentStep
+                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${step === currentStep
                     ? "bg-primary text-primary-foreground"
                     : step < currentStep
-                    ? "bg-primary/20 text-primary"
-                    : "bg-gray-200 text-gray-500"
-                }`}
+                      ? "bg-primary/20 text-primary"
+                      : "bg-gray-200 text-gray-500"
+                  }`}
               >
                 {step}
               </div>
@@ -1111,12 +1103,12 @@ export function ComprehensiveAdvocateSignup({
           {currentStep === 1
             ? "Login Credentials"
             : currentStep === 2
-            ? "Personal Information"
-            : currentStep === 3
-            ? "Professional Details"
-            : currentStep === 4
-            ? "Education & Bio"
-            : "Documents & Verification"}
+              ? "Personal Information"
+              : currentStep === 3
+                ? "Professional Details"
+                : currentStep === 4
+                  ? "Education & Bio"
+                  : "Documents & Verification"}
         </div>
       </CardHeader>
 
