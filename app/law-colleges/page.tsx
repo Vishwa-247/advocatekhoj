@@ -488,7 +488,7 @@ export default function LawCollegesPage() {
             <div className="mt-4">
               <div className="flex items-center gap-3 p-4 rounded-xl bg-gradient-to-r from-primary/80 to-secondary/80 shadow border border-primary/30">
                 <img
-                  src="/logo.svg"
+                  src="/AdvocateKhoj_transparent.svg"
                   alt="AdvocateKhoj Logo"
                   className="w-10 h-10 rounded-full bg-white border border-gray-200"
                 />

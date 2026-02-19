@@ -131,7 +131,7 @@ const Header = () => {
             className="flex items-center hover:opacity-85 transition-opacity"
           >
             <Image
-              src="/logo.svg"
+              src="/AdvocateKhoj_transparent.svg"
               alt="AdvocateKhoj Logo"
               width={140}
               height={80}

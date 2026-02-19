@@ -59,7 +59,7 @@ export default function AuthPage() {
             className="inline-block mb-4 hover:opacity-80 transition-opacity"
           >
             <Image
-              src="/logo.svg"
+              src="/AdvocateKhoj_transparent.svg"
               alt="AdvocateKhoj"
               width={120}
               height={60}
