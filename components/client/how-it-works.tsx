@@ -14,17 +14,19 @@ interface HowItWorksProps {
     steps: Step[];
 }
 
-// Step-specific styles: border color, bg tint, icon bg, text color
+// All steps styled like Step 6 (#EAF1FB) but each progressively slightly darker.
+// Colored borders differentiate the steps; text is always dark navy.
 const STEP_STYLES = [
-    // Row 1
-    { borderColor: "#0B1F3A", bgTint: "rgba(11,31,58,0.06)", iconBg: "rgba(11,31,58,0.10)", textColor: "#0B1F3A", numColor: "rgba(11,31,58,0.06)" },
-    { borderColor: "#173E74", bgTint: "rgba(23,62,116,0.06)", iconBg: "rgba(23,62,116,0.10)", textColor: "#173E74", numColor: "rgba(23,62,116,0.06)" },
-    { borderColor: "#2F6FDB", bgTint: "rgba(47,111,219,0.06)", iconBg: "rgba(47,111,219,0.10)", textColor: "#2F6FDB", numColor: "rgba(47,111,219,0.06)" },
-    // Row 2
-    { borderColor: "#5A92EA", bgTint: "rgba(90,146,234,0.06)", iconBg: "rgba(90,146,234,0.12)", textColor: "#0B1F3A", numColor: "rgba(11,31,58,0.05)" },
-    { borderColor: "#5A92EA", bgTint: "rgba(196,215,245,0.15)", iconBg: "rgba(196,215,245,0.30)", textColor: "#0B1F3A", numColor: "rgba(11,31,58,0.05)" },
-    { borderColor: "#D6E4FA", bgTint: "#EAF1FB", iconBg: "#D6E4FA", textColor: "#0B1F3A", numColor: "rgba(11,31,58,0.05)" },
+    { borderColor: "#0B1F3A", bgTint: "#D5E5F4", iconBg: "#C2D7EC" },
+    { borderColor: "#173E74", bgTint: "#D8E7F5", iconBg: "#C5DAED" },
+    { borderColor: "#2F6FDB", bgTint: "#DCEAF6", iconBg: "#C9DCED" },
+    { borderColor: "#5A92EA", bgTint: "#E0EDF7", iconBg: "#CCDFEE" },
+    { borderColor: "#7AAAF0", bgTint: "#E5F0F8", iconBg: "#D2E3EF" },
+    { borderColor: "#D6E4FA", bgTint: "#EAF1FB", iconBg: "#D6E4FA" },
 ];
+
+const TEXT_COLOR = "#0B1F3A";
+const NUM_COLOR = "rgba(11,31,58,0.07)";
 
 export function HowItWorks({ steps }: HowItWorksProps) {
     const renderSteps = (stepsToRender: Step[], startIndex: number) => {
@@ -41,11 +43,11 @@ export function HowItWorks({ steps }: HowItWorksProps) {
                                 style={{
                                     background: s.bgTint,
                                     borderColor: s.borderColor,
-                                    color: s.textColor,
+                                    color: TEXT_COLOR,
                                 }}
                                 className={cn(
                                     "h-full p-6 relative flex flex-col min-h-[165px] border",
-                                    // Chevron shape with 45px offset
+                                    // Chevron shape
                                     "lg:[clip-path:polygon(0%_0%,_calc(100%_-_45px)_0%,_100%_50%,_calc(100%_-_45px)_100%,_0%_100%,_45px_50%)]",
                                     "lg:pl-16 lg:pr-14",
                                     isFirstInRow && "lg:[clip-path:polygon(0%_0%,_calc(100%_-_45px)_0%,_100%_50%,_calc(100%_-_45px)_100%,_0%_100%)]",
@@ -54,7 +56,7 @@ export function HowItWorks({ steps }: HowItWorksProps) {
                             >
                                 {/* Background Step Number */}
                                 <span
-                                    style={{ color: s.numColor }}
+                                    style={{ color: NUM_COLOR }}
                                     className="absolute top-3 right-12 text-6xl font-bold select-none"
                                 >
                                     {step.step}
@@ -67,7 +69,7 @@ export function HowItWorks({ steps }: HowItWorksProps) {
                                         className="p-3 rounded-full"
                                     >
                                         <step.icon
-                                            style={{ color: s.textColor }}
+                                            style={{ color: TEXT_COLOR }}
                                             className="w-6 h-6"
                                         />
                                     </div>
@@ -76,7 +78,7 @@ export function HowItWorks({ steps }: HowItWorksProps) {
                                 {/* Text Content */}
                                 <div className="flex flex-col gap-1.5">
                                     <h3
-                                        style={{ color: s.textColor }}
+                                        style={{ color: TEXT_COLOR }}
                                         className="text-[15px] font-bold tracking-wide uppercase leading-snug"
                                     >
                                         {step.title}
