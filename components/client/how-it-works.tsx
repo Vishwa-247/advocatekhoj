@@ -45,10 +45,9 @@ export function HowItWorks({ steps }: HowItWorksProps) {
                                 style={{ background: s.bg, borderColor: s.border }}
                                 className={cn(
                                     "h-full p-6 relative flex flex-col min-h-[165px] border",
-                                    // Chevron shape — 45px offset
+                                    // Full Chevron shape on BOTH sides for all cards
                                     "lg:[clip-path:polygon(0%_0%,_calc(100%_-_45px)_0%,_100%_50%,_calc(100%_-_45px)_100%,_0%_100%,_45px_50%)]",
                                     "lg:pl-16 lg:pr-14",
-                                    isFirstInRow && "lg:[clip-path:polygon(0%_0%,_calc(100%_-_45px)_0%,_100%_50%,_calc(100%_-_45px)_100%,_0%_100%)]",
                                     "rounded-xl lg:rounded-none"
                                 )}
                             >
