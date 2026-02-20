@@ -22,19 +22,26 @@ export function HowItWorks({ steps }: HowItWorksProps) {
             "bg-[#2F6FDB] text-white",     // Step 3
             "bg-[#3F7BE0] text-white",     // Step 4
             "bg-[#5A92EA] text-white",     // Step 5
-            "bg-[#EAF1FB] text-[#0B1F3A]"  // Step 6 (Light finish)
+            "bg-[#EAF1FB] text-[#0B1F3A]"  // Step 6
         ];
         return colors[index % 6];
     };
 
     const getNumberColor = (index: number) => {
         if (index % 6 === 5) return "text-[#0B1F3A]/5";
-        return "text-white/20";
+        return "text-white/10";
     };
 
     const getIconBg = (index: number) => {
-        if (index % 6 === 5) return "bg-[#0B1F3A]/10";
-        return "bg-white/20";
+        const iconBgs = [
+            "bg-white/[0.15]", // Step 1
+            "bg-white/[0.18]", // Step 2
+            "bg-white/[0.20]", // Step 3
+            "bg-white/[0.22]", // Step 4
+            "bg-white/[0.25]", // Step 5
+            "bg-[#D6E4FA]"     // Step 6
+        ];
+        return iconBgs[index % 6];
     };
 
     const getIconColor = (index: number) => {
@@ -50,21 +57,22 @@ export function HowItWorks({ steps }: HowItWorksProps) {
                     const isFirstInRow = idx === 0;
 
                     return (
-                        <div key={globalIdx} className="relative flex-1 group mb-4 lg:mb-0">
+                        <div key={globalIdx} className="relative flex-1 mb-4 lg:mb-0">
                             <div
                                 className={cn(
-                                    "h-full p-6 lg:pr-14 relative flex flex-col min-h-[165px] transition-all duration-300",
+                                    "h-full p-6 relative flex flex-col min-h-[165px]",
                                     getStepColor(globalIdx),
                                     // Sharper Chevron Shape: Pointier points (45px offset)
                                     "lg:[clip-path:polygon(0%_0%,_calc(100%_-_45px)_0%,_100%_50%,_calc(100%_-_45px)_100%,_0%_100%,_45px_50%)]",
+                                    isFirstInRow ? "lg:pl-8" : "lg:pl-16",
                                     isFirstInRow && "lg:[clip-path:polygon(0%_0%,_calc(100%_-_45px)_0%,_100%_50%,_calc(100%_-_45px)_100%,_0%_100%)]",
                                     // Mobile
-                                    "rounded-xl lg:rounded-none"
+                                    "rounded-xl lg:rounded-none lg:pr-14"
                                 )}
                             >
                                 {/* Large Background Number */}
                                 <span className={cn(
-                                    "absolute top-4 right-12 text-6xl font-bold transition-transform group-hover:scale-110",
+                                    "absolute top-4 right-12 text-6xl font-bold",
                                     getNumberColor(globalIdx)
                                 )}>
                                     {step.step}
@@ -83,7 +91,7 @@ export function HowItWorks({ steps }: HowItWorksProps) {
                                         {step.title}
                                     </h3>
                                     <p className={cn(
-                                        "text-[13px] leading-relaxed opacity-90 line-clamp-2 group-hover:line-clamp-none transition-all duration-300",
+                                        "text-[13px] leading-relaxed opacity-90",
                                         (globalIdx % 6 === 5) ? "text-[#0B1F3A]/80" : "text-white/80"
                                     )}>
                                         {step.description}
