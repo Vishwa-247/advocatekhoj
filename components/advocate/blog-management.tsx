@@ -27,6 +27,10 @@ import {
   Youtube,
   FileText,
   ArrowLeft,
+  Heart,
+  MessageCircle,
+  TrendingUp,
+  Calendar,
 } from "lucide-react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -55,6 +59,8 @@ export function BlogManagement({ onNavigate }: BlogManagementProps) {
       type: "text",
       status: "published",
       views: 1245,
+      likes: 89,
+      comments: 24,
       publishedDate: "2024-10-15",
       excerpt:
         "A comprehensive guide to handling property boundary disputes...",
@@ -66,6 +72,8 @@ export function BlogManagement({ onNavigate }: BlogManagementProps) {
       type: "video",
       status: "pending_review",
       views: 0,
+      likes: 0,
+      comments: 0,
       submittedDate: "2024-11-01",
       excerpt: "Video explaining employee rights during termination...",
     },
@@ -76,8 +84,22 @@ export function BlogManagement({ onNavigate }: BlogManagementProps) {
       type: "text",
       status: "draft",
       views: 0,
+      likes: 0,
+      comments: 0,
       lastEdited: "2024-10-28",
       excerpt: "Overview of the new consumer protection regulations...",
+    },
+    {
+      id: "4",
+      title: "Guide to Divorce Proceedings in India",
+      category: "Family Law",
+      type: "text",
+      status: "published",
+      views: 2156,
+      likes: 178,
+      comments: 45,
+      publishedDate: "2024-09-20",
+      excerpt: "Step-by-step guide to filing for divorce in India...",
     },
   ];
 
@@ -344,7 +366,7 @@ export function BlogManagement({ onNavigate }: BlogManagementProps) {
         </Button>
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
         <Card>
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
@@ -363,12 +385,12 @@ export function BlogManagement({ onNavigate }: BlogManagementProps) {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Pending Review</p>
+                <p className="text-sm text-gray-600">Total Views</p>
                 <p className="text-3xl font-bold">
-                  {blogs.filter((b) => b.status === "pending_review").length}
+                  {blogs.reduce((acc, b) => acc + b.views, 0).toLocaleString()}
                 </p>
               </div>
-              <Clock className="w-8 h-8 text-amber-600" />
+              <Eye className="w-8 h-8 text-blue-600" />
             </div>
           </CardContent>
         </Card>
@@ -377,12 +399,26 @@ export function BlogManagement({ onNavigate }: BlogManagementProps) {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Drafts</p>
+                <p className="text-sm text-gray-600">Total Likes</p>
                 <p className="text-3xl font-bold">
-                  {blogs.filter((b) => b.status === "draft").length}
+                  {blogs.reduce((acc, b) => acc + b.likes, 0)}
                 </p>
               </div>
-              <FileText className="w-8 h-8 text-gray-600" />
+              <Heart className="w-8 h-8 text-red-600" />
+            </div>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-sm text-gray-600">Engagement</p>
+                <p className="text-3xl font-bold">
+                  {blogs.reduce((acc, b) => acc + b.comments, 0)}
+                </p>
+              </div>
+              <MessageCircle className="w-8 h-8 text-purple-600" />
             </div>
           </CardContent>
         </Card>
@@ -415,7 +451,7 @@ export function BlogManagement({ onNavigate }: BlogManagementProps) {
                       </Badge>
                     </div>
                     <p className="text-sm text-gray-600 mb-2">{blog.excerpt}</p>
-                    <div className="flex items-center gap-4 text-xs text-gray-500">
+                    <div className="flex items-center gap-4 text-xs text-gray-500 flex-wrap">
                       <span className="flex items-center gap-1">
                         <BookOpen className="w-3 h-3" />
                         {blog.category}
@@ -425,10 +461,23 @@ export function BlogManagement({ onNavigate }: BlogManagementProps) {
                           <span>•</span>
                           <span className="flex items-center gap-1">
                             <Eye className="w-3 h-3" />
-                            {blog.views} views
+                            {blog.views.toLocaleString()} views
                           </span>
                           <span>•</span>
-                          <span>Published: {blog.publishedDate}</span>
+                          <span className="flex items-center gap-1">
+                            <Heart className="w-3 h-3" />
+                            {blog.likes} likes
+                          </span>
+                          <span>•</span>
+                          <span className="flex items-center gap-1">
+                            <MessageCircle className="w-3 h-3" />
+                            {blog.comments} comments
+                          </span>
+                          <span>•</span>
+                          <span className="flex items-center gap-1">
+                            <Calendar className="w-3 h-3" />
+                            {blog.publishedDate}
+                          </span>
                         </>
                       )}
                       {blog.status === "pending_review" && (

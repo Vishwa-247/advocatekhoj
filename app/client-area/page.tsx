@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import PageLayout from "@/components/layout/page-layout";
+import { HowItWorks } from "@/components/client/how-it-works";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -285,37 +286,7 @@ export default function ClientAreaPage() {
               </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-8">
-              {howItWorksSteps.map((step, index) => (
-                <div key={index} className="relative">
-                  <Card className="h-full hover:shadow-lg transition-shadow border-2 hover:border-primary/30">
-                    <CardHeader className="pb-2 sm:pb-4">
-                      <div className="flex items-center justify-between mb-2 sm:mb-4">
-                        <div className="h-10 w-10 sm:h-14 sm:w-14 rounded-full bg-primary/10 flex items-center justify-center ring-2 ring-primary/20">
-                          <step.icon className="h-5 w-5 sm:h-7 sm:w-7 text-primary" />
-                        </div>
-                        <span className="text-3xl sm:text-5xl font-bold text-primary/20">
-                          {step.step}
-                        </span>
-                      </div>
-                      <CardTitle className="text-lg sm:text-xl">
-                        {step.title}
-                      </CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <CardDescription className="text-sm sm:text-base text-gray-600 leading-relaxed">
-                        {step.description}
-                      </CardDescription>
-                    </CardContent>
-                  </Card>
-                  {index < howItWorksSteps.length - 1 && (
-                    <div className="hidden lg:block absolute -bottom-4 left-1/2 transform -translate-x-1/2 lg:bottom-auto lg:top-1/2 lg:-right-4 lg:left-auto lg:-translate-y-1/2 lg:translate-x-0">
-                      <ArrowRight className="h-6 w-6 text-primary rotate-90 lg:rotate-0" />
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
+            <HowItWorks steps={howItWorksSteps} />
           </div>
         </section>
 
