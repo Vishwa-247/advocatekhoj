@@ -14,86 +14,35 @@ interface HowItWorksProps {
     steps: Step[];
 }
 
-export function HowItWorks({ steps }: HowItWorksProps) {
-    // Top row: solid dark bg + white text + same color as border
-    // Bottom row: very light tint bg + dark navy text + same color as border
-    const getStyle = (index: number) => {
-        const styles = [
-            // Row 1 — dark solid backgrounds, white font
-            {
-                bg: "#0B1F3A",
-                border: "#0B1F3A",
-                text: "#FFFFFF",
-                subText: "rgba(255,255,255,0.75)",
-                numColor: "rgba(255,255,255,0.08)",
-                iconBg: "rgba(255,255,255,0.15)",
-                iconColor: "#FFFFFF",
-            },
-            {
-                bg: "#173E74",
-                border: "#173E74",
-                text: "#FFFFFF",
-                subText: "rgba(255,255,255,0.75)",
-                numColor: "rgba(255,255,255,0.08)",
-                iconBg: "rgba(255,255,255,0.15)",
-                iconColor: "#FFFFFF",
-            },
-            {
-                bg: "#2F6FDB",
-                border: "#2F6FDB",
-                text: "#FFFFFF",
-                subText: "rgba(255,255,255,0.75)",
-                numColor: "rgba(255,255,255,0.08)",
-                iconBg: "rgba(255,255,255,0.15)",
-                iconColor: "#FFFFFF",
-            },
-            // Row 2 — light tint backgrounds, dark font
-            {
-                bg: "#ECF3FD",
-                border: "#5A92EA",
-                text: "#0B1F3A",
-                subText: "#4A5568",
-                numColor: "rgba(11,31,58,0.06)",
-                iconBg: "#D6E8F9",
-                iconColor: "#2F6FDB",
-            },
-            {
-                bg: "#EFF5FD",
-                border: "#7AAAF0",
-                text: "#0B1F3A",
-                subText: "#4A5568",
-                numColor: "rgba(11,31,58,0.06)",
-                iconBg: "#DCEcFA",
-                iconColor: "#2F6FDB",
-            },
-            {
-                bg: "#EAF1FB",
-                border: "#B8D0F5",
-                text: "#0B1F3A",
-                subText: "#4A5568",
-                numColor: "rgba(11,31,58,0.06)",
-                iconBg: "#D6E4FA",
-                iconColor: "#2F6FDB",
-            },
-        ];
-        return styles[index % 6];
-    };
+// All steps styled exactly like Step 6 — light blue-gray tint, dark navy text.
+// Each step gets a progressively slightly different tint so they're distinguishable.
+const STEP_STYLES = [
+    { bg: "#D6E5F4", iconBg: "#C0D5E9", border: "#C0D5E9" },
+    { bg: "#D9E7F5", iconBg: "#C3D8EB", border: "#C3D8EB" },
+    { bg: "#DCE9F6", iconBg: "#C6DAEC", border: "#C6DAEC" },
+    { bg: "#E0ECF7", iconBg: "#CADEEE", border: "#CADEEE" },
+    { bg: "#E5EFF8", iconBg: "#CEE1EF", border: "#CEE1EF" },
+    { bg: "#EAF1FB", iconBg: "#D6E4FA", border: "#D6E4FA" },
+];
 
+const TEXT_HEADING = "#0B1F3A";
+const TEXT_BODY = "#4A5568";
+const NUM_COLOR = "rgba(11,31,58,0.06)";
+const ICON_COLOR = "#2F6FDB";
+
+export function HowItWorks({ steps }: HowItWorksProps) {
     const renderSteps = (stepsToRender: Step[], startIndex: number) => {
         return (
             <div className="flex flex-col lg:flex-row items-stretch lg:gap-1.5">
                 {stepsToRender.map((step, idx) => {
                     const globalIdx = startIndex + idx;
                     const isFirstInRow = idx === 0;
-                    const s = getStyle(globalIdx);
+                    const s = STEP_STYLES[globalIdx % 6];
 
                     return (
                         <div key={globalIdx} className="relative flex-1 mb-4 lg:mb-0">
                             <div
-                                style={{
-                                    background: s.bg,
-                                    borderColor: s.border,
-                                }}
+                                style={{ background: s.bg, borderColor: s.border }}
                                 className={cn(
                                     "h-full p-6 relative flex flex-col min-h-[165px] border",
                                     // Chevron shape — 45px offset
@@ -105,7 +54,7 @@ export function HowItWorks({ steps }: HowItWorksProps) {
                             >
                                 {/* Background Step Number */}
                                 <span
-                                    style={{ color: s.numColor }}
+                                    style={{ color: NUM_COLOR }}
                                     className="absolute top-3 right-12 text-6xl font-bold select-none"
                                 >
                                     {step.step}
@@ -117,24 +66,21 @@ export function HowItWorks({ steps }: HowItWorksProps) {
                                         style={{ background: s.iconBg }}
                                         className="p-3 rounded-full w-fit"
                                     >
-                                        <step.icon
-                                            style={{ color: s.iconColor }}
-                                            className="w-6 h-6"
-                                        />
+                                        <step.icon style={{ color: ICON_COLOR }} className="w-6 h-6" />
                                     </div>
                                 </div>
 
-                                {/* Content — no mt-auto so all headings align */}
-                                <div className="flex flex-col gap-1">
+                                {/* Content */}
+                                <div className="flex flex-col gap-1.5">
                                     <h3
-                                        style={{ color: s.text }}
+                                        style={{ color: TEXT_HEADING }}
                                         className="text-[14px] font-bold tracking-wide uppercase leading-snug"
                                     >
                                         {step.title}
                                     </h3>
                                     <p
-                                        style={{ color: s.subText }}
-                                        className="text-[12px] leading-relaxed"
+                                        style={{ color: TEXT_BODY }}
+                                        className="text-[12.5px] leading-relaxed"
                                     >
                                         {step.description}
                                     </p>
