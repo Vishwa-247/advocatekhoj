@@ -17,12 +17,12 @@ interface HowItWorksProps {
 // All steps styled like Step 6 (#EAF1FB) but each progressively slightly darker.
 // Colored borders differentiate the steps; text is always dark navy.
 const STEP_STYLES = [
-    { borderColor: "#0B1F3A", bgTint: "#D5E5F4", iconBg: "#C2D7EC" },
-    { borderColor: "#173E74", bgTint: "#D8E7F5", iconBg: "#C5DAED" },
-    { borderColor: "#2F6FDB", bgTint: "#DCEAF6", iconBg: "#C9DCED" },
-    { borderColor: "#5A92EA", bgTint: "#E0EDF7", iconBg: "#CCDFEE" },
-    { borderColor: "#7AAAF0", bgTint: "#E5F0F8", iconBg: "#D2E3EF" },
-    { borderColor: "#D6E4FA", bgTint: "#EAF1FB", iconBg: "#D6E4FA" },
+    { borderColor: "#0B1F3A", bgTint: "#FFFFFF", iconBg: "#E8EEF5" },
+    { borderColor: "#173E74", bgTint: "#FFFFFF", iconBg: "#E8EEF5" },
+    { borderColor: "#2F6FDB", bgTint: "#FFFFFF", iconBg: "#EAF0FB" },
+    { borderColor: "#5A92EA", bgTint: "#FFFFFF", iconBg: "#EAF1FC" },
+    { borderColor: "#7AAAF0", bgTint: "#FFFFFF", iconBg: "#EBF2FC" },
+    { borderColor: "#D6E4FA", bgTint: "#FFFFFF", iconBg: "#EAF1FB" },
 ];
 
 const TEXT_COLOR = "#0B1F3A";
